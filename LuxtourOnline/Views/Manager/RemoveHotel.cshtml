@@ -1,0 +1,32 @@
+﻿@model LuxtourOnline.Models.Manager.ManagerHotelRemove
+
+@{
+    ViewBag.Title = "RemoveHotel";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<h2>RemoveHotel</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.Title, new { @class = "control-label" })
+        @Html.DisplayFor(x => x.Title, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Rate, new { @class = "control-label" })
+        @Html.DisplayFor(x => x.Rate, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.CreatedDate, new { @class = "control-label" })
+        @Html.DisplayFor(x => x.CreatedDate, new { @class = "form-control" })
+    </div>
+    <div class="btn-group-justified">
+        <input type="submit" class="btn btn-danger" value="Remove" />
+        <a href="~/Manager/HotelsList" class="btn btn-success">Back to list</a>
+    </div>
+
+}

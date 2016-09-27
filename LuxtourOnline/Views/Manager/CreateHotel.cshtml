@@ -1,0 +1,427 @@
+﻿@model LuxtourOnline.Models.Manager.CreateHotelModel
+
+@{
+    ViewBag.Title = "CreateHotel";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<h2>CreateHotel</h2>
+
+<form ng-app="AddHotel" ng-controller="HotelCtrl">
+    @if (ViewBag.User != null)
+    { <input type="hidden" value="@ViewBag.User" name="user" /> }
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-4">
+            <p><h3>General data</h3></p>
+            <div class="form-group">
+                <label for="title" class="control-label">Title</label>
+                <input type="text" class="form-control" id="title" ng-model="Data.Title" required />
+            </div>
+            <div class="form-group">
+                <label for="rate" class="control-label">Rate</label>
+                <input type="number" max="5" min="1" class="form-control" id="rate" ng-model="Data.Rate" required />
+            </div>
+            <div class="form-group">
+                <div class="checkbox"><label for="aval" class="control-label"><input id="aval" type="checkbox" ng-model="Data.Avaliable" /> Is Avalible</label></div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <p><h3>Put images here</h3></p>
+            <div ngf-drop="uploadFiles($files)" class="drop-box"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="true"
+                 ngf-pattern="'image/*,application/pdf'">
+                Drop Images
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row panel-group">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-3 panel" ng-repeat="i in Data.Images">
+            <img src="{{i}}" class="img-responsive"/>
+            <button class="btn btn-sm btn-danger btn-image" ng-click="RemoveImage(i)">Remove</button>
+        </div>
+        
+    </div>
+
+    <!-- English area -->
+
+    <div class="row">
+        <p><h3>Data (on english)</h3></p>
+        <div class="form-group">
+            <label for="data_en" class="control-label">Description</label>
+            <textarea id="data_en" class="form-control" ng-model="Data.DescriptionEn.Description"></textarea>
+        </div>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-info" ng-repeat="f in Data.DescriptionEn.Feautures">
+            <div class="panel-heading">
+                <a href="#{{f.Id}}" data-toggle="collapse"><strong>{{CardTitle(f.Title)}}</strong></a>
+
+                <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'down', 'en')">Down card</button>
+                <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'up', 'en')">Up card</button>
+            </div>
+            <div id="{{f.Id}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="{{f.Title}}" class="control-label">Card Title</label>
+                        <input type="text" id="{{f.Title}}" class="form-control" ng-model="f.Title" />
+                    </div>
+                    <div class="form-group">
+                        <label for="{{f.Gliph}}" class="control-label"><a href="http://getbootstrap.com/components/" target="_blank">Gliphicon</a></label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="gl_addon"><i ng-class="CreateGlyph(f.Glyph)"></i></span>
+                            <input type="text" id="{{f.Glyph}}" class="form-control" ng-model="f.Glyph" aria-describedby="gl_addon" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{f.Description}}" class="control-label">Card description</label>
+                        <textarea class="form-control" id="{{f.Description}}" ng-model="f.Description"></textarea>
+                    </div>
+
+                    <table class="table table-striped">
+                        <caption>
+                            Free features <button class="btn btn-info center-block pull-right" ng-click="AddElement(f,'free', 'en')">Add free element</button>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Glyphicon</th>
+                                <th>ico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ff in f.Free">
+                                <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
+                                <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
+                                <td><i ng-class="CreateGlyph(ff.Glyph)"></i></td>
+                                <td class="btn-group-sm">
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'free', 'up')">Up</button>
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'free', 'down')">Down</button>
+                                    <button class="btn btn-danger pull-right" ng-click="RemoveFree(f, ff, 'en')">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped">
+                        <caption>
+                            Paid features <button class="btn btn-info center-block pull-right" ng-click="AddElement(f,'paid', 'en')">Add paid element</button>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Glyphicon</th>
+                                <th>ico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ff in f.Paid">
+                                <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
+                                <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
+                                <td><i ng-class="CreateGlyph(ff.Glyph)"></i></td>
+                                <td class="btn-group-sm">
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'paid', 'up')">Up</button>
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'paid', 'down')">Down</button>
+                                    <button class="btn btn-danger pull-right" ng-click="RemovePaid(f, ff, 'en')">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="RemoveCard('en', f)">Delete card</button>
+                    <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'down', 'en')">Down card</button>
+                    <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'up', 'en')">Up card</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-inline">
+            <button type="button" class="btn btn-info" ng-click="AddCard('en')">Add card</button>
+        </div>
+    </div>
+
+
+    <!-- Ukranian area -->
+    <div class="row">
+        <p><h3>Data (on ukrainian)</h3></p>
+        <div class="form-group">
+            <label for="data_en" class="control-label">Description</label>
+            <textarea id="data_en" class="form-control" ng-model="Data.DescriptionUk.Description"></textarea>
+        </div>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-info" ng-repeat="f in Data.DescriptionUk.Feautures">
+            <div class="panel-heading">
+                <a href="#{{f.Id}}" data-toggle="collapse"><strong>{{CardTitle(f.Title)}}</strong></a>
+
+                <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'down', 'uk')">Down card</button>
+                <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'up', 'uk')">Up card</button>
+            </div>
+            <div id="{{f.Id}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="{{f.Title}}" class="control-label">Card Title</label>
+                        <input type="text" id="{{f.Title}}" class="form-control" ng-model="f.Title" />
+                    </div>
+                    <div class="form-group">
+                        <label for="{{f.Gliph}}" class="control-label"><a href="http://getbootstrap.com/components/" target="_blank">Gliphicon</a></label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="gl_addon"><i ng-class="CreateGlyph(f.Glyph)"></i></span>
+                            <input type="text" id="{{f.Glyph}}" class="form-control" ng-model="f.Glyph" aria-describedby="gl_addon" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{f.Description}}" class="control-label">Card description</label>
+                        <textarea class="form-control" id="{{f.Description}}" ng-model="f.Description"></textarea>
+                    </div>
+
+                    <table class="table table-striped">
+                        <caption>
+                            Free features <button class="btn btn-info center-block pull-right" ng-click="AddElement(f,'free', 'uk')">Add free element</button>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Glyphicon</th>
+                                <th>ico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ff in f.Free">
+                                <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
+                                <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
+                                <td><i ng-class="CreateGlyph(ff.Glyph)"></i></td>
+                                <td class="btn-group-sm">
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'free', 'up')">Up</button>
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'free', 'down')">Down</button>
+                                    <button class="btn btn-danger pull-right" ng-click="RemoveFree(f, ff, 'uk')">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped">
+                        <caption>
+                            Paid features <button class="btn btn-info center-block pull-right" ng-click="AddElement(f,'paid', 'uk')">Add paid element</button>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Glyphicon</th>
+                                <th>ico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ff in f.Paid">
+                                <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
+                                <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
+                                <td><i ng-class="CreateGlyph(ff.Glyph)"></i></td>
+                                <td class="btn-group-sm">
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'paid', 'up')">Up</button>
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'paid', 'down')">Down</button>
+                                    <button class="btn btn-danger pull-right" ng-click="RemovePaid(f, ff, 'uk')">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="RemoveCard('uk', f)">Delete card</button>
+                    <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'down', 'uk')">Down card</button>
+                    <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'up', 'uk')">Up card</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-inline">
+            <button type="button" class="btn btn-info" ng-click="AddCard('uk')">Add card</button>
+        </div>
+    </div>
+
+    <!-- Russian area -->
+
+    <div class="row">
+        <p><h3>Data (on russian)</h3></p>
+        <div class="form-group">
+            <label for="data_en" class="control-label">Description</label>
+            <textarea id="data_en" class="form-control" ng-model="Data.DescriptionRu.Description"></textarea>
+        </div>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-info" ng-repeat="f in Data.DescriptionRu.Feautures">
+            <div class="panel-heading">
+                <a href="#{{f.Id}}" data-toggle="collapse"><strong>{{CardTitle(f.Title)}}</strong></a>
+
+                <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'down', 'ru')">Down card</button>
+                <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'up', 'ru')">Up card</button>
+            </div>
+            <div id="{{f.Id}}" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="{{f.Title}}" class="control-label">Card Title</label>
+                        <input type="text" id="{{f.Title}}" class="form-control" ng-model="f.Title" />
+                    </div>
+                    <div class="form-group">
+                        <label for="{{f.Gliph}}" class="control-label"><a href="http://getbootstrap.com/components/" target="_blank">Gliphicon</a></label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="gl_addon"><i ng-class="CreateGlyph(f.Glyph)"></i></span>
+                            <input type="text" id="{{f.Glyph}}" class="form-control" ng-model="f.Glyph" aria-describedby="gl_addon" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="{{f.Description}}" class="control-label">Card description</label>
+                        <textarea class="form-control" id="{{f.Description}}" ng-model="f.Description"></textarea>
+                    </div>
+
+                    <table class="table table-striped">
+                        <caption>
+                            Free features <button class="btn btn-info center-block pull-right" ng-click="AddElement(f,'free', 'ru')">Add free element</button>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Glyphicon</th>
+                                <th>ico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ff in f.Free">
+                                <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
+                                <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
+                                <td><i ng-class="CreateGlyph(ff.Glyph)"></i></td>
+                                <td class="btn-group-sm">
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'free', 'up')">Up</button>
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'free', 'down')">Down</button>
+                                    <button class="btn btn-danger pull-right" ng-click="RemoveFree(f, ff, 'ru')">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-striped">
+                        <caption>
+                            Paid features <button class="btn btn-info center-block pull-right" ng-click="AddElement(f,'paid', 'ru')">Add paid element</button>
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Glyphicon</th>
+                                <th>ico</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="ff in f.Paid">
+                                <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
+                                <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
+                                <td><i ng-class="CreateGlyph(ff.Glyph)"></i></td>
+                                <td class="btn-group-sm">
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'paid', 'up')">Up</button>
+                                    <button class="btn btn-default" ng-click="MoveElement(f,ff,'paid', 'down')">Down</button>
+                                    <button class="btn btn-danger pull-right" ng-click="RemovePaid(f, ff, 'ru')">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-danger btn-sm" ng-click="RemoveCard('ru', f)">Delete card</button>
+                    <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'down', 'ru')">Down card</button>
+                    <button class="btn btn-default btn-sm pull-right" ng-click="MoveCard(f, 'up', 'ru')">Up card</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-inline">
+            <button type="button" class="btn btn-info" ng-click="AddCard('ru')">Add card</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <button class="btn btn-success btn-lg center-block" ng-click="UploadData()">
+            Create
+        </button>
+    </div>
+
+    <div class="row">
+        <p><strong>Debug data</strong></p><br />
+        {{Data }}<br />
+        <p><strong>Debug data</strong></p>
+    </div>
+
+</form>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/Scripts/ng-file-upload.min.js"></script>
+    <script src="~/Scripts/ng-file-upload-shim.min.js"></script>
+    <script src="~/Scripts/AddHotel.js"></script>
+
+}
+
+@section style
+{
+<style>
+    .row {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    textarea {
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .pad{
+        padding: 15px;
+    }
+    
+    .drop-box
+    {
+        width: 100%;
+        height: 100%;
+        background-color: grey;
+        border: 4px dashed black;
+        border-radius: 10px;
+        min-height: 180px;
+        opacity: 0.6;
+    }
+    .drop-box:hover
+    {
+        background-color: deepskyblue;
+    }
+
+    .btn-image
+    {
+        position: absolute;
+        top: 5%;
+        right: 5%;
+    }
+
+</style>
+}

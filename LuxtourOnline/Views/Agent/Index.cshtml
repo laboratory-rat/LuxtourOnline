@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+@if (!string.IsNullOrEmpty(ViewBag.user))
+{
+    <h4>Hello @ViewBag.user !</h4>
+}

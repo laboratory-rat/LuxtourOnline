@@ -1,0 +1,36 @@
+﻿@model LuxtourOnline.Models.Account.UserRegistrationModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+
+@using (Html.BeginForm("Register", "Agent", FormMethod.Post))
+{
+    @Html.AntiForgeryToken();
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.FullName, new { @class = "control-label" })
+        @Html.EditorFor(model => model.FullName, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label" })
+        @Html.EditorFor(model => model.PhoneNumber, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Email, new { @class = "control-label" })
+        @Html.EditorFor(model => model.Email, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Password, new { @class = "control-label" })
+        @Html.EditorFor(model => model.Password, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Confirm, new { @class = "control-label" })
+        @Html.EditorFor(model => model.Confirm, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+}
+

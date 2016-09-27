@@ -1,0 +1,54 @@
+﻿@model IEnumerable<LuxtourOnline.Models.SiteImage>
+
+@{
+    ViewBag.Title = "Images";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<h2>Images</h2>
+
+<div class="container">
+    <form method="get" action="" class="form-inline">
+        <label for="search">Title search</label>
+        <input id="search" name="search" type="text" required />
+        <input type="submit" class="btn btn-info btn-sm" />
+        @Html.ActionLink("Clear", "Images", null, new { @class = "btn btn-danger btn-sm" })
+    </form>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "CreateImage")
+</p>
+
+
+
+<div class="container">
+    
+
+    @foreach (var item in Model)
+    {
+        <div class="row" style="padding-bottom:25px;">
+            <div class="col-sm-12 col-md-4">
+                <img src="@Url.Content(item.Url)" class="img-responsive" alt="@item.Alt" />
+            </div>
+            <div class="col-sm-12 col-md-7">
+                <div class="col-xs-3">Title</div>
+                <div class="col-xs-9">@item.Title</div>
+
+                <div class="col-xs-3">Description</div>
+                <div class="col-xs-9">@item.Description</div>
+
+                <div class="col-xs-3">Alt</div>
+                <div class="col-xs-9">@item.Alt</div>
+            </div>
+            <div class="col-md-1">
+                <div class="col-xs-12">@Html.ActionLink("Edit", "EditImage", new { id = item.Id })</div>
+                <div class="col-xs-12">@Html.ActionLink("Details", "DetailsImage", new { id = item.Id })</div>
+                <div class="col-xs-12">@Html.ActionLink("Delete", "DeleteImage", new { id = item.Id })</div>
+            </div>
+        </div>
+
+    }
+</div>
+
+

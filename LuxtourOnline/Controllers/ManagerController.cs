@@ -47,7 +47,7 @@ namespace LuxtourOnline.Controllers
 
             try
             {
-                using (var repo = new ManagerRepo(_context))
+                using (var repo = new ManagerRepo())
                 {
                     model = repo.GetHotelList(lang);
                 }
@@ -67,7 +67,7 @@ namespace LuxtourOnline.Controllers
         {
             try
             {
-                using (var repo = new ManagerRepo(_context))
+                using (var repo = new ManagerRepo())
                 {
                     ManagerHotelRemove model = repo.GetRemoveHotelModel(id);
 
@@ -91,14 +91,17 @@ namespace LuxtourOnline.Controllers
         public async Task<ActionResult> RemoveHotel(ManagerHotelRemove model)
         {
             if (model == null)
+            {
                 return RedirectToAction("HotelsList");
+            }
 
             try
             {
-                using (var repo = new ManagerRepo(_context))
+                using (var repo = new ManagerRepo())
                 {
-                    repo.RemoveHotel(model.Id);
+                    repo.RemoveHotel(model);
                     await repo.SaveAsync();
+                    _logger.Trace($"deleted hotel. title: {model.Title}, delete images = {model.DeleteImages}");
                 }
             }
             catch(Exception ex)
@@ -121,7 +124,7 @@ namespace LuxtourOnline.Controllers
         {
             try
             {
-                using (var repo = new ManagerRepo(_context))
+                using (var repo = new ManagerRepo())
                 {
                     repo.CreateHotel(hotel);
 
@@ -136,6 +139,41 @@ namespace LuxtourOnline.Controllers
             
             return Json("success");
         }
+
+        [HttpGet]
+        public ActionResult EditHotel(int id)
+        {
+            using (var c = _context)
+            {
+                if (!c.Hotels.Any(h => h.Id == id))
+                    return RedirectToAction("HotelsList");
+            }
+
+            ViewBag.Id = id;
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult GetHotelEdit(int id)
+        {
+            ManagerHotelEdit model = null;
+
+            try
+            {
+                using (var repo = new ManagerRepo())
+                {
+                    model = repo.GetHotelEditModel(id);
+                }
+
+                return Json(model, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return RedirectToAction("HotelsList");
+            }
+        }
+
         #endregion
 
         [HttpPost]
@@ -146,7 +184,7 @@ namespace LuxtourOnline.Controllers
 
             try
             {
-                using (var repo = new ManagerRepo(_context))
+                using (var repo = new ManagerRepo())
                 {
                     url = repo.UploadImage(image);
                 }

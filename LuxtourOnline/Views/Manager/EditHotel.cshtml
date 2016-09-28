@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "EditHotel";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+@section Style
+{
+
+}
+
+
+
+<form ng-app="EditHotel" ng-controller="EditHotelCtrl" ng-init="LoadData(@ViewBag.Id)">
+    <input type="hidden" value="@ViewBag.Id" id="Id" name="Id" />
+
+    <div class="page-header"><h2>Edit hotel <strong>"{{Data.Title}}"</strong></h2></div>
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <div class="form-group">
+                <label class="control-label" for="Title">Title</label>
+                <input type="text" name="Title" id="Title" class="form-control" ng-model="Data.Title" required />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="Rate">Rate</label>
+                <input type="number" ng-model="Data.Rate" min="1" max="5" class="form-control" id="Rate" placeholder="Rate">
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="Data.Avaliable"> Avaiable
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-8">
+            <div ngf-drop="uploadFiles($files)" class="drop-box"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="true"
+                 ngf-pattern="'image/*,application/pdf'">
+                <span class="center-block" style="color: white;">Drop Images</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="i in Data.Images">
+            <img src="{{i.Url}}" class="img-responsive"/>
+        </div>
+    </div>
+    <div class="panel-group">
+        <div class="panel panel-info" ng-repeat="description in Data.Descriptions">
+            <div class="panel-heading">Language: {{description.Lang}}</div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label" for="{{description.Id}}">Description</label>
+                    <textarea id="{{description.Id}}" class="form-control" ng-model="description.Description"></textarea>
+                </div>
+                <div class="panel-group">
+                    <div class="panel panel-default" ng-repeat="feature in description.Features">
+                        <div class="panel-heading">
+                            <i class="{{GetGliph(feature.Glyph)}}"></i>Card: {{feature.Title}}
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label class="control-label" for="{{feature.Title}}">Title</label>
+                                    <input type="text" class="form-control" id="{{feature.Title}}" placeholder="Title" ng-model="feature.Title">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" for="{{feature.Glyph}}">Glyph</label>
+                                    <input type="text" class="form-control" id="{{feature.Glyph}}" placeholder="Glyph" ng-model="feature.Glyph" value="{{feature.Glyph}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="{{feature.Description}}">Description</label>
+                                <textarea class="form-control" id="{{feature.Description}}" ng-model="feature.Description"></textarea>
+                            </div>
+
+                            <div class="panel-group">
+                                <div class="panel panel-primary" ng-repeat="ff in feature.Free">
+                                    <div class="panel-heading">
+                                        <strong>{{ff.Title}}</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <label class="control-label" for="{{ff.Title}}">Title</label>
+                                            <input type="text" class="form-control" id="{{ff.Title}}" placeholder="Title" ng-model="ff.Title">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label" for="{{ff.Glyph}}">Glyph</label>
+                                            <input type="text" class="form-control" id="{{ff.Glyph}}" placeholder="Title" ng-model="ff.Title">
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel-group">
+                                <div class="panel panel-primary" ng-repeat="ff in feature.Paid">
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="panel-footer">
+                            <button class="btn btn-danger" type="button">Delete card</button> 
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <span>
+        Debug data<br />
+        {{Data}}<br />{{Id}}
+        Debug data<br />
+    </span>
+
+</form>
+
+@section Scripts
+{
+    <script src="~/Scripts/EditHotel.js"></script>
+}

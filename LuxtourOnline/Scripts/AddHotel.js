@@ -27,7 +27,7 @@
             {
                 Description: "Some Description (en)",
                 
-                Feautures:
+                Features:
                 [
                         {
                             Id: "asdwfewefs",
@@ -45,7 +45,7 @@
             {
                 Description: "Some Description (uk)",
 
-                Feautures:
+                Features:
                 [
                         {
                             Id: "asaDGefgerrgfs",
@@ -64,7 +64,7 @@
             {
                 Description: "Some Description (ru)",
 
-                Feautures:
+                Features:
                 [
                         {
                             Id: "pokprgfs",
@@ -127,13 +127,13 @@
 
             switch (lang) {
                 case "en":
-                    $scope.Data.DescriptionEn.Feautures.push(n);
+                    $scope.Data.DescriptionEn.Features.push(n);
                     break;
                 case "uk":
-                    $scope.Data.DescriptionUk.Feautures.push(n);
+                    $scope.Data.DescriptionUk.Features.push(n);
                     break;
                 case "ru":
-                    $scope.Data.DescriptionRu.Feautures.push(n);
+                    $scope.Data.DescriptionRu.Features.push(n);
                     break;
             }
         };
@@ -143,18 +143,18 @@
             switch(lang)
             {
                 case "en":
-                    var i = $scope.Data.DescriptionEn.Feautures.indexOf(element);
-                    $scope.Data.DescriptionEn.Feautures.splice(i, 1);
+                    var i = $scope.Data.DescriptionEn.Features.indexOf(element);
+                    $scope.Data.DescriptionEn.Features.splice(i, 1);
                     break;
 
                 case "uk":
-                    var i = $scope.Data.DescriptionUk.Feautures.indexOf(element);
-                    $scope.Data.DescriptionUk.Feautures.splice(i, 1);
+                    var i = $scope.Data.DescriptionUk.Features.indexOf(element);
+                    $scope.Data.DescriptionUk.Features.splice(i, 1);
                     break;
 
                 case "ru":
-                    var i = $scope.Data.DescriptionRu.Feautures.indexOf(element);
-                    $scope.Data.DescriptionRu.Feautures.splice(i, 1);
+                    var i = $scope.Data.DescriptionRu.Features.indexOf(element);
+                    $scope.Data.DescriptionRu.Features.splice(i, 1);
                     break;
             }
         }
@@ -162,22 +162,22 @@
         $scope.RemoveFree = function (f, ff, lang) {
             switch (lang) {
                 case "en":
-                    var i = $scope.Data.DescriptionEn.Feautures.indexOf(f);
-                    var j = $scope.Data.DescriptionEn.Feautures[i].Free.indexOf(ff);
+                    var i = $scope.Data.DescriptionEn.Features.indexOf(f);
+                    var j = $scope.Data.DescriptionEn.Features[i].Free.indexOf(ff);
 
-                    $scope.Data.DescriptionEn.Feautures[i].Free.splice(j, 1);
+                    $scope.Data.DescriptionEn.Features[i].Free.splice(j, 1);
                     break;
                 case "uk":
-                    var i = $scope.Data.DescriptionUk.Feautures.indexOf(f);
-                    var j = $scope.Data.DescriptionUk.Feautures[i].Free.indexOf(ff);
+                    var i = $scope.Data.DescriptionUk.Features.indexOf(f);
+                    var j = $scope.Data.DescriptionUk.Features[i].Free.indexOf(ff);
 
-                    $scope.Data.DescriptionUk.Feautures[i].Free.splice(j, 1);
+                    $scope.Data.DescriptionUk.Features[i].Free.splice(j, 1);
                     break;
                 case "ru":
-                    var i = $scope.Data.DescriptionRu.Feautures.indexOf(f);
-                    var j = $scope.Data.DescriptionRu.Feautures[i].Free.indexOf(ff);
+                    var i = $scope.Data.DescriptionRu.Features.indexOf(f);
+                    var j = $scope.Data.DescriptionRu.Features[i].Free.indexOf(ff);
 
-                    $scope.Data.DescriptionRu.Feautures[i].Free.splice(j, 1);
+                    $scope.Data.DescriptionRu.Features[i].Free.splice(j, 1);
                     break;
             }
         };
@@ -186,22 +186,22 @@
         {
             switch (lang) {
                 case "en":
-                    var i = $scope.Data.DescriptionEn.Feautures.indexOf(f);
-                    var j = $scope.Data.DescriptionEn.Feautures[i].Paid.indexOf(ff);
+                    var i = $scope.Data.DescriptionEn.Features.indexOf(f);
+                    var j = $scope.Data.DescriptionEn.Features[i].Paid.indexOf(ff);
 
-                    $scope.Data.DescriptionEn.Feautures[i].Paid.splice(j, 1);
+                    $scope.Data.DescriptionEn.Features[i].Paid.splice(j, 1);
                     break;
                 case "uk":
-                    var i = $scope.Data.DescriptionUk.Feautures.indexOf(f);
-                    var j = $scope.Data.DescriptionUk.Feautures[i].Paid.indexOf(ff);
+                    var i = $scope.Data.DescriptionUk.Features.indexOf(f);
+                    var j = $scope.Data.DescriptionUk.Features[i].Paid.indexOf(ff);
 
-                    $scope.Data.DescriptionUk.Feautures[i].Paid.splice(j, 1);
+                    $scope.Data.DescriptionUk.Features[i].Paid.splice(j, 1);
                     break;
                 case "ru":
-                    var i = $scope.Data.DescriptionRu.Feautures.indexOf(f);
-                    var j = $scope.Data.DescriptionRu.Feautures[i].Paid.indexOf(ff);
+                    var i = $scope.Data.DescriptionRu.Features.indexOf(f);
+                    var j = $scope.Data.DescriptionRu.Features[i].Paid.indexOf(ff);
 
-                    $scope.Data.DescriptionRu.Feautures[i].Paid.splice(j, 1);
+                    $scope.Data.DescriptionRu.Features[i].Paid.splice(j, 1);
                     break;
             }
         };
@@ -213,32 +213,32 @@
             if (type == "free") {
                 switch (lang) {
                     case "en":
-                        var i = $scope.Data.DescriptionEn.Feautures.indexOf(f);
-                        $scope.Data.DescriptionEn.Feautures[i].Free.push(n);
+                        var i = $scope.Data.DescriptionEn.Features.indexOf(f);
+                        $scope.Data.DescriptionEn.Features[i].Free.push(n);
                         break;
                     case "uk":
-                        var i = $scope.Data.DescriptionUk.Feautures.indexOf(f);
-                        $scope.Data.DescriptionUk.Feautures[i].Free.push(n);
+                        var i = $scope.Data.DescriptionUk.Features.indexOf(f);
+                        $scope.Data.DescriptionUk.Features[i].Free.push(n);
                         break;
                     case "ru":
-                        var i = $scope.Data.DescriptionRu.Feautures.indexOf(f);
-                        $scope.Data.DescriptionRu.Feautures[i].Free.push(n);
+                        var i = $scope.Data.DescriptionRu.Features.indexOf(f);
+                        $scope.Data.DescriptionRu.Features[i].Free.push(n);
                         break;
                 }
             }
             else {
                 switch (lang) {
                     case "en":
-                        var i = $scope.Data.DescriptionEn.Feautures.indexOf(f);
-                        $scope.Data.DescriptionEn.Feautures[i].Paid.push(n);
+                        var i = $scope.Data.DescriptionEn.Features.indexOf(f);
+                        $scope.Data.DescriptionEn.Features[i].Paid.push(n);
                         break;
                     case "uk":
-                        var i = $scope.Data.DescriptionUk.Feautures.indexOf(f);
-                        $scope.Data.DescriptionUk.Feautures[i].Paid.push(n);
+                        var i = $scope.Data.DescriptionUk.Features.indexOf(f);
+                        $scope.Data.DescriptionUk.Features[i].Paid.push(n);
                         break;
                     case "ru":
-                        var i = $scope.Data.DescriptionRu.Feautures.indexOf(f);
-                        $scope.Data.DescriptionRu.Feautures[i].Paid.push(n);
+                        var i = $scope.Data.DescriptionRu.Features.indexOf(f);
+                        $scope.Data.DescriptionRu.Features[i].Paid.push(n);
                         break;
                 }
             }
@@ -277,13 +277,13 @@
             switch(lang)
             {
                 case "en":
-                    data = $scope.Data.DescriptionEn.Feautures;
+                    data = $scope.Data.DescriptionEn.Features;
                     break;
                 case "uk":
-                    data = $scope.Data.DescriptionUk.Feautures;
+                    data = $scope.Data.DescriptionUk.Features;
                     break;
                 case "ru":
-                    data = $scope.Data.DescriptionRu.Feautures;
+                    data = $scope.Data.DescriptionRu.Features;
                     break;
             }
 

@@ -44,10 +44,12 @@ namespace LuxtourOnline.Models
     {
         public int Id { get; set; }
         public string Lang { get; set; }
+
+        [Required]
         public virtual Hotel Hotel { get; set; }
         public string Description { get; set; }
 
-        public List<HotelFeature> Features { get; set; } = new List<HotelFeature>();
+        public virtual List<HotelFeature> Features { get; set; } = new List<HotelFeature>();
         public HotelDescription(string lang)
         {
             Lang = lang;
@@ -71,9 +73,10 @@ namespace LuxtourOnline.Models
         public string Description { get; set; }
         public string Glyph { get; set; }
 
-        public List<HotelElement> Free { get; set; } = new List<HotelElement>();
-        public List<HotelElement> Paid { get; set; } = new List<HotelElement>();
+        public virtual List<HotelElement> Free { get; set; } = new List<HotelElement>();
+        public virtual List<HotelElement> Paid { get; set; } = new List<HotelElement>();
 
+        [Required]
         public virtual HotelDescription HotelDescription { get; set; }
 
         public HotelFeature()
@@ -88,6 +91,7 @@ namespace LuxtourOnline.Models
         public string Title { get; set; }
         public string Glyph { get; set; }
 
+        [Required]
         public virtual HotelFeature Feature { get; set; }
 
         public HotelElement()

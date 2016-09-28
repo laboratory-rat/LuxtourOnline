@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Microsoft.AspNet.Identity;
 using NLog;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace LuxtourOnline.Repos
 {
@@ -17,7 +18,17 @@ namespace LuxtourOnline.Repos
 
         public readonly string[] Extensions = { ".png", ".jpg", ".jpeg" };
 
-        protected SiteDbContext _context;
+
+        protected SiteDbContext _currentContext = null;
+        protected SiteDbContext _context
+        {
+            get
+            {
+                if (_currentContext == null)
+                    _currentContext = HttpContext.Current.GetOwinContext().Get<SiteDbContext>();
+                return _currentContext;
+            }
+        }
 
         protected Logger _log = LogManager.GetCurrentClassLogger();
 
@@ -26,7 +37,7 @@ namespace LuxtourOnline.Repos
         public ManagerRepo() { }
         public ManagerRepo(SiteDbContext context)
         {
-            _context = context;
+            
         }
 
         public List<ListTourModel> GetTourList (string lang, int count = 10, int offcet = 0)
@@ -60,7 +71,6 @@ namespace LuxtourOnline.Repos
 
                 if (descr == null)
                 {
-                    _log.Log(LogLevel.Error, "Can't get description for hotel: " + hotel.Title + ", lang:" + lang);
                     element.Description = "Some errors...";
                 }
                 else
@@ -94,43 +104,20 @@ namespace LuxtourOnline.Repos
             //throw new NotImplementedException();
         }
 
-        internal void RemoveHotel(int id)
+        internal void RemoveHotel(ManagerHotelRemove model)
         {
-            var hotel = _context.Hotels.Where(x => x.Id == id).FirstOrDefault();
+            var hotel = _context.Hotels.Where(x => x.Id == model.Id).FirstOrDefault();
 
             if (hotel != null)
             {
-                if(hotel.Descriptions.Count > 0)
-                {
-                    for(int i = 0; i < hotel.Descriptions.Count; i++)
-                    {
-                        var d = hotel.Descriptions[i];
-
-                        for(int j = 0; j < d.Features.Count; j++)
-                        {
-                            var f = d.Features[j];
-
-                            for (int x = 0; x < f.Free.Count; x++)
-                            {
-                                _context.HotelElements.Remove(f.Free[x]);
-                            }
-
-                            for (int x = 0; x < f.Paid.Count; x++)
-                            {
-                                _context.HotelElements.Remove(f.Paid[x]);
-                            }
-
-                            _context.Features.Remove(f);
-                        }
-
-                        _context.HotelDescriptions.Remove(d);
-                    }
-
-                }
+                if (model.DeleteImages)
+                    DeleteImage(hotel.Gallery.ToList());
 
                 _context.Hotels.Remove(hotel);
             }
-
+            else
+            {
+            }
             //throw new NotImplementedException();
         }
 
@@ -144,7 +131,7 @@ namespace LuxtourOnline.Repos
             hotel.Rate = model.Rate;
             hotel.Title = model.Title;
             hotel.Avaliable = model.Avaliable;
-            
+
             if (model.Images != null && model.Images.Length > 0)
             {
                 foreach (string path in model.Images)
@@ -157,7 +144,6 @@ namespace LuxtourOnline.Repos
                     }
                 }
             }
-            
 
             HotelDescription description = new HotelDescription("en");
             FillDescription(model.DescriptionEn, hotel, ref description);
@@ -179,17 +165,29 @@ namespace LuxtourOnline.Repos
 
             _context.Hotels.Add(hotel);
 
-            _log.Debug<Hotel>(hotel);
         }
 
-       
+        public ManagerHotelEdit GetHotelEditModel(int Id)
+        {
+            var hotel = _context.Hotels.Where(h => h.Id == Id).FirstOrDefault();
+
+            ManagerHotelEdit model = null;
+
+            if (hotel != null)
+            {
+                model = new ManagerHotelEdit(hotel);
+            }
+
+            return model;
+        }
+
 
         protected void FillDescription(ManagerHotelDescription model, Hotel hotel, ref HotelDescription description)
         {
             description.Description = model.Description;
             description.Hotel = hotel;
 
-            foreach (var f in model.Feautures)
+            foreach (var f in model.Features)
             {
 
 
@@ -237,16 +235,33 @@ namespace LuxtourOnline.Repos
             //throw new NotImplementedException();
         }
 
+        public void DeleteImage(List<SiteImage> images)
+        {
+            for (int i = 0; i < images.Count; i++)
+                DeleteImage(images[i]);
+        }
+
+        public void DeleteImage(SiteImage image)
+        {
+            var path = image.Path;
+            
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
+            _context.SiteImages.Remove(image);
+        }
 
         public SiteImage MoveTmpImage(string url)
         {
-            string path = Path.Combine(_basePath, url);
+            string path = Path.Combine(_basePath, url.TrimStart('/').Replace('/', '\\'));
             string name = url.Split('/').LastOrDefault();
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(path))
                 return null;
 
-            string newPath = Path.Combine(_basePath, "Content/SystemImages/", name);
+            string newPath = Path.Combine(_basePath, "Content\\SystemImages\\", name);
 
             if (File.Exists(path))
             {
@@ -285,7 +300,7 @@ namespace LuxtourOnline.Repos
             }
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _context.Dispose();
         }

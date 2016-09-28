@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-<h2>RemoveHotel</h2>
+<h2>Remove hotel</h2>
 
 @using (Html.BeginForm())
 {
@@ -24,8 +24,13 @@
         @Html.LabelFor(x => x.CreatedDate, new { @class = "control-label" })
         @Html.DisplayFor(x => x.CreatedDate, new { @class = "form-control" })
     </div>
-    <div class="btn-group-justified">
-        <input type="submit" class="btn btn-danger" value="Remove" />
+
+    <div class="checkbox">
+        <label>@Html.EditorFor(x => x.DeleteImages, new {@class="form-control" })Delete images?</label>
+    </div>
+
+    <div class="btn-group">
+        <input type="submit" class="btn btn-danger pull-right" value="Remove" />
         <a href="~/Manager/HotelsList" class="btn btn-success">Back to list</a>
     </div>
 

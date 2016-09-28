@@ -55,7 +55,7 @@
         </div>
     </div>
     <div class="panel-group">
-        <div class="panel panel-info" ng-repeat="f in Data.DescriptionEn.Feautures">
+        <div class="panel panel-info" ng-repeat="f in Data.DescriptionEn.Features">
             <div class="panel-heading">
                 <a href="#{{f.Id}}" data-toggle="collapse"><strong>{{CardTitle(f.Title)}}</strong></a>
 
@@ -158,7 +158,7 @@
         </div>
     </div>
     <div class="panel-group">
-        <div class="panel panel-info" ng-repeat="f in Data.DescriptionUk.Feautures">
+        <div class="panel panel-info" ng-repeat="f in Data.DescriptionUk.Features">
             <div class="panel-heading">
                 <a href="#{{f.Id}}" data-toggle="collapse"><strong>{{CardTitle(f.Title)}}</strong></a>
 
@@ -261,7 +261,7 @@
         </div>
     </div>
     <div class="panel-group">
-        <div class="panel panel-info" ng-repeat="f in Data.DescriptionRu.Feautures">
+        <div class="panel panel-info" ng-repeat="f in Data.DescriptionRu.Features">
             <div class="panel-heading">
                 <a href="#{{f.Id}}" data-toggle="collapse"><strong>{{CardTitle(f.Title)}}</strong></a>
 
@@ -384,44 +384,7 @@
 
 }
 
-@section style
+@section Style
 {
-<style>
-    .row {
-        margin-top: 15px;
-        margin-bottom: 15px;
-    }
-
-    textarea {
-        min-width: 100%;
-        max-width: 100%;
-    }
-
-    .pad{
-        padding: 15px;
-    }
     
-    .drop-box
-    {
-        width: 100%;
-        height: 100%;
-        background-color: grey;
-        border: 4px dashed black;
-        border-radius: 10px;
-        min-height: 180px;
-        opacity: 0.6;
-    }
-    .drop-box:hover
-    {
-        background-color: deepskyblue;
-    }
-
-    .btn-image
-    {
-        position: absolute;
-        top: 5%;
-        right: 5%;
-    }
-
-</style>
 }

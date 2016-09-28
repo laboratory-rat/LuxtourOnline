@@ -7,7 +7,7 @@
     <title>@ViewBag.Title - Manager</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-
+    <link href="~/Content/Manager.css" rel="stylesheet" />
     @RenderSection("Style", false)
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
@@ -26,7 +26,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Tours", "Tours", "Manager")</li>
-                    <li>@Html.ActionLink("Hotels", "Hotels", "Manager")</li>
+                    <li>@Html.ActionLink("Hotels", "HotelsList", "Manager")</li>
                     <li>@Html.ActionLink("Images", "Images", "Manager")</li>
 
                 </ul>

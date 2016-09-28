@@ -145,6 +145,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Manager.css" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -169,6 +170,7 @@
     <None Include="Properties\PublishProfiles\LuxtourOnline - Web Deploy.pubxml" />
     <Content Include="Scripts\angular-route.min.js.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\EditHotel.js" />
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
     <Content Include="Scripts\FileAPI.min.js" />
@@ -209,6 +211,18 @@
     <Compile Include="Migrations\201609271538509_init.cs" />
     <Compile Include="Migrations\201609271538509_init.Designer.cs">
       <DependentUpon>201609271538509_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609280836289_cascade.cs" />
+    <Compile Include="Migrations\201609280836289_cascade.Designer.cs">
+      <DependentUpon>201609280836289_cascade.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609280844248_Cascade2.cs" />
+    <Compile Include="Migrations\201609280844248_Cascade2.Designer.cs">
+      <DependentUpon>201609280844248_Cascade2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609281325487_virtual.cs" />
+    <Compile Include="Migrations\201609281325487_virtual.Designer.cs">
+      <DependentUpon>201609281325487_virtual.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
@@ -252,6 +266,7 @@
     <Content Include="Views\Manager\HotelsList.cshtml" />
     <Content Include="Scripts\oi.file.js" />
     <Content Include="Views\Manager\RemoveHotel.cshtml" />
+    <Content Include="Views\Manager\EditHotel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -268,6 +283,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201609271538509_init.resx">
       <DependentUpon>201609271538509_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280836289_cascade.resx">
+      <DependentUpon>201609280836289_cascade.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280844248_Cascade2.resx">
+      <DependentUpon>201609280844248_Cascade2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609281325487_virtual.resx">
+      <DependentUpon>201609281325487_virtual.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

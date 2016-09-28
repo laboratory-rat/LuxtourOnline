@@ -60,7 +60,7 @@
                         }
                     </td>
                     <td>
-                        <a href="" target="_self">Display</a> | <a href="" target="_self">Edit</a> |@Html.ActionLink("Remove", "RemoveHotel", new { @id = hotel.Id})
+                        <a href="" target="_self">Display</a> | @Html.ActionLink("Edit", "EditHotel", new { @id = hotel.Id }) |@Html.ActionLink("Remove", "RemoveHotel", new { @id = hotel.Id})
                     </td>  
                 </tr>
             }

@@ -167,9 +167,116 @@ namespace LuxtourOnline.Repos
 
         }
 
+        internal void EditHotel(ManagerHotelEdit model)
+        {
+            Hotel hotel = null;
+
+            if (model.Id > 0 && _context.Hotels.Any(h => h.Id == model.Id))
+            {
+                hotel = _context.Hotels.Where(h => h.Id == model.Id).FirstOrDefault();
+                
+                while(hotel.Descriptions.Count > 0)
+                {
+                    _context.HotelDescriptions.Remove(hotel.Descriptions[0]);
+                }
+                //hotel.Descriptions.Clear();
+
+                //_context.Entry(hotel).State = System.Data.Entity.EntityState.Modified;
+                _context.SaveChanges();
+            }
+
+            if (hotel == null)
+                hotel = new Hotel();
+
+            hotel.Rate = model.Rate;
+            hotel.Title = model.Title;
+            hotel.Avaliable = model.Avaliable;
+
+            if (hotel.Gallery.Count > 0)
+            {
+                for(int ii = 0; ii < hotel.Gallery.Count; ii++)
+                {
+                    bool f = false;
+
+                    foreach (var i in model.Images.Where(x=> !x.New))
+                    {
+                        if (hotel.Gallery[ii].Id == i.Id)
+                        {
+                            f = true;
+                            break;
+                        }
+                    }
+
+                    if (!f)
+                    {
+                        DeleteImage(hotel.Gallery[ii]);
+                    }
+                }
+            }
+
+            foreach(var image in model.Images.Where(x => x.New))
+            {
+                var i = MoveTmpImage(image.Url);
+
+                if (i != null)
+                    hotel.Gallery.Add(i);
+            }
+
+            //Image order
+
+            for(int i = 0; i < model.Images.Count; i++)
+            {
+                int id = model.Images[i].Id;
+
+                foreach(var image in hotel.Gallery)
+                {
+                    if (image.Id == id)
+                    {
+                        image.Order = i;
+                        break;
+                    }
+                }
+            }
+
+            // End Image order
+
+            if (hotel.Descriptions.Count > 0)
+            {
+                hotel.Descriptions.Clear();
+            }
+
+            foreach(var descr in model.Descriptions)
+            {
+                HotelDescription description = new HotelDescription(descr.Lang);
+                FillDescription(descr, hotel, ref description);
+
+                hotel.Descriptions.Add(description);
+            }
+
+            if (hotel.CreatedTime == DateTime.MinValue)
+                hotel.CreatedTime = DateTime.Now;
+            else
+                hotel.ModifyDate = DateTime.Now;
+
+            hotel.ModifyUser = GetCurrentUser();
+
+            if(model.Id <= 0)
+            {
+                _context.Hotels.Add(hotel);
+            }
+            else
+            {
+                _context.Entry(hotel).State = System.Data.Entity.EntityState.Modified;
+            }
+
+        }
+
+
         public ManagerHotelEdit GetHotelEditModel(int Id)
         {
             var hotel = _context.Hotels.Where(h => h.Id == Id).FirstOrDefault();
+
+            //hotel.Gallery = hotel.Gallery.OrderBy(x => x.Order).ToList();
 
             ManagerHotelEdit model = null;
 
@@ -181,6 +288,32 @@ namespace LuxtourOnline.Repos
             return model;
         }
 
+        public ManagerHotelEdit GetHotelEditModel()
+        {
+            ManagerHotelEdit model = new ManagerHotelEdit();
+
+            model.Title = "New hotel";
+            model.Rate = 5;
+            model.Avaliable = false;
+
+            foreach(var l in Constants.AvaliableLangs)
+            {
+                var desrc = new ManagerHotelDescription() { Lang = l };
+
+                var feature = new ManagerHotelFeature();
+
+                feature.Id = AppRandom.RandomString(10);
+
+                feature.Paid.Add(new ManagerHotelElement() { Glyph = "ok", Id = -1, Title = "I am element" });
+                feature.Free.Add(new ManagerHotelElement() { Glyph = "eye-open", Id = -1, Title = "I am element" });
+
+                desrc.Features.Add(feature);
+
+                model.Descriptions.Add(desrc);
+            }
+
+            return model;
+        }
 
         protected void FillDescription(ManagerHotelDescription model, Hotel hotel, ref HotelDescription description)
         {
@@ -210,7 +343,7 @@ namespace LuxtourOnline.Repos
 
         }
 
-        public string UploadImage(HttpPostedFileBase image)
+        public HotelImage UploadImage(HttpPostedFileBase image)
         {
 
             if (image.ContentLength <= 0)
@@ -227,11 +360,13 @@ namespace LuxtourOnline.Repos
 
             var full = name + ex;
 
-            var fullPath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Content\\TmpImages\\", full);
+            var path = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Content\\TmpImages\\", full);
+            var url = Path.Combine(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority),"/Content/TmpImages/",full);
 
-            image.SaveAs(fullPath);
 
-            return Path.Combine(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority),"/Content/TmpImages/",full);
+            image.SaveAs(path);
+
+            return new HotelImage { New = true, Path = path, Url = url, Id = new Random().Next(0, 10000) };
             //throw new NotImplementedException();
         }
 
@@ -270,7 +405,6 @@ namespace LuxtourOnline.Repos
 
             return new SiteImage { Alt = "", Path = newPath, Url = Path.Combine("/Content/SystemImages", name), Title = name };
         }
-
 
         public AppUser GetCurrentUser()
         {

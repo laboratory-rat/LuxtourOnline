@@ -169,6 +169,10 @@
     <Content Include="nlog\current.log" />
     <None Include="Properties\PublishProfiles\LuxtourOnline - Web Deploy.pubxml" />
     <Content Include="Scripts\angular-route.min.js.map" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\EditHotel.js" />
     <Content Include="Scripts\FileAPI.flash.swf" />
@@ -224,6 +228,10 @@
     <Compile Include="Migrations\201609281325487_virtual.Designer.cs">
       <DependentUpon>201609281325487_virtual.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609281714544_Image order.cs" />
+    <Compile Include="Migrations\201609281714544_Image order.Designer.cs">
+      <DependentUpon>201609281714544_Image order.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
     <Compile Include="Models\DbContext.cs" />
@@ -238,8 +246,14 @@
     <Compile Include="Models\Products\Tour.cs" />
     <Compile Include="Models\UserModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Repos\ManagerRepo.cs" />
     <Compile Include="Utilites\AppRandom.cs" />
+    <Compile Include="Utilites\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -292,6 +306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609281325487_virtual.resx">
       <DependentUpon>201609281325487_virtual.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609281714544_Image order.resx">
+      <DependentUpon>201609281714544_Image order.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -56,6 +56,9 @@ namespace LuxtourOnline.Models.Manager
 
         public string Path { get; set; }
 
+        public bool New { get; set; } = false;
+
+        public int Order { get; set; }
         public HotelImage()
         {
         }
@@ -65,6 +68,8 @@ namespace LuxtourOnline.Models.Manager
             Id = image.Id;
             Url = image.Url;
             Path = image.Path;
+
+            Order = image.Order;
         }
     }
 
@@ -92,7 +97,7 @@ namespace LuxtourOnline.Models.Manager
 
         public ManagerHotelDescription()
         {
-
+            Features = new List<ManagerHotelFeature>();
         }
 
         public ManagerHotelDescription(HotelDescription desc)
@@ -118,7 +123,8 @@ namespace LuxtourOnline.Models.Manager
 
         public ManagerHotelFeature()
         {
-
+            Free = new List<ManagerHotelElement>();
+            Paid = new List<ManagerHotelElement>();
         }
 
         public ManagerHotelFeature(HotelFeature feat)

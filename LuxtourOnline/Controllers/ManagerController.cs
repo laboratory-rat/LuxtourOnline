@@ -112,42 +112,46 @@ namespace LuxtourOnline.Controllers
             return RedirectToAction("HotelsList");
         }
 
+        //[HttpGet]
+        //public ActionResult CreateHotel()
+        //{
+
+        //    return View();
+        //}
+
+        //[HttpPost]
+        //public async Task<ActionResult> CreateHotel(ManagerHotel hotel)
+        //{
+        //    try
+        //    {
+        //        using (var repo = new ManagerRepo())
+        //        {
+        //            repo.CreateHotel(hotel);
+
+        //            await repo.SaveAsync();
+        //        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        _logger.Error(ex);
+        //        return Json("error");
+        //    }
+            
+        //    return Json("success");
+        //}
+
         [HttpGet]
-        public ActionResult CreateHotel()
+        public ActionResult EditHotel(int id = -1)
         {
-
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> CreateHotel(ManagerHotel hotel)
-        {
-            try
+            if(id >= 0)
             {
-                using (var repo = new ManagerRepo())
+                using (var c = _context)
                 {
-                    repo.CreateHotel(hotel);
-
-                    await repo.SaveAsync();
+                    if (!c.Hotels.Any(h => h.Id == id))
+                        return RedirectToAction("HotelsList");
                 }
             }
-            catch(Exception ex)
-            {
-                _logger.Error(ex);
-                return Json("error");
-            }
-            
-            return Json("success");
-        }
 
-        [HttpGet]
-        public ActionResult EditHotel(int id)
-        {
-            using (var c = _context)
-            {
-                if (!c.Hotels.Any(h => h.Id == id))
-                    return RedirectToAction("HotelsList");
-            }
 
             ViewBag.Id = id;
             return View();
@@ -162,7 +166,10 @@ namespace LuxtourOnline.Controllers
             {
                 using (var repo = new ManagerRepo())
                 {
-                    model = repo.GetHotelEditModel(id);
+                    if (id > 0)
+                        model = repo.GetHotelEditModel(id);
+                    else
+                        model = repo.GetHotelEditModel();
                 }
 
                 return Json(model, JsonRequestBehavior.AllowGet);
@@ -174,30 +181,68 @@ namespace LuxtourOnline.Controllers
             }
         }
 
-        #endregion
-
         [HttpPost]
-        public ActionResult UploadImage()
+        public async Task<ActionResult> EditHotel(ManagerHotelEdit model)
         {
-            var image = Request.Files[0];
-            string url;
 
             try
             {
                 using (var repo = new ManagerRepo())
                 {
-                    url = repo.UploadImage(image);
+                    repo.EditHotel(model);
+                    await repo.SaveAsync();
                 }
-                
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return null;
+            }
+            
+
+            return Json("success");
+        }
+
+        #endregion
+
+        #region Utilites
+        [HttpPost]
+        public ActionResult UploadImage()
+        {
+            var image = Request.Files[0];
+            HotelImage model;
+
+            try
+            {
+                using (var repo = new ManagerRepo())
+                {
+                    model = repo.UploadImage(image);
+                }
+
             }
             catch (Exception ex)
             {
                 _logger.Error<Exception>(ex);
-                return Json(new { status = "error", message = "bad file"});
+                return Json(new { status = "error", message = "bad file" });
             }
 
-            return Json(new { status = "success", url = url });
+            return Json(new { status = "success", image = model });
         }
+
+        [HttpPost]
+        public ActionResult RemoveTmpImage(HotelImage image)
+        {
+            if(image.New && System.IO.File.Exists(image.Path))
+            {
+                System.IO.File.Delete(image.Path);
+            }
+
+            return Json("success");
+        }
+
+        #endregion Utilites
+
+
 
         [HttpGet]
         [AllowAnonymous]

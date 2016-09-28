@@ -41,12 +41,20 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="i in Data.Images">
-            <img src="{{i.Url}}" class="img-responsive"/>
+            <img src="{{i.Url}}" class="img-responsive" />
+            <div class="btn-group-sm" style="position:absolute; bottom: 5%; left: 10%; width: 80%;" >
+                <button type="button" ng-click="MoveImage(i, 'up')" class="btn btn-default">Up</button>
+                <button type="button" ng-click="MoveImage(i, 'down')" class="btn btn-default">Down</button>
+                <button type="button" ng-click="RemoveImage(i)" class="btn btn-danger pull-right">Delete</button>
+            </div>
         </div>
     </div>
     <div class="panel-group">
         <div class="panel panel-info" ng-repeat="description in Data.Descriptions">
-            <div class="panel-heading">Language: {{description.Lang}}</div>
+            <div class="panel-heading">
+                Language: {{description.Lang}}
+                <button class="btn btn-success pull-right btn-sm" type="button" ng-click="AddFeature(description)">Add Card</button>
+            </div>
             <div class="panel-body">
                 <div class="form-group">
                     <label class="control-label" for="{{description.Id}}">Description</label>
@@ -55,55 +63,86 @@
                 <div class="panel-group">
                     <div class="panel panel-default" ng-repeat="feature in description.Features">
                         <div class="panel-heading">
-                            <i class="{{GetGliph(feature.Glyph)}}"></i>Card: {{feature.Title}}
+                            <a href="#{{feature.Id}}" data-toggle="collapse"><i ng-class="GetGlyph(feature.Glyph)"></i> <strong>Card: {{feature.Title}}</strong></a>
+                            <button type="button" class="btn btn-default btn-sm pull-right" ng-click="MoveFeature(description, feature, 'down')">Down</button>
+                            <button type="button" class="btn btn-default btn-sm pull-right" ng-click="MoveFeature(description, feature, 'up')">Up</button>
                         </div>
-                        <div class="panel-body">
-                            <div class="form-inline">
+                        <div id="{{feature.Id}}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label class="control-label" for="{{feature.Title}}">Title</label>
+                                        <input type="text" class="form-control" id="{{feature.Title}}" placeholder="Title" ng-model="feature.Title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="{{feature.Glyph}}">Glyph</label>
+                                        <input type="text" class="form-control" id="{{feature.Glyph}}" placeholder="Glyph" ng-model="feature.Glyph" value="{{feature.Glyph}}">
+                                    </div>
+                                </div>
                                 <div class="form-group">
-                                    <label class="control-label" for="{{feature.Title}}">Title</label>
-                                    <input type="text" class="form-control" id="{{feature.Title}}" placeholder="Title" ng-model="feature.Title">
+                                    <label class="control-label" for="{{feature.Description}}">Description</label>
+                                    <textarea class="form-control" id="{{feature.Description}}" ng-model="feature.Description"></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label" for="{{feature.Glyph}}">Glyph</label>
-                                    <input type="text" class="form-control" id="{{feature.Glyph}}" placeholder="Glyph" ng-model="feature.Glyph" value="{{feature.Glyph}}">
-                                </div>
+
+                                <table class="table table-striped table-condensed">
+                                    <caption>
+                                        Free elements
+                                        <button type="button" class="btn btn-success pull-right btn-sm" ng-click="AddElement(feature, 'free')">Add element</button>
+                                    </caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Glyphicon</th>
+                                            <th>Ico</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="ff in feature.Free">
+                                            <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
+                                            <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
+                                            <td><i ng-class="GetGlyph(ff.Glyph)"></i></td>
+                                            <td>
+                                                <button class="btn btn-default" ng-click="MoveElement(feature, ff, 'free', 'up')">Up</button>
+                                                <button class="btn btn-default" ng-click="MoveElement(feature, ff, 'free', 'down')">Down</button>
+                                                <button class="btn btn-danger pull-right" ng-click="RemoveElement(feature, ff, 'free')">Delete</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="table table-striped table-condensed">
+                                    <caption>
+                                        Paid elements
+                                        <button type="button" class="btn btn-success pull-right btn-sm" ng-click="AddElement(feature, 'paid')">Add element</button>
+                                    </caption>
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Glyphicon</th>
+                                            <th>Ico</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="ff in feature.Paid">
+                                            <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
+                                            <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
+                                            <td><i ng-class="GetGlyph(ff.Glyph)"></i></td>
+                                            <td>
+                                                <button class="btn btn-default" ng-click="MoveElement(feature, ff, 'paid', 'up')">Up</button>
+                                                <button class="btn btn-default" ng-click="MoveElement(feature, ff, 'paid', 'down')">Down</button>
+                                                <button class="btn btn-danger pull-right" ng-click="RemoveElement(feature, ff, 'paid')">Delete</button>
+                                            </td>
+                                        </tr>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
                             </div>
-                            <div class="form-group">
-                                <label class="control-label" for="{{feature.Description}}">Description</label>
-                                <textarea class="form-control" id="{{feature.Description}}" ng-model="feature.Description"></textarea>
+                            <div class="panel-footer">
+                                <button class="btn btn-danger" type="button" ng-click="RemoveFeature(description, feature)">Delete card</button>
                             </div>
-
-                            <div class="panel-group">
-                                <div class="panel panel-primary" ng-repeat="ff in feature.Free">
-                                    <div class="panel-heading">
-                                        <strong>{{ff.Title}}</strong>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="form-group">
-                                            <label class="control-label" for="{{ff.Title}}">Title</label>
-                                            <input type="text" class="form-control" id="{{ff.Title}}" placeholder="Title" ng-model="ff.Title">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label" for="{{ff.Glyph}}">Glyph</label>
-                                            <input type="text" class="form-control" id="{{ff.Glyph}}" placeholder="Title" ng-model="ff.Title">
-                                        </div>
-                                    </div>
-                                    <div class="panel-footer">
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="panel-group">
-                                <div class="panel panel-primary" ng-repeat="ff in feature.Paid">
-
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="panel-footer">
-                            <button class="btn btn-danger" type="button">Delete card</button> 
                         </div>
 
                     </div>
@@ -111,6 +150,15 @@
             </div>
 
         </div>
+    </div>
+
+    <div class="row">
+        <button type="submit" class="btn btn-success pull-right" ng-click="UploadData()">Update hotel</button>
+        @Html.ActionLink("Back", "HotelsList", new { @class="btn btn-danger"})
+    </div>
+
+    <div class="row">
+        <a href="http://getbootstrap.com/components/" target="_blank">Gliphs collection</a>
     </div>
 
     <span>
@@ -123,5 +171,11 @@
 
 @section Scripts
 {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/Scripts/ng-file-upload.min.js"></script>
+    <script src="~/Scripts/ng-file-upload-shim.min.js"></script>
+
     <script src="~/Scripts/EditHotel.js"></script>
 }

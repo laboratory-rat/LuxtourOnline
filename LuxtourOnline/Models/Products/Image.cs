@@ -12,9 +12,6 @@ namespace LuxtourOnline.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        [MinLength(5)]
         public string Title { get; set; }
 
         public string Alt { get; set; } = "";
@@ -25,7 +22,8 @@ namespace LuxtourOnline.Models
 
         public string Path { get; set; } = "";
 
-       
+        public int Order { get; set; } = 100;
+
         public virtual ICollection<Tour> Tours { get; set; }
         public virtual ICollection<Hotel> Hotels { get; set; }
         public virtual ICollection<Aparment> Aparments { get; set; }

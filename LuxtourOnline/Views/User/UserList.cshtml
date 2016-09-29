@@ -1,0 +1,93 @@
+﻿@using LuxtourOnline.WebUI;
+
+@model LuxtourOnline.Models.ListUserModel
+
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="row">
+    <div class="page-header">
+        <h1>Users <small>some more info</small></h1>
+    </div>
+    <div class="row">
+        <a href="~/User/Create" class="btn btn-info">Create new user</a>
+        <form method="get" class="form-inline pull-right" action="/User/UserList">
+
+            <div class="form-group form-group-sm">
+                <label class="control-label" for="fullname">FullName</label>
+                <input name="fullname" class="form-control" id="fullname" type="text" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="email">Email</label>
+                <input name="email" class="form-control" id="email" type="text" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="phone">Phone number</label>
+                <input class="form-control" id="phone" name="phone" type="number" />
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="role">Role</label>
+                <select name="role" id="role" class="form-control">
+                    <option value=""></option>
+                    <option value="user">User</option>
+                    <option value="agent">Agent</option>
+                    <option value="content_manager">Content Manager</option>
+                    <option value="manager">Manager</option>
+                    <option value="admin">Administrator</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-sm btn-info">Search</button>
+        </form>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>FullName</th>
+                <th>Email</th>
+                <th>Phone umber</th>
+                <th>Roles</th>
+                <th>Registered</th>
+                <th></th>
+            </tr>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(x => user.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => user.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => user.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => user.Roles)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => user.CreatedDate)
+                    </td>
+                    <td>
+                        @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                        {
+                            <div class="btn-group-sm">
+                                @Html.ActionLink("Update", "Update", new { id = user.Id }, new { @class = "btn btn-default" })
+                                @Html.ActionLink("Display", "Display", new { id = user.Id }, new { @class = "btn btn-default" })
+                                @Html.ActionLink("Remove", "Remove", new { id = user.Id }, new { @class = "btn btn-danger pull-right" })
+                            </div>
+                        }
+                    </td>
+                </tr>
+
+            }
+        </thead>
+    </table>
+</div>
+
+
+
+<div class="row">
+    @Html.PageLinks(Model.Paging, x => Url.Action("UserList", new { page = x }))
+</div>

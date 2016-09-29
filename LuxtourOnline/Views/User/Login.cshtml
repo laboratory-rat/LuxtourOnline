@@ -1,4 +1,4 @@
-﻿@model LuxtourOnline.Models.Account.UserLoginModel
+﻿@model LuxtourOnline.Models.UserLoginModel
 
 @{
     ViewBag.Title = "Manager";
@@ -14,7 +14,9 @@
 
 
     <div class="form-horizontal">
-        <h4>Manager login</h4>
+        <div class="page-header">
+            <h1>Login <small></small></h1>
+        </div>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

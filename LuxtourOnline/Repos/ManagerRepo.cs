@@ -13,26 +13,12 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace LuxtourOnline.Repos
 {
-    public class ManagerRepo : IDisposable
+    public class ManagerRepo : BaseRepo, IDisposable
     {
 
         public readonly string[] Extensions = { ".png", ".jpg", ".jpeg" };
 
 
-        protected SiteDbContext _currentContext = null;
-        protected SiteDbContext _context
-        {
-            get
-            {
-                if (_currentContext == null)
-                    _currentContext = HttpContext.Current.GetOwinContext().Get<SiteDbContext>();
-                return _currentContext;
-            }
-        }
-
-        protected Logger _log = LogManager.GetCurrentClassLogger();
-
-        protected string _basePath = HttpContext.Current.Request.PhysicalApplicationPath;
 
         public ManagerRepo() { }
         public ManagerRepo(SiteDbContext context)
@@ -272,6 +258,7 @@ namespace LuxtourOnline.Repos
         }
 
 
+
         public ManagerHotelEdit GetHotelEditModel(int Id)
         {
             var hotel = _context.Hotels.Where(h => h.Id == Id).FirstOrDefault();
@@ -406,37 +393,16 @@ namespace LuxtourOnline.Repos
             return new SiteImage { Alt = "", Path = newPath, Url = Path.Combine("/Content/SystemImages", name), Title = name };
         }
 
-        public AppUser GetCurrentUser()
-        {
-            string name = HttpContext.Current.User.Identity.Name;
-            var user = _context.Users.Where(u => u.UserName == name).FirstOrDefault();
-            return user;
-        }
+        #region Users
 
-        public async Task SaveAsync()
-        {
-            try
-            {
-                var result = _context.GetValidationErrors();
 
-                if (result.Count() == 0)
-                    await _context.SaveChangesAsync();
-                else
-                {
-                    string e = result.ToString();
 
-                    throw new Exception(string.Format("Can't save model: {0}", e));
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
-        public virtual void Dispose()
-        {
-            _context.Dispose();
-        }
+        #endregion Users
+
+
+
+
+
     }
 }

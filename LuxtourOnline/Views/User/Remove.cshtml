@@ -1,0 +1,41 @@
+﻿@model LuxtourOnline.Models.RemoveUserModel
+
+@{
+    ViewBag.Title = "Remove";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<h2>Remove</h2>
+
+<div>
+    <h4>RemoveUserModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+    </dl>
+</div>
+<form action="/User/RemoveConfirm">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+        Remove
+    </button>
+</form>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "UserList")
+</p>

@@ -146,6 +146,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Manager.css" />
+    <Content Include="Content\mdl-v1.1.2\material.css" />
+    <Content Include="Content\mdl-v1.1.2\material.js" />
+    <Content Include="Content\mdl-v1.1.2\material.min.css" />
+    <Content Include="Content\mdl-v1.1.2\material.min.js" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -165,6 +169,11 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\mdl-v1.1.2\package.json" />
+    <Content Include="Content\mdl-v1.1.2\material.min.js.map" />
+    <Content Include="Content\mdl-v1.1.2\material.min.css.map" />
+    <Content Include="Content\mdl-v1.1.2\LICENSE" />
+    <Content Include="Content\mdl-v1.1.2\bower.json" />
     <None Include="NLog.Config" />
     <Content Include="nlog\current.log" />
     <None Include="Properties\PublishProfiles\LuxtourOnline - Web Deploy.pubxml" />
@@ -178,6 +187,9 @@
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
     <Content Include="Scripts\FileAPI.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-3.1.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -209,6 +221,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -235,9 +248,11 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
     <Compile Include="Models\DbContext.cs" />
+    <Compile Include="Models\General\GeneralModels.cs" />
     <Compile Include="Models\Manager\ManagerDisplayToursModels.cs" />
     <Compile Include="Models\Manager\ManagerHotel.cs" />
     <Compile Include="Models\Manager\ManagerModels.cs" />
+    <Compile Include="Models\Manager\ManagerUser.cs" />
     <Compile Include="Models\Products\Aparment.cs" />
     <Compile Include="Models\Products\Hotel.cs" />
     <Compile Include="Models\Products\Image.cs" />
@@ -251,9 +266,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Repos\BaseRepo.cs" />
     <Compile Include="Repos\ManagerRepo.cs" />
+    <Compile Include="Repos\UserRepo.cs" />
     <Compile Include="Utilites\AppRandom.cs" />
     <Compile Include="Utilites\Constants.cs" />
+    <Compile Include="WebUI\PagingHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -268,7 +286,7 @@
     <Content Include="Views\Agent\Register.cshtml" />
     <Content Include="Views\Agent\Login.cshtml" />
     <Content Include="Views\Agent\Index.cshtml" />
-    <Content Include="Views\Manager\Login.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\Manager\Index.cshtml" />
     <Content Include="Views\Shared\_ManagerLayout.cshtml" />
     <Content Include="Views\Manager\_ViewStart.cshtml" />
@@ -281,6 +299,15 @@
     <Content Include="Scripts\oi.file.js" />
     <Content Include="Views\Manager\RemoveHotel.cshtml" />
     <Content Include="Views\Manager\EditHotel.cshtml" />
+    <Content Include="Views\User\UserList.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
+    <Content Include="Views\User\CreateUserSuccess.cshtml" />
+    <Content Include="Views\User\Remove.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Password.cshtml" />
+    <Content Include="Views\User\Email.cshtml" />
+    <Content Include="Views\User\Fullname.cshtml" />
+    <Content Include="Views\User\Update.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -292,6 +319,7 @@
     <Folder Include="App_Data\Images\" />
     <Folder Include="Content\SystemImages\" />
     <Folder Include="Content\TmpImages\" />
+    <Folder Include="Models\User\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>

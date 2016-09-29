@@ -8,6 +8,13 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/Manager.css" rel="stylesheet" />
+
+    <!-- <link rel="stylesheet" href="~/Content/mdl-v1.1.2/material.min.css"> -->
+     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.amber-light_blue.min.css"> 
+    
+    <script src="~/Content/mdl-v1.1.2/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
     @RenderSection("Style", false)
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
@@ -28,6 +35,7 @@
                     <li>@Html.ActionLink("Tours", "Tours", "Manager")</li>
                     <li>@Html.ActionLink("Hotels", "HotelsList", "Manager")</li>
                     <li>@Html.ActionLink("Images", "Images", "Manager")</li>
+                    <li>@Html.ActionLink("Users", "UserList", "User")</li>
 
                 </ul>
             </div>

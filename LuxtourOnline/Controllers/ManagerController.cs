@@ -12,12 +12,15 @@ using System.Web;
 using System.Web.Mvc;
 using NLog;
 using System.Net;
+using LuxtourOnline.Utilites;
 
 namespace LuxtourOnline.Controllers
 {
     [Authorize(Roles = "manager, admin")]
     public class ManagerController : BaseAppController
     {
+        protected ManagerRepo _repository { get { return new ManagerRepo(); } }
+
         // GET: Manager
         public ActionResult Index()
         {
@@ -37,6 +40,7 @@ namespace LuxtourOnline.Controllers
         }
 
         #region Hotels
+
         [HttpGet]
         public ActionResult HotelsList(string lang = "en")
         {
@@ -52,7 +56,7 @@ namespace LuxtourOnline.Controllers
                     model = repo.GetHotelList(lang);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex);
                 return new HttpStatusCodeResult(HttpStatusCode.BadGateway, "F*ck, some server error. Connect to administrator.");
@@ -104,7 +108,7 @@ namespace LuxtourOnline.Controllers
                     _logger.Trace($"deleted hotel. title: {model.Title}, delete images = {model.DeleteImages}");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex);
             }
@@ -112,38 +116,10 @@ namespace LuxtourOnline.Controllers
             return RedirectToAction("HotelsList");
         }
 
-        //[HttpGet]
-        //public ActionResult CreateHotel()
-        //{
-
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //public async Task<ActionResult> CreateHotel(ManagerHotel hotel)
-        //{
-        //    try
-        //    {
-        //        using (var repo = new ManagerRepo())
-        //        {
-        //            repo.CreateHotel(hotel);
-
-        //            await repo.SaveAsync();
-        //        }
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        _logger.Error(ex);
-        //        return Json("error");
-        //    }
-            
-        //    return Json("success");
-        //}
-
         [HttpGet]
         public ActionResult EditHotel(int id = -1)
         {
-            if(id >= 0)
+            if (id >= 0)
             {
                 using (var c = _context)
                 {
@@ -174,7 +150,7 @@ namespace LuxtourOnline.Controllers
 
                 return Json(model, JsonRequestBehavior.AllowGet);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex);
                 return RedirectToAction("HotelsList");
@@ -193,12 +169,12 @@ namespace LuxtourOnline.Controllers
                     await repo.SaveAsync();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex);
                 return null;
             }
-            
+
 
             return Json("success");
         }
@@ -232,7 +208,7 @@ namespace LuxtourOnline.Controllers
         [HttpPost]
         public ActionResult RemoveTmpImage(HotelImage image)
         {
-            if(image.New && System.IO.File.Exists(image.Path))
+            if (image.New && System.IO.File.Exists(image.Path))
             {
                 System.IO.File.Delete(image.Path);
             }
@@ -242,40 +218,21 @@ namespace LuxtourOnline.Controllers
 
         #endregion Utilites
 
+        #region Users
 
 
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Login()
-        {
-            UserLoginModel model = new UserLoginModel();
-            return View();
-        }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult> Login(UserLoginModel model)
-        {
-            if (!ModelState.IsValid)
-                return View();
 
-            var user = await _userManager.FindAsync(model.Email, model.Password);
-            if (user != null)
-            {
-                bool inRole = await _userManager.IsInRoleAsync(user.Id, "manager") || await _userManager.IsInRoleAsync(user.Id, "admin");
-                if (inRole)
-                {
-                    await _signInManager.SignInAsync(user, false, model.Remember);
-                    return RedirectToAction("Index", "Manager");
-                }
-            }
+        #endregion Users
 
-            ModelState.AddModelError("", "Bad email or password");
-            return View();
-        }
+        #region Login
 
-    }
+
+
+        #endregion Login
+
 
 
 
+    }
 }

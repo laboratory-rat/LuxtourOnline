@@ -1,0 +1,44 @@
+﻿@model LuxtourOnline.Models.SelfUserModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div>
+    <div class="page-header">
+        <h1>My account <small>Subtext for header</small></h1>
+    </div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Change Fullname", "FullName") |
+    @Html.ActionLink("Change Email", "Email") |
+    @Html.ActionLink("Change Password", "Password") |
+    @Html.ActionLink("To index", "Index", "Home")
+</p>

@@ -20,7 +20,7 @@ textarea {
     background-color: grey;
     border: 4px dashed black;
     border-radius: 10px;
-    min-height: 180px;
+    min-height: 150px;
     opacity: 0.6;
 }
 .drop-box:hover

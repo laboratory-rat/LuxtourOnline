@@ -79,6 +79,20 @@
             },
         }
 
+        $scope.Collapse = function (id) {
+            var target = angular.element('#id');
+
+            console.log(target);
+
+            if (target.hasClass('collapse'))
+            {
+                target.removeClass('collapse');
+            }
+            else {
+                target.addClass('collapse');
+            }
+        };
+
         $scope.uploadFiles = function (files)
         {
             for (var i = 0; i < files.length; i++) 

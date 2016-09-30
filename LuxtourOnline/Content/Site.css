@@ -1,18 +1,109 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿body
+{
+    background-color: #f5f5f5;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.mdl-layout__header
+{
+    background-color: #fdfdfd !important;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.mdl-layout__header-row .mdl-navigation__link
+{
+    font-size: 18px;
 }
 
+.app-pull-right{
+    position:absolute;
+    right: 8px;
+}
+
+.app-table-full-width{
+    width: 100%;
+    table-layout: fixed;
+}
+
+.app-page-content
+{
+    min-height: 100%;
+}
+
+/*#region fab */
+
+.app-fab-fixed-bottom-right
+{
+    position: fixed;
+    bottom: 48px;
+    right: 40px;
+}
+
+.app-fab-manager-top
+{
+    position: absolute;
+    top: 188px;
+    right: 12%;
+}
+
+.app-fab-right-center
+{
+    margin: 0 auto;
+    display: block;
+    margin-top: 76px;
+}
+/*#endregion */
+
+
+.app-footer-absolute-bottom
+{
+
+    height: 40px;
+}
+
+.app-manager-back
+{
+    height: 200px;
+    background-color: darkblue;
+}
+
+.app-manager-top-card
+{
+    margin-top: -114px;
+}
+
+/*#region Animations */
+
+.mdl-card-collapse
+{
+    -webkit-transition: all 750ms ease-out 150ms;
+    -moz-transition: all 750ms ease-out 150ms;
+    -o-transition: all 750ms ease-out 150ms;
+    transition: all 750ms ease-out 150ms;
+
+    max-height: 1600px;
+}
+
+.mdl-card .collapse
+{
+    max-height: 0px;
+}
+
+.mdl-card-collapse--base
+{
+    min-height: 40px;
+}
+
+/*#endregion */
+
+
+/*#region Ico */
+
+.app-fixed-ico
+{
+    max-width: 24px;
+    max-height: 24px;
+
+    min-height: 24px;
+    max-height: 24px;
+}
+
+/*#endregion */

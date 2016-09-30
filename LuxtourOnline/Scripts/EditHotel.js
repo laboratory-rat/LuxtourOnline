@@ -19,6 +19,20 @@
         $scope.Data = {};
         $scope.Id;
 
+        $scope.Collapse = function (id) {
+            console.log(id);
+            var target = angular.element('#' + id);
+
+            console.log(target);
+
+            if (target.hasClass('collapse')) {
+                target.removeClass('collapse');
+            }
+            else {
+                target.addClass('collapse');
+            }
+        };
+
         $scope.LoadData = function (id) {
             $scope.Id = id;
 
@@ -28,6 +42,8 @@
                 $scope.Data = data;
             });
         };
+
+
 
         $scope.UploadData = function () {
             $http.post('/Manager/EditHotel', $scope.Data)
@@ -88,7 +104,12 @@
         // #region Features
 
         $scope.AddFeature = function (description) {
-            description.Features.push({ Id: $scope.RandomId() });
+            description.Features.push(
+                {
+                    Id: $scope.RandomId(),
+                    Free: [],
+                    Paid: [],
+                });
         };
 
         $scope.RemoveFeature = function (description, feature) {

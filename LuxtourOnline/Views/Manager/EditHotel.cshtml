@@ -10,45 +10,195 @@
 }
 
 
-
 <form ng-app="EditHotel" ng-controller="EditHotelCtrl" ng-init="LoadData(@ViewBag.Id)">
     <input type="hidden" value="@ViewBag.Id" id="Id" name="Id" />
-
-    <div class="page-header"><h2>Edit hotel <strong>"{{Data.Title}}"</strong></h2></div>
-    <div class="row">
-        <div class="col-sm-12 col-md-4">
-            <div class="form-group">
-                <label class="control-label" for="Title">Title</label>
-                <input type="text" name="Title" id="Title" class="form-control" ng-model="Data.Title" required />
-            </div>
-            <div class="form-group">
-                <label class="control-label" for="Rate">Rate</label>
-                <input type="number" ng-model="Data.Rate" min="1" max="5" class="form-control" id="Rate" placeholder="Rate">
-            </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox" ng-model="Data.Avaliable"> Avaiable
-                </label>
-            </div>
+    <div class="mdl-grid">
+        <div class="mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
+            <h3>Edit hotel "{{Data.Title}}"</h3>
         </div>
-        <div class="col-sm-12 col-md-8">
-            <div ngf-drop="uploadFiles($files)" class="drop-box"
-                 ngf-drag-over-class="'dragover'" ngf-multiple="true"
-                 ngf-pattern="'image/*,application/pdf'">
-                <span class="center-block" style="color: white;">Drop Images</span>
+    </div>
+    <div class="mdl-grid">
+        <div class="mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--12-col-phone mdl-cell--2-offset">
+            <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="text" maxlength="64" id="Title" value="New hotel" ng-model="Data.Title">
+            </div>
+            <div class="mdl-textfield mdl-js-textfield">
+                <input class="mdl-textfield__input" type="number" max="5" min="1" id="Rate" value="5" ng-model="Data.Rate">
+            </div>
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="Avaliable">
+                <input type="checkbox" id="Avaliable" ng-model="Data.Avaliable" class="mdl-checkbox__input" checked>
+                <span class="mdl-checkbox__label">Is avaliable</span>
+            </label>
+        </div>
+
+        <div class="mdl-cell--4-col-desktop mdl-cell--4-col-tablet mdl-cell--12-col-phone">
+            <div class="col-sm-12 col-md-8">
+                <div ngf-drop="uploadFiles($files)" class="drop-box"
+                     ngf-drag-over-class="'dragover'" ngf-multiple="true"
+                     ngf-pattern="'image/*,application/pdf'">
+                    <span class="center-block" style="color: white;">Drop Images</span>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6 col-md-4 col-lg-3" ng-repeat="i in Data.Images">
-            <img src="{{i.Url}}" class="img-responsive" />
-            <div class="btn-group-sm" style="position:absolute; bottom: 5%; left: 10%; width: 80%;" >
+    <div class="mdl-grid">
+        <div class="mdl-cell--3-col-desktop mdl-cell--4-col-tablet mdl-cell--6-col-phone" ng-repeat="i in Data.Images">
+            <img src="{{i.Url}}" style="width: 90%; height: 90%; margin-top: 5%; margin-left: 5%;" />
+            <div class="btn-group-sm" style="position:relative; bottom: 200px; left: 200px;">
                 <button type="button" ng-click="MoveImage(i, 'up')" class="btn btn-default">Up</button>
                 <button type="button" ng-click="MoveImage(i, 'down')" class="btn btn-default">Down</button>
                 <button type="button" ng-click="RemoveImage(i)" class="btn btn-danger pull-right">Delete</button>
             </div>
         </div>
     </div>
+    <div class="mdl-grid">
+        <div class="mdl-cell--8-col-desktop mdl-cell--10-col-tablet mdl-cell--12-col-phone mdl-cell--2-offset-desktop mdl-cell--1-offset-tablet mdl-card mdl-shadow--2dp" ng-repeat="description in Data.Descriptions" style="margin-bottom: 24px;">
+            <div class="mdl-card__title">
+                <h3 class="mdl-card__title-text">Language: {{description.Lang}}</h3>
+            </div>
+            <div class="mdl-card__supporting-text">
+                <div class="mdl-textfield mdl-js-textfield" style="width:100%;">
+                    <label for="{{description.Id}}">Description: </label>
+                    <textarea class="mdl-textfield__input" type="text" rows="5" id="{{description.Id}}" ng-model="description.Description"></textarea>
+                </div>
+                <div class="mdl-grid">
+                    <div class="mdl-cell--12-col">
+                        <div class="mdl-card mdl-shadow--8dp mdl-card-collapse--base" style="width:100%; margin-bottom: 24px;" ng-repeat="feature in description.Features">
+                            <div class="mdl-card__title">
+                                <a style="text-decoration:none;" href="#" target="_self" ng-click="Collapse(feature.Id)">
+                                    <h5 class="mdl-card__title-text mdl-color-text--primary-dark">
+                                        <i class="app-fixed-ico material-icons">{{feature.Glyph}}</i> Card: {{feature.Title}}
+                                    </h5>
+                                </a>
+                            </div>
+                            <div id="{{feature.Id}}" class="mdl-card-collapse collapse">
+                                <div class="mdl-card__supporting-text mdl-card--border">
+
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <label for="{{feature.Title}}">Title: </label>
+                                        <input class="mdl-textfield__input" type="text" maxlength="64" id="{{feature.Title}}" ng-model="feature.Title">
+                                    </div>
+
+                                    <div class="mdl-textfield mdl-js-textfield">
+                                        <label for="{{feature.Glyph}}">Ico: </label>
+                                        <input class="mdl-textfield__input  mdl-textfield--align-right" type="text" maxlength="64" id="{{feature.Glyph}}" ng-model="feature.Glyph">
+                                    </div>
+                                    <br />
+                                    <div class="mdl-textfield mdl-js-textfield" style="width:100%;">
+                                        <label for="{{feature.Description}}">Description: </label>
+                                        <textarea class="mdl-textfield__input" type="text" rows="3" id="{{feature.Description}}" ng-model="feature.Description"></textarea>
+                                    </div>
+
+                                    <!-- Tables start -->
+
+                                    <table class="mdl-data-table mdl-js-data-table app-table-full-width">
+                                        <caption style="text-align: left;">
+                                            Free elements
+                                            <button type="button" class="mdl-button mdl-js-button mdl-button--mini-icon mdl-button--primary" ng-click="AddElement(feature, 'free')"><i class="material-icons">add</i></button>
+                                        </caption>
+                                        <thead>
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">Title</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Glyphicon</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Ico</th>
+                                                <th class="mdl-data-table__cell--non-numeric" style="width: 220px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="ff in feature.Free">
+                                                <td class="mdl-data-table__cell--non-numeric"><input type="text" class="mdl-textfield mdl-textfield__input" ng-model="ff.Title" /></td>
+                                                <td class="mdl-data-table__cell--non-numeric"><input type="text" class="mdl-textfield mdl-textfield__input" ng-model="ff.Glyph" /></td>
+                                                <td class="mdl-data-table__cell--non-numeric"><i class="material-icons app-fixed-ico">{{ff.Glyph}}</i></td>
+                                                <td class="mdl-data-table__cell--non-numeric" style="width: 220px;">
+                                                    <button class="mdl-button mdl-js-button mdl-button--mini-icon " ng-click="MoveElement(feature, ff, 'free', 'up')">
+                                                        <i class="material-icons">keyboard_arrow_up</i>
+                                                    </button>
+                                                    <button class="mdl-button mdl-js-button mdl-button--mini-icon " ng-click="MoveElement(feature, ff, 'free', 'down')">
+                                                        <i class="material-icons">keyboard_arrow_down</i>
+                                                    </button>
+                                                    <button class="mdl-button mdl-js-button mdl-button--mini-icon " ng-click="RemoveElement(feature, ff, 'free')">
+                                                        <i class="material-icons mdl-color-text--red">clear</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="mdl-data-table mdl-js-data-table app-table-full-width">
+                                        <caption style="text-align: left;">
+                                            Paid elements
+                                            <button type="button" class="mdl-button mdl-js-button mdl-button--mini-icon mdl-button--primary" ng-click="AddElement(feature, 'paid')"><i class="material-icons">add</i></button>
+                                        </caption>
+                                        <thead>
+                                            <tr>
+                                                <th class="mdl-data-table__cell--non-numeric">Title</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Glyphicon</th>
+                                                <th class="mdl-data-table__cell--non-numeric">Ico</th>
+                                                <th class="mdl-data-table__cell--non-numeric" style="width: 220px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="ff in feature.Paid">
+                                                <td class="mdl-data-table__cell--non-numeric"><input type="text" class="mdl-textfield mdl-textfield__input" ng-model="ff.Title" /></td>
+                                                <td class="mdl-data-table__cell--non-numeric"><input type="text" class="mdl-textfield mdl-textfield__input" ng-model="ff.Glyph" /></td>
+                                                <td class="mdl-data-table__cell--non-numeric"><i class="app-fixed-ico material-icons">{{ff.Glyph}}</i></td>
+                                                <td class="mdl-data-table__cell--non-numeric" style="width:220px;">
+                                                    <button class="mdl-button mdl-js-button mdl-button--mini-icon " ng-click="MoveElement(feature, ff, 'paid', 'up')">
+                                                        <i class="material-icons">keyboard_arrow_up</i>
+                                                    </button>
+                                                    <button class="mdl-button mdl-js-button mdl-button--mini-icon " ng-click="MoveElement(feature, ff, 'paid', 'down')">
+                                                        <i class="material-icons">keyboard_arrow_down</i>
+                                                    </button>
+                                                    <button class="mdl-button mdl-js-button mdl-button--mini-icon " ng-click="RemoveElement(feature, ff, 'paid')">
+                                                        <i class="material-icons mdl-color-text--red">clear</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <!-- tables end -->
+
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border">
+                                    <button style="margin-bottom: -20px;" class="mdl-button mdl-js-button mdl-color--red mdl-button--raised mdl-color-text--white" type="button" ng-click="RemoveFeature(description, feature)">Delete card</button>
+                                </div>
+                                <div style="height: 24px; width: 100%"></div>
+                            </div>
+
+                            <!-- Up card menu-->
+
+                            <div class="mdl-card__menu">
+                                <button type="button" class="mdl-button mdl-js-button mdl-button--mini-icon" ng-click="MoveFeature(description, feature, 'down')"><i class="material-icons">keyboard_arrow_down</i></button>
+                                <button type="button" class="mdl-button mdl-js-button mdl-button--mini-icon" ng-click="MoveFeature(description, feature, 'up')"><i class="material-icons">keyboard_arrow_up</i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mdl-card__menu">
+                <button class="mdl-button mdl-button--fab mdl-js-button mdl-js-ripple-effect mdl-color--accent  mdl-shadow--8dp" ng-click="AddFeature(description)">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="mdl-grid">
+        <div class="mdl-cell--4-col mdl-cell--4-offset">
+            <button ng-click="UploadData()" class="mdl-button mdl-js-button mdl-button--primary mdl-typography--text-center">Save</button>
+        </div>
+    </div>
+
+    <span>
+        Debug data<br />
+        {{Data}}<br />{{Id}}
+        Debug data<br />
+    </span>
+
+    <!--  Backup
+
     <div class="panel-group">
         <div class="panel panel-info" ng-repeat="description in Data.Descriptions">
             <div class="panel-heading">
@@ -101,7 +251,7 @@
                                         <tr ng-repeat="ff in feature.Free">
                                             <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
                                             <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
-                                            <td><i ng-class="GetGlyph(ff.Glyph)"></i></td>
+                                            <td><i class="app-fixed-ico" ng-class="GetGlyph(ff.Glyph)"></i></td>
                                             <td>
                                                 <button class="btn btn-default" ng-click="MoveElement(feature, ff, 'free', 'up')">Up</button>
                                                 <button class="btn btn-default" ng-click="MoveElement(feature, ff, 'free', 'down')">Down</button>
@@ -128,13 +278,12 @@
                                         <tr ng-repeat="ff in feature.Paid">
                                             <td><input type="text" class="form-control" ng-model="ff.Title" /></td>
                                             <td><input type="text" class="form-control" ng-model="ff.Glyph" /></td>
-                                            <td><i ng-class="GetGlyph(ff.Glyph)"></i></td>
+                                            <td><i class="app-fixed-ico" ng-class="GetGlyph(ff.Glyph)"></i></td>
                                             <td>
                                                 <button class="btn btn-default" ng-click="MoveElement(feature, ff, 'paid', 'up')">Up</button>
                                                 <button class="btn btn-default" ng-click="MoveElement(feature, ff, 'paid', 'down')">Down</button>
                                                 <button class="btn btn-danger pull-right" ng-click="RemoveElement(feature, ff, 'paid')">Delete</button>
                                             </td>
-                                        </tr>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -151,24 +300,20 @@
 
         </div>
     </div>
-
+       
     <div class="row">
         <button type="submit" class="btn btn-success pull-right" ng-click="UploadData()">Update hotel</button>
-        @Html.ActionLink("Back", "HotelsList", new { @class="btn btn-danger"})
+        @Html.ActionLink("Back", "HotelsList", new { @class = "btn btn-danger" })
     </div>
 
     <div class="row">
         <a href="http://getbootstrap.com/components/" target="_blank">Gliphs collection</a>
     </div>
 
-    <span>
-        Debug data<br />
-        {{Data}}<br />{{Id}}
-        Debug data<br />
-    </span>
+
 
 </form>
-
+         -->
 @section Scripts
 {
     <script src="~/Scripts/jquery.validate.min.js"></script>

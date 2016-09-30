@@ -5,8 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Manager</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />-->
     <link href="~/Content/Manager.css" rel="stylesheet" />
 
     <!-- <link rel="stylesheet" href="~/Content/mdl-v1.1.2/material.min.css"> -->
@@ -14,45 +13,55 @@
     
     <script src="~/Content/mdl-v1.1.2/material.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 
     @RenderSection("Style", false)
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Luxtour manager", "Index", "Manager", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Tours", "Tours", "Manager")</li>
-                    <li>@Html.ActionLink("Hotels", "HotelsList", "Manager")</li>
-                    <li>@Html.ActionLink("Images", "Images", "Manager")</li>
-                    <li>@Html.ActionLink("Users", "UserList", "User")</li>
 
-                </ul>
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+            <!-- <div class="mdl-layout-icon"></div>-->
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title">Manager</span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation">
+                    @Html.ActionLink("Home", "Index", "Manager", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Tours", "Tours", "Manager", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Hotels", "HotelsList", "Manager", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Images", "Images", "Manager", null, new { @class = "mdl-navigation__link" })
+                </nav>
             </div>
+        </header>
+        
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Menu</span>
+            <nav class="mdl-navigation">
+                @Html.ActionLink("Add hotel", "EditHotel", "Manager", null, new { @class = "mdl-navigation__link" })
+                
+            </nav>
         </div>
-    </div>
-
-
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - LuxtourOnline</p>
-        </footer>
+        
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                <div class="app-page-content">
+                    @RenderBody()
+                </div>
+            </div>
+            <footer class="app-footer-absolute-bottom">
+                <p>&copy; @DateTime.Now.Year - LuxtourOnline</p>
+            </footer>
+        </main>
     </div>
 
     <script src="~/Scripts/jquery-3.1.0.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    <!-- <script src="~/Scripts/bootstrap.min.js"></script> -->
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angular-route.min.js"></script>
 

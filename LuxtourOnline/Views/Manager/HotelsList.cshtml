@@ -3,67 +3,99 @@
     ViewBag.Title = "HotelsList";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
+<div ng-app="AppList" ng-controller="ListCtrl">
+    <div class="mdl-grid app-manager-back">
 
-<div class="page-header">
-    HotelsList
-</div>
 
-<span>
-    <h3>
-        @Html.ActionLink("Create new", "EditHotel")
-    </h3>
-</span>
-<div class="row">
-    <div class="col-xs-12">
-        <form method="get" class="form-inline">
-            <div class="form-group">
-                <label class="control-label" for="lang">Language:</label>
-                <select name="lang" id="lang" class="form-control">
-                    <option value=""></option>
-                    <option value="en">English</option>
-                    <option value="uk">Ukranian</option>
-                    <option value="ru">Russian</option>
-                </select>
-                <button type="submit" class="btn btn-info">Change</button>
-            </div>
-        </form>
     </div>
-</div>
-<div class="row">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Avaliable</th>
-                <th>Rate</th>
-                <th>Description</th>
-                <th>LastModify</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var hotel in Model)
+
+
+    <div class="mdl-grid app-manager-top-card">
+        <div class="mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
+            <table class="mdl-data-table mdl-js-data-table mdl-data-table__select app-table-full-width">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric">Title</th>
+                        <th class="mdl-data-table__cell--non-numeric">Avaliable</th>
+                        <th>Rate</th>
+                        <th class="mdl-data-table__cell--non-numeric">LastModify</th>
+                        <th class="mdl-data-table__cell--non-numeric">Modify by user</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                <tbody>
+
+                    @foreach (var hotel in Model)
             {
-                <tr>
-                    <td>@hotel.Title</td>
-                    <td>@hotel.Avaliable</td>
-                    <td>@hotel.Rate</td>
-                    <td>@hotel.Description</td>
-                    <td>
-                        @if (hotel.ModifyDate == null)
-                        {
-                            @hotel.CreationDate
-                        }
-                        else
-                        {
-                            @hotel.ModifyDate
-                        }
-                    </td>
-                    <td>
-                        <a href="" target="_self">Display</a> | @Html.ActionLink("Edit", "EditHotel", new { @id = hotel.Id }) |@Html.ActionLink("Remove", "RemoveHotel", new { @id = hotel.Id})
-                    </td>  
-                </tr>
-            }
-        </tbody>
-    </table>
+                        <tr ng-click="HotelClick(@hotel.Id)">
+                            <td class="mdl-data-table__cell--non-numeric">@hotel.Title</td>
+                            <td class="mdl-data-table__cell--non-numeric">@hotel.Avaliable</td>
+                            <td>@hotel.Rate</td>
+                            <td class="mdl-data-table__cell--non-numeric">
+                                @if (hotel.ModifyDate == null)
+                                {
+                                    @hotel.CreationDate
+                                }
+                                else
+                                {
+                                    @hotel.ModifyDate
+                                }
+                            </td>
+                            <td>@hotel.ModifyUser</td>
+                            <td>
+                                <a class="mdl-button mdl-js-button mdl-button--icon" href="/Manager/EditHotel?id=@hotel.Id">
+                                    <i class="material-icons">visibility</i>
+                                </a>
+                                <a class="mdl-button mdl-js-button mdl-button--icon" href="/Manager/EditHotel?id=@hotel.Id">
+                                    <i class="material-icons">create</i>
+                                </a>
+                                <a class="mdl-button mdl-js-button mdl-button--icon" href="/Manager/RemoveHotel?id=@hotel.Id">
+                                    <i class="material-icons">clear</i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr ng-show="CurrentHotel == @hotel.Id">
+                            <td colspan="6" style="white-space: pre; text-align: left;">@hotel.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="mdl-cell--2-col-desktop">
+            <button id="changeLanguage" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--accent app-fab-right-center">
+                <i class="material-icons">add</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                for="changeLanguage">
+                <li class="mdl-menu__item">@Html.ActionLink("Add hotel", "EditHotel", null, new { @class = "mdl-navigation__link" })</li>
+                <li disabled class="mdl-menu__item"></li>
+                <li class="mdl-menu__item">@Html.ActionLink("English", "HotelsList", new { @lang = "en" }, new { @class = "mdl-navigation__link" })</li>
+                <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "HotelsList", new { @lang = "uk" }, new { @class = "mdl-navigation__link" })</li>
+                <li class="mdl-menu__item">@Html.ActionLink("Russian", "HotelsList", new { @lang = "ru" }, new { @class = "mdl-navigation__link" })</li>
+            </ul>
+        </div>
+    </div>
+
+
 </div>
+
+@section Scripts
+{
+    <script>
+        var app = angular.module('AppList', []);
+
+        app.controller('ListCtrl', ['$scope', function ($scope) {
+            $scope.CurrentHotel = -1;
+
+            $scope.HotelClick = function (id) {
+                if ($scope.CurrentHotel == id)
+                    $scope.CurrentHotel = -1;
+                else
+                    $scope.CurrentHotel = id;
+            }
+        }]);
+    </script>
+}
+

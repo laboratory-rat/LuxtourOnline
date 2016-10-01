@@ -1,0 +1,164 @@
+﻿@model LuxtourOnline.Models.Manager.EditTourModel
+
+@{
+    ViewBag.Title = "CreateTour";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<h2>CreateTour</h2>
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="mdl-grid">
+        <div class="mdl-cell--8-col-desktop mdl-cell--2-offset
+             mdl-cell--10-col-tablet mdl-cell--1-offset-tablet
+             mdl-cell--12-col-phone">
+            <div class="mdl-card mdl-shadow--2dp mdl-js-textfield" style="width: 100%;">
+                <div class="mdl-card__title">
+                    @if (Model.CurrentImageUrl != null)
+                    {
+                        <div style="width: 100%; height: 300px; background-image: url(@Model.CurrentImageUrl);">
+
+                        </div>
+                    }
+                </div>
+                <div class="mdl-card__supporting-text">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mdl-typography--caption-color-contrast">
+                        @Html.ValidationSummary(true)
+                    </div>
+
+                    <div class="mdl-grid">
+
+                        <div class="mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                @Html.TextBoxFor(x => x.TitleEn, new { @class = "mdl-textfield__input" })
+                                @Html.LabelFor(x => x.TitleEn, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.TitleEn, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                @Html.TextBoxFor(x => x.TitleUk, new { @class = "mdl-textfield__input" })
+                                @Html.LabelFor(x => x.TitleUk, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.TitleUk, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                @Html.TextBoxFor(x => x.TitleRu, new { @class = "mdl-textfield__input" })
+                                @Html.LabelFor(x => x.TitleRu, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.TitleRu, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+                        <!-- -->
+
+                        <div class="mdl-cell--3-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Price" value="@Model.Price" />
+                                @Html.LabelFor(x => x.Price, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.Price, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell--3-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="DaysCount" value="@Model.DaysCount" />
+                                @Html.LabelFor(x => x.DaysCount, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.DaysCount, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell--3-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Adult" value="@Model.Adult" />
+                                @Html.LabelFor(x => x.Adult, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.Adult, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+                        <div class="mdl-cell--3-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Child" value="@Model.Child" />
+                                @Html.LabelFor(x => x.Child, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.Child, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                @Html.TextAreaFor(x => x.DescriptionEn, 5, 100, new { @class = "mdl-textfield__input" })
+                                @Html.LabelFor(x => x.DescriptionEn, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.DescriptionEn, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+
+                        <div class="mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                @Html.TextAreaFor(x => x.DescriptionUk, 5, 100, new { @class = "mdl-textfield__input" })
+                                @Html.LabelFor(x => x.DescriptionUk, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.DescriptionUk, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                @Html.TextAreaFor(x => x.DescriptionRu, 5, 100, new { @class = "mdl-textfield__input" })
+                                @Html.LabelFor(x => x.DescriptionRu, new { @class = "mdl-textfield__label" })
+                                @Html.ValidationMessageFor(x => x.DescriptionRu, "", new { @class = "mdl-textfield__error" })
+                            </div>
+                        </div>
+
+                        <div class="mdl-cell--12-col app-padding-8">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                <input type="file" name="Image" id="Image" style="display:none;">
+                                <label for="Image" class="mdl-button mdl-js-button">
+                                    Add Image
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mdl-card__menu">
+
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="Avalible">
+                        <input type="checkbox" id="Avalible" class="mdl-checkbox__input">
+                        <span class="mdl-checkbox__label">Is avaliable</span>
+                    </label>
+                </div>
+                <div class="mdl-card__actions">
+
+                    <button type="reset" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+                        Clear
+                    </button>
+
+                    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-typography app-pull-right"
+                            style="width: 300px;">
+                        Save
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+</form>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "TourList")
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

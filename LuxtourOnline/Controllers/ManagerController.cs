@@ -27,17 +27,89 @@ namespace LuxtourOnline.Controllers
             return View();
         }
 
-        public ActionResult Tour(int count = 10, int offcet = 0)
-        {
-            List<ListTourModel> model = new List<ListTourModel>();
+        #region Tour
 
-            using (var repo = new ManagerRepo())
+        protected int _defaultCount = 10;
+
+        public ActionResult TourList(int count = 10, int page = 0, int rate = -1, string title = "")
+        {
+            if (count < 1)
+                count = _defaultCount;
+
+            List<ListTourModel> list = new List<ListTourModel>();
+
+            try
             {
-                model = repo.GetTourList(_lang, count, offcet);
+                using (var repo = new ManagerRepo())
+                {
+                    list = repo.GetTourList(_lang, count, page);
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return RedirectToAction("Index");
+            }
+
+            PageTourModel model = new PageTourModel(list, count, page);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult EditTour(int id = -1)
+        {
+            EditTourModel model;
+
+            try
+            {
+                if (id < 0)
+                    model = new EditTourModel();
+                else
+                {
+                    using (var repo = _repository)
+                    {
+                        model = repo.GetTourEditModel(id);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                return RedirectToAction("TourList");
             }
 
             return View(model);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditTour(EditTourModel model)
+        {
+            var files = Request.Files;
+
+            if (model.Id < 0 && model.Image == null)
+                ModelState.AddModelError("", "Image is required");
+
+            if (!ModelState.IsValid)
+                return View(model);
+
+            try
+            {
+                using (var repo = _repository)
+                {
+                    await repo.EditTour(model);
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+            }
+
+            return RedirectToAction("TourList");
+        }
+
+        #endregion
 
         #region Hotels
 
@@ -54,16 +126,15 @@ namespace LuxtourOnline.Controllers
                 using (var repo = new ManagerRepo())
                 {
                     model = repo.GetHotelList(lang);
+                    return View(model);
                 }
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
-                return new HttpStatusCodeResult(HttpStatusCode.BadGateway, "F*ck, some server error. Connect to administrator.");
             }
 
-
-            return View(model);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -105,7 +176,10 @@ namespace LuxtourOnline.Controllers
                 {
                     repo.RemoveHotel(model);
                     await repo.SaveAsync();
-                    _logger.Trace($"deleted hotel. title: {model.Title}, delete images = {model.DeleteImages}");
+
+                    var user = repo.GetCurrentUser();
+
+                    _logger.Info($"deleted hotel. title: {model.Title}, delete images = {model.DeleteImages}, User: {user.FullName}");
                 }
             }
             catch (Exception ex)
@@ -121,10 +195,18 @@ namespace LuxtourOnline.Controllers
         {
             if (id >= 0)
             {
-                using (var c = _context)
+                try
                 {
-                    if (!c.Hotels.Any(h => h.Id == id))
-                        return RedirectToAction("HotelsList");
+                    using (var c = _context)
+                    {
+                        if (!c.Hotels.Any(h => h.Id == id))
+                            return RedirectToAction("HotelsList");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    _logger.Error(ex);
+                    return RedirectToAction("Index");
                 }
             }
 
@@ -167,6 +249,10 @@ namespace LuxtourOnline.Controllers
                 {
                     repo.EditHotel(model);
                     await repo.SaveAsync();
+
+                    var user = repo.GetCurrentUser();
+                    _logger.Info($"User {user.FullName} created new hotel");
+
                 }
             }
             catch (Exception ex)
@@ -218,18 +304,6 @@ namespace LuxtourOnline.Controllers
 
         #endregion Utilites
 
-        #region Users
-
-
-
-
-        #endregion Users
-
-        #region Login
-
-
-
-        #endregion Login
 
 
 

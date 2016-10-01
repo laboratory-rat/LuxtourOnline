@@ -26,12 +26,120 @@ namespace LuxtourOnline.Repos
             
         }
 
-        public List<ListTourModel> GetTourList (string lang, int count = 10, int offcet = 0)
+        #region Tour
+
+        public List<ListTourModel> GetTourList (string lang, int count = 10, int page = 1, string title = "")
         {
-            var tours = _context.Tours.OrderByDescending(t => t.CreateTime).Skip(offcet * count).Take(count).ToList();
+            var tours = _context.Tours.OrderByDescending(t => t.CreateTime).ToList();
+
+            if (!string.IsNullOrEmpty(title))
+                tours = tours.Where(t => t.Descritions.Where(d => d.Lang == lang).FirstOrDefault().Title.ToLower().Contains(title.ToLower())).ToList();
+
+            tours = tours.Skip((page - 1) * count).Take(count).ToList();
+
+            
+
             return ListTourModel.CreateList(tours, lang);
         }
 
+        public EditTourModel GetTourEditModel(int id)
+        {
+            var tour = _context.Tours.Where(x => x.Id == id).FirstOrDefault();
+            if (tour == null)
+                throw new ArgumentNullException($"No tour with id: {id}");
+
+            EditTourModel model = new EditTourModel()
+            {
+                Id = tour.Id,
+                Adult = tour.Adults,
+                Child = tour.Child,
+                Avalible = tour.Enable,
+                Comment = "",
+                CurrentImageUrl = tour.Image.Url,
+                DaysCount = tour.DaysCount,
+                Image = null,
+                Price = tour.Price,
+            };
+
+            var dEn = tour.Descritions.Where(x => x.Lang == "en").First();
+            model.DescriptionEn = dEn.Description;
+            model.TitleEn = dEn.Title;
+
+            var dUk = tour.Descritions.Where(x => x.Lang == "uk").First();
+            model.DescriptionUk = dUk.Description;
+            model.TitleUk = dUk.Title;
+
+            var dRu = tour.Descritions.Where(x => x.Lang == "ru").First();
+            model.DescriptionRu = dRu.Description;
+            model.TitleRu = dRu.Title;
+
+            return model;
+
+            //throw new NotImplementedException();
+        }
+
+        public async Task EditTour(EditTourModel model)
+        {
+            Tour tour;
+
+            if ((tour = _context.Tours.Where(x => x.Id == model.Id).FirstOrDefault()) != null)
+            {
+                while (tour.Descritions.Count > 0)
+                {
+                    var descr = tour.Descritions.FirstOrDefault();
+
+                    _context.TourDescrptions.Attach(descr);
+                    _context.TourDescrptions.Remove(descr);
+                    await _context.SaveChangesAsync();
+                }
+
+                if (model.Image != null && tour.Image != null)
+                    DeleteImage(tour.Image);
+            }
+            else
+                tour = new Tour();
+
+            var dEn = new TourDescription() { Lang = "en", ConnectedTour = tour, Description = model.DescriptionEn, Title = model.TitleEn };
+            //_context.TourDescrptions.Add(dEn);
+
+            var dUk = new TourDescription() { Lang = "uk", ConnectedTour = tour, Description = model.DescriptionEn, Title = model.TitleEn };
+            //_context.TourDescrptions.Add(dUa);
+
+            var dRu = new TourDescription() { Lang = "ru", ConnectedTour = tour, Description = model.DescriptionEn, Title = model.TitleEn };
+            //_context.TourDescrptions.Add(dRu);
+
+            tour.Descritions = new List<TourDescription>();
+            tour.Descritions.Add(dEn);
+            tour.Descritions.Add(dUk);
+            tour.Descritions.Add(dRu);
+
+            if (model.Image != null)
+            {
+                var image = CreateImage(model.Image);
+                image.Tours.Add(tour);
+
+                _context.SiteImages.Add(image);
+
+                tour.Image = image;
+            }
+
+            if (tour.CreateTime == DateTime.MinValue)
+                tour.CreateTime = DateTime.Now;
+            else
+                tour.ModifyDate = DateTime.Now;
+
+            var user = GetCurrentUser();
+
+            tour.ModifiedBy = user;
+
+            _context.Tours.Add(tour);
+
+            await _context.SaveChangesAsync();
+        }
+
+        #endregion Tour
+
+        #region Hotel
         public List<ManagerHotelList> GetHotelList(string lang)
         {
             var list = new List<ManagerHotelList>();
@@ -45,6 +153,7 @@ namespace LuxtourOnline.Repos
                     Avaliable = hotel.Avaliable,
                     CreationDate = hotel.CreatedTime,
                     ModifyUser = hotel.ModifyUser,
+                    UserName = hotel.ModifyUser.FullName,
                     ModifyDate = hotel.ModifyDate,
                     Id = hotel.Id,
                     Rate = hotel.Rate,
@@ -160,8 +269,8 @@ namespace LuxtourOnline.Repos
             if (model.Id > 0 && _context.Hotels.Any(h => h.Id == model.Id))
             {
                 hotel = _context.Hotels.Where(h => h.Id == model.Id).FirstOrDefault();
-                
-                while(hotel.Descriptions.Count > 0)
+
+                while (hotel.Descriptions.Count > 0)
                 {
                     _context.HotelDescriptions.Remove(hotel.Descriptions[0]);
                 }
@@ -180,11 +289,11 @@ namespace LuxtourOnline.Repos
 
             if (hotel.Gallery.Count > 0)
             {
-                for(int ii = 0; ii < hotel.Gallery.Count; ii++)
+                for (int ii = 0; ii < hotel.Gallery.Count; ii++)
                 {
                     bool f = false;
 
-                    foreach (var i in model.Images.Where(x=> !x.New))
+                    foreach (var i in model.Images.Where(x => !x.New))
                     {
                         if (hotel.Gallery[ii].Id == i.Id)
                         {
@@ -200,7 +309,7 @@ namespace LuxtourOnline.Repos
                 }
             }
 
-            foreach(var image in model.Images.Where(x => x.New))
+            foreach (var image in model.Images.Where(x => x.New))
             {
                 var i = MoveTmpImage(image.Url);
 
@@ -210,11 +319,11 @@ namespace LuxtourOnline.Repos
 
             //Image order
 
-            for(int i = 0; i < model.Images.Count; i++)
+            for (int i = 0; i < model.Images.Count; i++)
             {
                 int id = model.Images[i].Id;
 
-                foreach(var image in hotel.Gallery)
+                foreach (var image in hotel.Gallery)
                 {
                     if (image.Id == id)
                     {
@@ -231,7 +340,7 @@ namespace LuxtourOnline.Repos
                 hotel.Descriptions.Clear();
             }
 
-            foreach(var descr in model.Descriptions)
+            foreach (var descr in model.Descriptions)
             {
                 HotelDescription description = new HotelDescription(descr.Lang);
                 FillDescription(descr, hotel, ref description);
@@ -246,7 +355,7 @@ namespace LuxtourOnline.Repos
 
             hotel.ModifyUser = GetCurrentUser();
 
-            if(model.Id <= 0)
+            if (model.Id <= 0)
             {
                 _context.Hotels.Add(hotel);
             }
@@ -256,8 +365,6 @@ namespace LuxtourOnline.Repos
             }
 
         }
-
-
 
         public ManagerHotelEdit GetHotelEditModel(int Id)
         {
@@ -283,7 +390,7 @@ namespace LuxtourOnline.Repos
             model.Rate = 5;
             model.Avaliable = false;
 
-            foreach(var l in Constants.AvaliableLangs)
+            foreach (var l in Constants.AvaliableLangs)
             {
                 var desrc = new ManagerHotelDescription() { Lang = l };
 
@@ -329,7 +436,9 @@ namespace LuxtourOnline.Repos
             }
 
         }
+        #endregion
 
+        #region Images
         public HotelImage UploadImage(HttpPostedFileBase image)
         {
 
@@ -348,7 +457,7 @@ namespace LuxtourOnline.Repos
             var full = name + ex;
 
             var path = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Content\\TmpImages\\", full);
-            var url = Path.Combine(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority),"/Content/TmpImages/",full);
+            var url = Path.Combine(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority), "/Content/TmpImages/", full);
 
 
             image.SaveAs(path);
@@ -366,7 +475,7 @@ namespace LuxtourOnline.Repos
         public void DeleteImage(SiteImage image)
         {
             var path = image.Path;
-            
+
             if (File.Exists(path))
             {
                 File.Delete(path);
@@ -392,6 +501,34 @@ namespace LuxtourOnline.Repos
 
             return new SiteImage { Alt = "", Path = newPath, Url = Path.Combine("/Content/SystemImages", name), Title = name };
         }
+
+        public SiteImage CreateImage(HttpPostedFileBase file)
+        {
+            if (file.ContentLength <= 0)
+            {
+                throw new IOException("file size iz zero");
+            }
+
+            var ex = Path.GetExtension(file.FileName);
+
+            if (!Extensions.Contains(ex))
+                throw new FormatException("Bad file extension");
+
+            var name = AppRandom.RandomString(15);
+
+            var full = name + ex;
+
+            var path = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Content\\SystemImages\\", full);
+            var url = Path.Combine(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority), "/Content/SystemImages/", full);
+
+
+            file.SaveAs(path);
+
+            return new SiteImage { Path = path, Url = url };
+        }
+        #endregion
+
+
 
         #region Users
 

@@ -12,7 +12,7 @@ namespace LuxtourOnline.Models
     {
         public int Id { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = "";
 
         public string Alt { get; set; } = "";
 
@@ -24,9 +24,9 @@ namespace LuxtourOnline.Models
 
         public int Order { get; set; } = 100;
 
-        public virtual ICollection<Tour> Tours { get; set; }
-        public virtual ICollection<Hotel> Hotels { get; set; }
-        public virtual ICollection<Aparment> Aparments { get; set; }
+        public virtual List<Tour> Tours { get; set; } = new List<Tour>();
+        public virtual List<Hotel> Hotels { get; set; } = new List<Hotel>();
+        public virtual List<Aparment> Aparments { get; set; } = new List<Aparment>();
 
     }
 }

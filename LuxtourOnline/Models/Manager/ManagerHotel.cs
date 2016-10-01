@@ -171,6 +171,7 @@ namespace LuxtourOnline.Models.Manager
         public int Rate { get; set; }
         public DateTime CreationDate { get; set; }
         public AppUser ModifyUser { get; set; }
+        public string UserName { get; set; }
         public DateTime? ModifyDate { get; set; }
 
         [AllowHtml]

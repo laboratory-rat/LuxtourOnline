@@ -9,45 +9,59 @@ using System.Web.Mvc;
 
 namespace LuxtourOnline.Models.Manager
 {
-    public class CreateTourModel
+    public class EditTourModel
     {
-        public decimal Price { get; set; }
+        public int Id { get; set; }
+
+        [Display(Name = "Price")]
+        public decimal Price { get; set; } = 1000;
+
+        [Display(Name = "Adults count")]
         public int? Adult { get; set; }
+
         public int? Child { get; set; }
+
         public int? DaysCount { get; set; }
 
+        [Required]
         public bool Avalible { get; set; } = false;
 
         [DataType(DataType.MultilineText)]
-        public string Comment { get; set; }
+        public string Comment { get; set; } = "I'm comment";
 
         [Required]
-        public string TitleEn { get; set; }
+        public string TitleEn { get; set; } = "New hotel";
+
         [Required]
         [DataType(DataType.MultilineText)]
         [AllowHtml]
-        public string DescriptionEn { get; set; }
+        public string DescriptionEn { get; set; } = "Some description";
 
         [Required]
-        public string TitleUk { get; set; }
+        public string TitleUk { get; set; } = "Я зоголовок";
+
         [Required]
         [DataType(DataType.MultilineText)]
         [AllowHtml]
-        public string DescriptionUk { get; set; }
+        public string DescriptionUk { get; set; } = "Трохи опису";
 
         [Required]
-        public string TitleRu { get; set; }
+        public string TitleRu { get; set; } = "Я заголовок";
+
         [Required]
         [DataType(DataType.MultilineText)]
         [AllowHtml]
-        public string DescriptionRu { get; set; }
+        public string DescriptionRu { get; set; } = "Немного описания";
 
-        [Required]
-        HttpPostedFileBase Image { get; set; }
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase Image { get; set; }
 
-        public Tour CopyData(Tour tour)
+        [DataType(DataType.ImageUrl)]
+        public string CurrentImageUrl { get; set; }
+
+        public EditTourModel()
         {
-            return tour;
+
         }
 
     }
@@ -56,6 +70,7 @@ namespace LuxtourOnline.Models.Manager
     {
         public int Id { get; set; }
         public string Title { get; set; }
+        [AllowHtml]
         public string Description { get; set; }
         public decimal Price { get; set; }
         public int? Adult { get; set; }
@@ -94,6 +109,24 @@ namespace LuxtourOnline.Models.Manager
         }
     }
 
+    public class PageTourModel
+    {
+        public List<ListTourModel> Tours { get; set; }
+        public PagingInfo Paging { get; set; }
+
+        public PageTourModel()
+        {
+
+        }
+
+        public PageTourModel(List<ListTourModel> list, int elements, int page)
+        {
+            Tours = list;
+
+            Paging = new PagingInfo() { CurrentPange = page, ItemsPerPage = elements, TotalItems = list.Count };
+        }
+    }
+
     public class ListTourModel
     {
         public int Id { get; set; }
@@ -117,7 +150,8 @@ namespace LuxtourOnline.Models.Manager
             Child = tour.Child;
             DaysCount = tour.DaysCount;
 
-            Title = tour.Descritions.Where(d => d.Lang == lang).FirstOrDefault().Title;
+            if (tour.Descritions.Count > 0)
+                Title = tour.Descritions.Where(d => d.Lang == lang).FirstOrDefault().Title;
 
             ImageUrl = tour.Image.Url;
 

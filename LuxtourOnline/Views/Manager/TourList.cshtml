@@ -1,63 +1,105 @@
 ﻿@model LuxtourOnline.Models.Manager.PageTourModel
 
 @{
-    ViewBag.Title = "Tour";
+    ViewBag.Title = "Tour list";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
 
 
-<p>
-    @Html.ActionLink("Create New", "EditTour", new { id = -1})
-</p>
-<div class="mdl-grid">
-    <div 
-         class="mdl-cell--12-col-desktop mdl-cell--12-col-tablet mdl-cell--12-col-phone">
 
-        <div class="mdl-typography--headline">
-            <h2>Tours list</h2>
-        </div>
+<div class="mdl-grid app-anim" ng-app="HotelListApp" ng-controller="HotelListCtrl">
+    <div class="mdl-cell mdl-cell--12-col">
+        <span class="mdl-typography--display-1-color-contrast">Tour list</span>
 
-        <div class="mdl-grid">
-
-            @foreach (var tour in Model.Tours)
+        <span style="float:right;">
+            <button type="button" class="mdl-button mdl-js-button mdl-button--raised"
+                    ng-click="SearchShow = !SearchShow">
+                Search
+            </button>
+            @Html.ActionLink("Create New", "EditTour", new { id = -1 }, new
+       {
+           @class = "mdl-button" +
+           " mdl-js-button mdl-button--raised mdl-button--primary"
+       })
+        </span>
+    </div>
+    <div class="mdl-cell mdl-cell--12-col app-seach-box" ng-hide="!SearchShow">
+        <form method="get" action="#" style="float:right;">
+            <div class="mdl-textfield mdl-js-textfield">
+                <label for="title" class="mdl-textfield__label">Title</label>
+                <input type="text" id="title" name="title" class="mdl-textfield__input" />
+            </div>
+            <button role="button" type="submit" name="submit" class="mdl-button mdl-js-button mdl-button--primary mdl-button--mini-icon mdl-js-ripple-effect">
+                <i class="material-icons">search</i>
+            </button>
+        </form>
+    </div>
+    @foreach (var tour in Model.Tours)
             {
 
-                <div class="mdl-cell-4-col app-padding-8">
-                    <div class="mdl-card mdl-shadow--2dp">
-                        <div class="mdl-card__title" style="height: 300px; background-image: url(@Url.Content(tour.ImageUrl)); background-size:cover;">
-                            <div class="mdl-card__title-text">
-                                @Html.DisplayFor(m => tour.Title)
-                            </div>
-                            
-                        </div>
-                        <div class="mdl-card__supporting-text">
-                            @Html.DisplayNameFor(x => tour.Price): @Html.DisplayFor(x => tour.Price)<br />
-                            @Html.DisplayNameFor(model => tour.Adult) : @Html.DisplayFor(x => tour.Adult)<br />
-                            @Html.DisplayNameFor(model => tour.Child): @Html.DisplayFor(x => tour.Child)<br />
-                            @Html.DisplayNameFor(model => tour.DaysCount): @Html.DisplayFor(x => tour.DaysCount)<br />
-                            @Html.DisplayNameFor(model => tour.ModifyData): @Html.DisplayFor(x => tour.ModifyData)<br />
-                            @Html.DisplayNameFor(model => tour.CreateData): @Html.DisplayFor(x => tour.CreateData)<br />
-                            @Html.DisplayNameFor(model => tour.ModifyUser) : @Html.DisplayFor(x => tour.ModifyUser.FullName)<br />
-                        </div>
-                        <div class="mdl-card__menu">
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
-                                Edit
-                            </button>
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
-                                Diplay
-                            </button>
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect">
-                                Delete
-                            </button>
-                        </div>
-                    </div>
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet mdl-cell--6-col-phone mdl-animation--linear-out-slow-in">
+            <div class="mdl-card__title" style="height: 300px; background-image: url(@Url.Content(tour.ImageUrl)); background-size:cover;">
+                <div class="mdl-card__title-text app-card__title-text">
+                    @Html.DisplayFor(m => tour.Title)
                 </div>
 
-            }
+            </div>
+            <div class="mdl-card__supporting-text">
+                <stong>@Html.DisplayNameFor(x => tour.Price)</stong>: @Html.DisplayFor(x => tour.Price)<br />
+                <strong>@Html.DisplayNameFor(model => tour.Adult) </strong>: @Html.DisplayFor(x => tour.Adult)<br />
+                <strong>@Html.DisplayNameFor(model => tour.Child)</strong>: @Html.DisplayFor(x => tour.Child)<br />
+                <strong>@Html.DisplayNameFor(model => tour.DaysCount)</strong>: @Html.DisplayFor(x => tour.DaysCount)<br />
+                <strong>@Html.DisplayNameFor(model => tour.ModifyData)</strong>: @Html.DisplayFor(x => tour.ModifyData)<br />
+                <strong>@Html.DisplayNameFor(model => tour.CreateData)</strong>: @Html.DisplayFor(x => tour.CreateData)<br />
+                <strong>@Html.DisplayNameFor(model => tour.ModifyUser)</strong>: @Html.DisplayFor(x => tour.ModifyUser.FullName)<br />
+            </div>
+            <div class="mdl-card__menu">
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-color--accent">
+                    <i class="material-icons">edit</i>
+                </button>
+                <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-color--accent">
+                    <i class="material-icons">visibility</i>
+                </button>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                @Html.ActionLink("Remove", "RemoveTour", new { id = tour.Id }, new { @class= "mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red mdl-color-text--white" })
+
+
+            </div>
         </div>
 
-    </div> 
+    }
 </div>
 
+@section Scripts
+{
+    <script>
+        var app = angular.module("HotelListApp", ['ngAnimate']);
 
+        app.controller("HotelListCtrl", ['$scope', function ($scope) {
+            $scope.SearchShow = false;
+        }]);
+    </script>
+}
+
+@section Style
+{
+    <style>
+        .app-anim .app-seach-box {
+            height: 64px;
+            margin-top: 8px;
+            opacity: 1;
+            -moz-transition: all 400ms ease-out 50ms;
+            -o-transition: all 400ms ease-out 50ms;
+            -webkit-transition: all 400ms ease-out 50ms;
+            transition: all 400ms ease-out 50ms;
+        }
+
+        .app-anim .ng-hide {
+            height: 0px;
+            opacity: 0;
+            margin-top: -50px;
+        }
+    </style>
+}

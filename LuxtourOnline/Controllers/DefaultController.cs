@@ -1,4 +1,5 @@
 ﻿using LuxtourOnline.Models;
+using LuxtourOnline.Utilites;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using NLog;
@@ -25,6 +26,7 @@ namespace LuxtourOnline.Controllers
         protected SiteDbContext _context { get { return HttpContext.GetOwinContext().Get<SiteDbContext>(); } }
 
         protected AppSignInManager _signInManager { get { return HttpContext.GetOwinContext().Get<AppSignInManager>(); } }
+
 
         protected override void Initialize(RequestContext requestContext)
         {
@@ -82,6 +84,17 @@ namespace LuxtourOnline.Controllers
             cookie.Expires = DateTime.Now.AddDays(365);
 
             context.HttpContext.Response.SetCookie(cookie);
+        }
+
+        protected void ChangeLang(string newLang, RequestContext context)
+        {
+            newLang = newLang.ToLower();
+
+            if (AppConsts.Langs.Contains(newLang) && newLang != _lang)
+            {
+                _lang = newLang;
+                SetLangCookie(newLang, context);
+            }
         }
 
         protected override void Execute(RequestContext requestContext)

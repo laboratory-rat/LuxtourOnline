@@ -19,11 +19,8 @@ namespace LuxtourOnline.Models
         [Required]
         public string Description { get; set; }
 
-        public virtual ICollection<SiteImage> Gallery { get; set; }
-
-        public virtual ICollection<Tag> Tags { get; set; }
-
-        public virtual ICollection<Hotel> Hotels { get; set; }
+        [Required]
+        public Hotel Hotel { get; set; }
 
         public int? Adult { get; set; } = null;
         public int? Child { get; set; } = null;

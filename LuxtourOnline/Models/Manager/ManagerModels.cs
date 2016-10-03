@@ -66,6 +66,35 @@ namespace LuxtourOnline.Models.Manager
 
     }
 
+    public class RemoveTourModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+
+        [AllowHtml]
+        public string Description { get; set; }
+
+        public DateTime CreatedTime { get; set; }
+        public DateTime? ModifyTime { get; set; }
+        public AppUser ModifyUser { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public bool Avaliable { get; set; }
+        public decimal Price { get; set; }
+
+        public RemoveTourModel()
+        {
+
+        }
+
+        public RemoveTourModel(Tour tour)
+        {
+            Id = tour.Id;
+            
+        }
+
+    }
     public class DisplayTourModel
     {
         public int Id { get; set; }

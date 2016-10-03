@@ -13,7 +13,7 @@ namespace LuxtourOnline.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201609271538509_init"; }
+            get { return "201610030908005_init"; }
         }
         
         string IMigrationMetadata.Source

@@ -39,7 +39,7 @@ namespace LuxtourOnline.Models.Manager
 
             Images = new List<HotelImage>();
 
-            foreach(var image in hotel.Gallery)
+            foreach(var image in hotel.Images)
             {
                 Images.Add(new HotelImage(image));
             }
@@ -173,6 +173,8 @@ namespace LuxtourOnline.Models.Manager
         public AppUser ModifyUser { get; set; }
         public string UserName { get; set; }
         public DateTime? ModifyDate { get; set; }
+
+        public string ImageUrl { get; set; }
 
         [AllowHtml]
         [DataType(DataType.MultilineText)]

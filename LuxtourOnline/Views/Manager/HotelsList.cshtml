@@ -4,82 +4,51 @@
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 <div ng-app="AppList" ng-controller="ListCtrl">
-    <div class="mdl-grid app-manager-back">
 
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+            <span class="mdl-typography--display-1-color-contrast">Hotel list</span>
+            @Html.ActionLink("Create hotel", "EditHotel", new { id = -1}, new { @class= "mdl-button mdl-js-button mdl-button--raised mdl-button--primary", @style="float:right;"})
+
+        </div>
+
+        @foreach (var hotel in Model)
+        {
+            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet mdl-cell--6-col-phone">
+                <div class="mdl-card__title" style="height: 300px; background-image: url(@Url.Content(hotel.ImageUrl)); background-size: cover;">
+                    <div class="mdl-card__title-text app-card__title-text">
+                        @Html.DisplayFor(x => hotel.Title)
+                    </div>
+                </div>
+
+                <div class="mdl-card__subtitle-text mdl-color-text--blue-A400">
+                    <strong>@Html.LabelFor(x => hotel.Avaliable)</strong>: @Html.DisplayFor(x => hotel.Avaliable)<br>
+                    <strong>@Html.LabelFor(x => hotel.ModifyDate)</strong>: @Html.DisplayFor(x => hotel.ModifyDate)<br>
+                    <strong>@Html.LabelFor(x => hotel.CreationDate)</strong>: @Html.DisplayFor(x => hotel.CreationDate)<br>
+                    <strong>@Html.LabelFor(x => hotel.ModifyUser)</strong>: @Html.DisplayFor(x => hotel.ModifyUser)<br>
+                </div>
+                <div class="mdl-card__supporting-text mdl-card--border">
+                    @Html.DisplayFor(x => hotel.Description)
+                </div>
+                <div class="mdl-card__menu">
+                    <button class="mdl-button mdl-js-button mdl-button--icon">
+                        <i class="material-icons">edit</i>
+                    </button>
+                    <button class="mdl-button mdl-js-button mdl-button--icon">
+                        <i class="material-icons">visibility</i>
+                    </button>
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                    @Html.ActionLink("Remove", "RemoveHotel", new { id = hotel.Id }, new { @class = "mdl-button mdl-js-button mdl-button--colored mdl-color--red mdl-color-text--white" })
+                </div>
+            </div>
+        }
 
     </div>
-
-
-    <div class="mdl-grid app-manager-top-card">
-        <div class="mdl-cell--8-col-desktop mdl-cell--2-offset-desktop">
-            <table class="mdl-data-table mdl-js-data-table mdl-data-table__select app-table-full-width">
-                <thead>
-                    <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Title</th>
-                        <th class="mdl-data-table__cell--non-numeric">Avaliable</th>
-                        <th>Rate</th>
-                        <th class="mdl-data-table__cell--non-numeric">LastModify</th>
-                        <th class="mdl-data-table__cell--non-numeric">Modify by user</th>
-                        <th></th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                <tbody>
-
-                    @foreach (var hotel in Model)
-            {
-                        <tr ng-click="HotelClick(@hotel.Id)">
-                            <td class="mdl-data-table__cell--non-numeric">@hotel.Title</td>
-                            <td class="mdl-data-table__cell--non-numeric">@hotel.Avaliable</td>
-                            <td>@hotel.Rate</td>
-                            <td class="mdl-data-table__cell--non-numeric">
-                                @if (hotel.ModifyDate == null)
-                                {
-                                    @hotel.CreationDate
-                                }
-                                else
-                                {
-                                    @hotel.ModifyDate
-                                }
-                            </td>
-                            <td>@hotel.ModifyUser</td>
-                            <td>
-                                <a class="mdl-button mdl-js-button mdl-button--icon" href="/Manager/EditHotel?id=@hotel.Id">
-                                    <i class="material-icons">visibility</i>
-                                </a>
-                                <a class="mdl-button mdl-js-button mdl-button--icon" href="/Manager/EditHotel?id=@hotel.Id">
-                                    <i class="material-icons">create</i>
-                                </a>
-                                <a class="mdl-button mdl-js-button mdl-button--icon" href="/Manager/RemoveHotel?id=@hotel.Id">
-                                    <i class="material-icons">clear</i>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr ng-show="CurrentHotel == @hotel.Id">
-                            <td colspan="6" style="white-space: pre; text-align: left;">@hotel.Description</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="mdl-cell--2-col-desktop">
-            <button id="changeLanguage" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-button--accent app-fab-right-center">
-                <i class="material-icons">add</i>
-            </button>
-            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
-                for="changeLanguage">
-                <li class="mdl-menu__item">@Html.ActionLink("Add hotel", "EditHotel", null, new { @class = "mdl-navigation__link" })</li>
-                <li disabled class="mdl-menu__item"></li>
-                <li class="mdl-menu__item">@Html.ActionLink("English", "HotelsList", new { @lang = "en" }, new { @class = "mdl-navigation__link" })</li>
-                <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "HotelsList", new { @lang = "uk" }, new { @class = "mdl-navigation__link" })</li>
-                <li class="mdl-menu__item">@Html.ActionLink("Russian", "HotelsList", new { @lang = "ru" }, new { @class = "mdl-navigation__link" })</li>
-            </ul>
-        </div>
-    </div>
-
-
 </div>
+
+
+
 
 @section Scripts
 {

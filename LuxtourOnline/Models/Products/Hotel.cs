@@ -13,11 +13,11 @@ namespace LuxtourOnline.Models
         [Required]
         public string Title { get; set; }
 
-        public bool Avaliable { get; set; }
+        public bool Avaliable { get; set; } = false;
 
         public virtual List<HotelDescription> Descriptions { get; set; } = new List<HotelDescription>();
 
-        public virtual List<SiteImage> Gallery { get; set; } = new List<SiteImage>();
+        public virtual List<SiteImage> Images { get; set; } = new List<SiteImage>();
 
         public virtual List<Tag> Tags { get; set; }
 

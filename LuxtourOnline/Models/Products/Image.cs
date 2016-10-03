@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using LuxtourOnline.Utilites;
+using System.Web.Mvc;
 
 namespace LuxtourOnline.Models
 {
@@ -24,9 +25,9 @@ namespace LuxtourOnline.Models
 
         public int Order { get; set; } = 100;
 
-        public virtual List<Tour> Tours { get; set; } = new List<Tour>();
-        public virtual List<Hotel> Hotels { get; set; } = new List<Hotel>();
-        public virtual List<Aparment> Aparments { get; set; } = new List<Aparment>();
+        public virtual Tour Tour { get; set; } = null;
+        public virtual Hotel Hotel { get; set; } = null;
+        public virtual Aparment Apartment { get; set; } = null;
 
     }
 }

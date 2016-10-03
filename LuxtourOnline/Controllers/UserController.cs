@@ -385,6 +385,18 @@ namespace LuxtourOnline.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult ChangeLanguage(string lang)
+        {
+            var controller = (Request.UrlReferrer.Segments.Skip(2).Take(1).SingleOrDefault() ?? "Home").Trim('/');
+            var action = (Request.UrlReferrer.Segments.Skip(3).Take(1).SingleOrDefault() ?? "Index").Trim('/');
+
+            ChangeLang(lang, HttpContext.Request.RequestContext);
+
+            return RedirectToAction(action, controller, new { language = lang });   
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()

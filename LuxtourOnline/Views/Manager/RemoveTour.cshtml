@@ -1,0 +1,60 @@
+﻿@model LuxtourOnline.Models.Manager.RemoveTourModel
+
+@{
+    ViewBag.Title = "RemoveTour";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="mdl-grid" style="max-width: 1200px; margin: 0 auto;">
+    <div class="mdl-cell mdl-cell--12-col">
+        <span class="mdl-typography--display-1-color-contrast">Remove tour</span>
+    </div>
+
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+        @using (Html.BeginForm())
+            {
+            <div class="mdl-card__title" style="background-image: url(@Url.Content(Model.ImageUrl)); background-size: cover; height: 600px;">
+                <div class="mdl-card__title-text">
+                    <span>@Model.Title</span>
+                </div>
+            </div>
+            <div class="mdl-card__subtitle-text">
+                @Html.HiddenFor(x => Model.Id)
+                @Html.HiddenFor(x => Model.ImageUrl)
+                <strong>@Html.DisplayNameFor(x => Model.Price)</strong>:@Html.DisplayFor(x => Model.Price) <br>
+                <strong>@Html.DisplayNameFor(x => Model.Avaliable)</strong>:@Html.DisplayFor(x => Model.Avaliable) <br>
+                <strong>@Html.DisplayNameFor(x => Model.CreatedTime)</strong>:@Html.DisplayFor(x => Model.CreatedTime) <br>
+                <strong>@Html.DisplayNameFor(x => Model.ModifyTime)</strong>:@Html.DisplayFor(x => Model.ModifyTime) <br>
+                <strong>@Html.DisplayNameFor(x => Model.ModifyUser)</strong>:@Html.DisplayFor(x => Model.ModifyUser.FullName) <br>
+            </div>
+            <div class="mdl-card__supporting-text">
+                @Html.DisplayFor(x => Model.Description) <br>
+            </div>
+            <div class="mdl-card__menu">
+
+                <button id="menu" type="button"
+                        class="mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">more_vert</i>
+                </button>
+
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                    for="menu">
+                    <li class="mdl-menu__item ">@Html.ActionLink("English", "RemoveTour", new { id = Model.Id, lang = "en" })</li>
+                    <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "RemoveTour", new { id = Model.Id, lang = "uk" })</li>
+                    <li class="mdl-menu__item">@Html.ActionLink("Russian", "RemoveTour", new { id = Model.Id, lang = "ru" })</li>
+                </ul>
+
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+
+                <input type="submit" class="mdl-button mdl-js-button mdl-button--colored mdl-color--red mdl-color-text--white" value="Remove" />
+                @Html.ActionLink("Return to list", "TourList", null, new {@class= "mdl-button mdl-js-button mdl-button--primary mdl-button--raised", @style="float: right;" })
+            </div>
+        }
+
+
+
+
+    </div>
+
+</div>

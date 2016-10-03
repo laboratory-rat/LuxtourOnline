@@ -14,7 +14,7 @@
         {
             AutomaticMigrationsEnabled = false;
 
-           
+
         }
 
         protected override void Seed(LuxtourOnline.Models.SiteDbContext context)

@@ -109,17 +109,60 @@ namespace LuxtourOnline.Controllers
             return RedirectToAction("TourList");
         }
 
+        public ActionResult RemoveTour(int id, string lang = "")
+        {
+            RemoveTourModel model;
+
+            if (string.IsNullOrEmpty(lang) || !AppConsts.Langs.Contains(lang))
+                lang = _lang;
+
+            try
+            {
+                using (var repo = _repository)
+                {
+                    model = repo.GetRemoveTourModel(id, lang);
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return RedirectToAction("TourList");
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveTour(RemoveTourModel model)
+        {
+            try
+            {
+                using (var repo = _repository)
+                {
+                    repo.RemoveTour(model);
+                    await repo.SaveAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+
+            return RedirectToAction("TourList");
+        }
+
         #endregion
 
         #region Hotels
 
         [HttpGet]
-        public ActionResult HotelsList(string lang = "en")
+        public ActionResult HotelsList(string lang = "")
         {
             List<ManagerHotelList> model;
 
-            if (!AvalibleLangs.Contains(lang))
-                lang = "en";
+            if (!AppConsts.Langs.Contains(lang))
+                lang = _lang;
 
             try
             {

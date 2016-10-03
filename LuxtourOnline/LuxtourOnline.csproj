@@ -227,25 +227,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201609271538509_init.cs" />
-    <Compile Include="Migrations\201609271538509_init.Designer.cs">
-      <DependentUpon>201609271538509_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609280836289_cascade.cs" />
-    <Compile Include="Migrations\201609280836289_cascade.Designer.cs">
-      <DependentUpon>201609280836289_cascade.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609280844248_Cascade2.cs" />
-    <Compile Include="Migrations\201609280844248_Cascade2.Designer.cs">
-      <DependentUpon>201609280844248_Cascade2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609281325487_virtual.cs" />
-    <Compile Include="Migrations\201609281325487_virtual.Designer.cs">
-      <DependentUpon>201609281325487_virtual.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201609281714544_Image order.cs" />
-    <Compile Include="Migrations\201609281714544_Image order.Designer.cs">
-      <DependentUpon>201609281714544_Image order.cs</DependentUpon>
+    <Compile Include="Migrations\201610030908005_init.cs" />
+    <Compile Include="Migrations\201610030908005_init.Designer.cs">
+      <DependentUpon>201610030908005_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
@@ -311,6 +295,7 @@
     <Content Include="Views\User\Fullname.cshtml" />
     <Content Include="Views\User\Update.cshtml" />
     <Content Include="Views\Manager\EditTour.cshtml" />
+    <Content Include="Views\Manager\RemoveTour.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -326,20 +311,8 @@
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609271538509_init.resx">
-      <DependentUpon>201609271538509_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609280836289_cascade.resx">
-      <DependentUpon>201609280836289_cascade.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609280844248_Cascade2.resx">
-      <DependentUpon>201609280844248_Cascade2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609281325487_virtual.resx">
-      <DependentUpon>201609281325487_virtual.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201609281714544_Image order.resx">
-      <DependentUpon>201609281714544_Image order.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610030908005_init.resx">
+      <DependentUpon>201610030908005_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

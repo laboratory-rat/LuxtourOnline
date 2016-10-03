@@ -102,10 +102,10 @@ namespace LuxtourOnline.Repos
             var dEn = new TourDescription() { Lang = "en", ConnectedTour = tour, Description = model.DescriptionEn, Title = model.TitleEn };
             //_context.TourDescrptions.Add(dEn);
 
-            var dUk = new TourDescription() { Lang = "uk", ConnectedTour = tour, Description = model.DescriptionEn, Title = model.TitleEn };
+            var dUk = new TourDescription() { Lang = "uk", ConnectedTour = tour, Description = model.DescriptionUk, Title = model.TitleUk };
             //_context.TourDescrptions.Add(dUa);
 
-            var dRu = new TourDescription() { Lang = "ru", ConnectedTour = tour, Description = model.DescriptionEn, Title = model.TitleEn };
+            var dRu = new TourDescription() { Lang = "ru", ConnectedTour = tour, Description = model.DescriptionRu, Title = model.TitleRu };
             //_context.TourDescrptions.Add(dRu);
 
             tour.Descritions = new List<TourDescription>();
@@ -116,7 +116,7 @@ namespace LuxtourOnline.Repos
             if (model.Image != null)
             {
                 var image = CreateImage(model.Image);
-                image.Tours.Add(tour);
+                image.Tour = tour;
 
                 _context.SiteImages.Add(image);
 
@@ -137,6 +137,43 @@ namespace LuxtourOnline.Repos
             await _context.SaveChangesAsync();
         }
 
+        internal void RemoveTour(RemoveTourModel model)
+        {
+            var tour = _context.Tours.Where(x => x.Id == model.Id).First();
+            tour.ModifiedBy = null;
+
+            while (tour.Descritions.Count > 0)
+            {
+                var descr = tour.Descritions.First();
+                _context.TourDescrptions.Remove(descr);
+            }
+
+            _context.Tours.Remove(tour);
+        }
+
+        public RemoveTourModel GetRemoveTourModel(int id, string lang)
+        {
+
+
+            var tour = _context.Tours.Where(x => x.Id == id).First();
+            var description = tour.Descritions.Where(x => x.Lang == lang).First();
+
+            RemoveTourModel model = new RemoveTourModel()
+            {
+                Id = tour.Id,
+                Avaliable = tour.Enable,
+                CreatedTime = tour.CreateTime,
+                Description = description.Description,
+                Title = description.Title,
+                ImageUrl = tour.Image.Url,
+                ModifyTime = tour.ModifyDate,
+                ModifyUser = tour.ModifiedBy,
+                Price = tour.Price,
+            };
+
+            return model;
+        }
+
         #endregion Tour
 
         #region Hotel
@@ -146,15 +183,24 @@ namespace LuxtourOnline.Repos
 
             var hotels = _context.Hotels.OrderByDescending(h => h.CreatedTime).ToList();
 
+            
+            
+
             foreach (var hotel in hotels)
             {
+                string Url = "";
+                if (hotel.Images.Count > 0 && hotel.Images[0] != null)
+                    Url = hotel.Images[0].Url;
+
+
                 ManagerHotelList element = new ManagerHotelList()
                 {
                     Avaliable = hotel.Avaliable,
                     CreationDate = hotel.CreatedTime,
                     ModifyUser = hotel.ModifyUser,
-                    UserName = hotel.ModifyUser.FullName,
+                    UserName = "tmp_user", //hotel.ModifyUser.FullName,
                     ModifyDate = hotel.ModifyDate,
+                    ImageUrl = Url,
                     Id = hotel.Id,
                     Rate = hotel.Rate,
                     Title = hotel.Title
@@ -206,7 +252,7 @@ namespace LuxtourOnline.Repos
             if (hotel != null)
             {
                 if (model.DeleteImages)
-                    DeleteImage(hotel.Gallery.ToList());
+                    DeleteImage(hotel.Images.ToList());
 
                 _context.Hotels.Remove(hotel);
             }
@@ -220,7 +266,7 @@ namespace LuxtourOnline.Repos
         {
             Hotel hotel = new Hotel();
 
-            hotel.Gallery = new List<SiteImage>();
+            hotel.Images = new List<SiteImage>();
             hotel.Descriptions = new List<HotelDescription>();
 
             hotel.Rate = model.Rate;
@@ -235,7 +281,9 @@ namespace LuxtourOnline.Repos
 
                     if (i != null)
                     {
-                        hotel.Gallery.Add(i);
+
+                        _context.SiteImages.Add(i);
+                        hotel.Images.Add(i);
                     }
                 }
             }
@@ -287,15 +335,15 @@ namespace LuxtourOnline.Repos
             hotel.Title = model.Title;
             hotel.Avaliable = model.Avaliable;
 
-            if (hotel.Gallery.Count > 0)
+            if (hotel.Images.Count > 0)
             {
-                for (int ii = 0; ii < hotel.Gallery.Count; ii++)
+                for (int ii = 0; ii < hotel.Images.Count; ii++)
                 {
                     bool f = false;
 
                     foreach (var i in model.Images.Where(x => !x.New))
                     {
-                        if (hotel.Gallery[ii].Id == i.Id)
+                        if (hotel.Images[ii].Id == i.Id)
                         {
                             f = true;
                             break;
@@ -304,7 +352,7 @@ namespace LuxtourOnline.Repos
 
                     if (!f)
                     {
-                        DeleteImage(hotel.Gallery[ii]);
+                        DeleteImage(hotel.Images[ii]);
                     }
                 }
             }
@@ -314,7 +362,10 @@ namespace LuxtourOnline.Repos
                 var i = MoveTmpImage(image.Url);
 
                 if (i != null)
-                    hotel.Gallery.Add(i);
+                {
+                    i.Hotel = hotel;
+                    hotel.Images.Add(i);
+                }
             }
 
             //Image order
@@ -323,7 +374,7 @@ namespace LuxtourOnline.Repos
             {
                 int id = model.Images[i].Id;
 
-                foreach (var image in hotel.Gallery)
+                foreach (var image in hotel.Images)
                 {
                     if (image.Id == id)
                     {
@@ -499,7 +550,7 @@ namespace LuxtourOnline.Repos
                 File.Move(path, newPath);
             }
 
-            return new SiteImage { Alt = "", Path = newPath, Url = Path.Combine("/Content/SystemImages", name), Title = name };
+            return new SiteImage { Alt = "", Path = newPath, Url = "/Content/SystemImages/" +  name, Title = name };
         }
 
         public SiteImage CreateImage(HttpPostedFileBase file)

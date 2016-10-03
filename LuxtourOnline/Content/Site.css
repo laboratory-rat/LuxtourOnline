@@ -23,11 +23,6 @@
     table-layout: fixed;
 }
 
-.app-page-content
-{
-    min-height: 100%;
-}
-
 .app-padding-8
 {
     padding: 8px;

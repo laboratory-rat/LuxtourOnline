@@ -19,5 +19,6 @@ namespace LuxtourOnline.Utilites
     public static class AppConsts
     {
         public static List<string> ImageExtensions = new List<string>() { "png", "jpg", "jpeg" };
+        public static List<string> Langs = new List<string>() { "en", "uk", "ru" };
     }
 }

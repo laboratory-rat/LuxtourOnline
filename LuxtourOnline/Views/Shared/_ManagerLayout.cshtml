@@ -14,7 +14,7 @@
     <script src="~/Content/mdl-v1.1.2/material.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-
+    <link href="~/Content/Manager.css" type="text/css" rel="stylesheet" />
     @RenderSection("Style", false)
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
@@ -35,7 +35,16 @@
                     @Html.ActionLink("Home", "Index", "Manager", null, new { @class = "mdl-navigation__link" })
                     @Html.ActionLink("Tours", "TourList", "Manager", null, new { @class = "mdl-navigation__link" })
                     @Html.ActionLink("Hotels", "HotelsList", "Manager", null, new { @class = "mdl-navigation__link" })
-                    @Html.ActionLink("Images", "Images", "Manager", null, new { @class = "mdl-navigation__link" })
+                    <a href="#" id="LayoutLanguage" class="mdl-navigation__link">
+                        Language
+                    </a>
+
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                        for="LayoutLanguage">
+                        <li class="mdl-menu__item">@Html.ActionLink( "English",  "ChangeLanguage",  "User",  new {lang = "en", Action = ViewContext.RouteData.Values["action"], Controller = ViewContext.RouteData.Values["controller"] }, new { })</li>
+                        <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "ChangeLanguage", "User", new {lang="uk", Action = ViewContext.RouteData.Values["action"], Controller = ViewContext.RouteData.Values["controller"] }, new { })</li>
+                        <li class="mdl-menu__item">@Html.ActionLink("Russian", "ChangeLanguage", "User", new { lang = "ru", Action = ViewContext.RouteData.Values["action"], Controller = ViewContext.RouteData.Values["controller"] }, new { })</li>
+                    </ul>
                 </nav>
             </div>
         </header>
@@ -50,9 +59,7 @@
         
         <main class="mdl-layout__content">
             <div class="page-content">
-                <div class="app-page-content">
-                    @RenderBody()
-                </div>
+                @RenderBody()
             </div>
             <footer class="app-footer-absolute-bottom">
                 <p>&copy; @DateTime.Now.Year - LuxtourOnline</p>
@@ -64,7 +71,7 @@
     <!-- <script src="~/Scripts/bootstrap.min.js"></script> -->
     <script src="~/Scripts/angular.min.js"></script>
     <script src="~/Scripts/angular-route.min.js"></script>
-
+    <script src="~/Scripts/angular-animate.min.js"></script>
     @RenderSection("Scripts", false)
 </body>
 </html>

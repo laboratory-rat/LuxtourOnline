@@ -1,72 +1,59 @@
 ﻿@model LuxtourOnline.Models.CreateUserModel
 
 @{
-    ViewBag.Title = "CreateUser";
+    ViewBag.Title = "Create user";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-<h2>CreateUser</h2>
-
-
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>ManagerCreateUser</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RoleToUse, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <select name="RoleToUse" id="RoleToUse" class="form-control">
-                    <option value="user">User</option>
-                    <option value="agent">Agent</option>
-                    <option value="content">Content</option>
-                    <option value="manager">Manager</option>
-                    @if (User.IsInRole("admin"))
-                    {<option value="admin">Admin</option>}
-                </select>
-                @Html.ValidationMessageFor(model => model.RoleToUse, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
+<div class="mdl-grid" style="max-width:800px; margin: 0 auto;">
+    <div class="mdl-cell mdl-cell--12-col">
+        <div class="mdl-typography--title">
+            Create user interface
         </div>
     </div>
-}
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__title">
+            <div class="mdl-card__title-text">New user</div>
+        </div>
+    @using (Html.BeginForm())
+    {   <div class="mdl-card__supporting-text">
+            @Html.AntiForgeryToken()
 
-<div>
-    @Html.ActionLink("Back to List", "UserList")
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                @Html.TextBoxFor(x => Model.FullName, new { @class = "mdl-textfield__input" })
+                @Html.LabelFor(x => Model.FullName, new { @class = "mdl-textfield__label" })
+                @Html.ValidationMessageFor(x => Model.FullName, "", new { @class = "mdl-textfield__error" })
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                @Html.TextBoxFor(x => Model.Email, new { @class = "mdl-textfield__input" })
+                @Html.LabelFor(x => Model.Email, new { @class = "mdl-textfield__label" })
+                @Html.ValidationMessageFor(x => Model.Email, "", new { @class = "mdl-textfield__error" })
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                @Html.TextBoxFor(x => Model.PhoneNumber, new { @class = "mdl-textfield__input" })
+                @Html.LabelFor(x => Model.PhoneNumber, new { @class = "mdl-textfield__label" })
+                @Html.ValidationMessageFor(x => Model.PhoneNumber, "", new { @class = "mdl-textfield__error" })
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                <select class="mdl-textfield__input" name="RoleToUse" id="RoleToUse">
+                    <option value="user"></option>
+                    <option value="agent"></option>
+                    <option value="content_manager"></option>
+                    <option value="manager"></option>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <option value="admin"></option>}
+                </select>
+                @Html.LabelFor(x => Model.RoleToUse, new { @class = "mdl-textfield__label" })
+                @Html.ValidationMessageFor(x => Model.RoleToUse, "", new { @class = "mdl-textfield__error" })
+            </div>
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+            <div class="mdl-textfield">
+                @Html.ActionLink("Back to list", "UserList", null, new { @class = "mdl-button mdl-js-button mdl-button--accent mdl-button--raised" })
+                <input type="submit" name="Create" class="mdl-button mdl-js-button mdl-button--primary mdl-button--raised" style="float:right;" />
+            </div>
+        </div>
+    }
+    </div>
 </div>
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

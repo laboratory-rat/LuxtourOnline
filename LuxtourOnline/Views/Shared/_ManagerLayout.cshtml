@@ -45,6 +45,7 @@
                         <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "ChangeLanguage", "User", new {lang="uk", Action = ViewContext.RouteData.Values["action"], Controller = ViewContext.RouteData.Values["controller"] }, new { })</li>
                         <li class="mdl-menu__item">@Html.ActionLink("Russian", "ChangeLanguage", "User", new { lang = "ru", Action = ViewContext.RouteData.Values["action"], Controller = ViewContext.RouteData.Values["controller"] }, new { })</li>
                     </ul>
+                    @Html.ActionLink("SignOut", "Login", "User", null, new { @class= "mdl-navigation__link" })
                 </nav>
             </div>
         </header>

@@ -401,6 +401,12 @@ namespace LuxtourOnline.Controllers
         [AllowAnonymous]
         public ActionResult Login(string ReturnUrl = "")
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                HttpContext.GetOwinContext().Authentication.SignOut();
+                return RedirectToAction("Index", "Home");
+            }
+
             UserLoginModel model = new UserLoginModel();
             model.RedirectUrl = ReturnUrl;
             return View();

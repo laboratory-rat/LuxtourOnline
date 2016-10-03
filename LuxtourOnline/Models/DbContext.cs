@@ -10,7 +10,7 @@ namespace LuxtourOnline.Models
 {
     public class SiteDbContext : IdentityDbContext<AppUser>
     {
-        public SiteDbContext() : base("DebugConnection")
+        public SiteDbContext() : base("DefaultConnection")
         {
         }
 

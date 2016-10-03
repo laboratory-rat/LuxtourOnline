@@ -30,7 +30,7 @@ namespace LuxtourOnline.Repos
 
         public List<ListTourModel> GetTourList (string lang, int count = 10, int page = 1, string title = "")
         {
-            var tours = _context.Tours.OrderByDescending(t => t.CreateTime).ToList();
+            var tours = _context.Tours.OrderByDescending(t => t.CreateTime).Where(x => !x.Deleted).ToList();
 
             if (!string.IsNullOrEmpty(title))
                 tours = tours.Where(t => t.Descritions.Where(d => d.Lang == lang).FirstOrDefault().Title.ToLower().Contains(title.ToLower())).ToList();
@@ -44,7 +44,7 @@ namespace LuxtourOnline.Repos
 
         public EditTourModel GetTourEditModel(int id)
         {
-            var tour = _context.Tours.Where(x => x.Id == id).FirstOrDefault();
+            var tour = _context.Tours.Where(x => x.Id == id && !x.Deleted).FirstOrDefault();
             if (tour == null)
                 throw new ArgumentNullException($"No tour with id: {id}");
 
@@ -82,7 +82,7 @@ namespace LuxtourOnline.Repos
         {
             Tour tour;
 
-            if ((tour = _context.Tours.Where(x => x.Id == model.Id).FirstOrDefault()) != null)
+            if ((tour = _context.Tours.Where(x => x.Id == model.Id && !x.Deleted).FirstOrDefault()) != null)
             {
                 while (tour.Descritions.Count > 0)
                 {
@@ -139,14 +139,16 @@ namespace LuxtourOnline.Repos
 
         internal void RemoveTour(RemoveTourModel model)
         {
-            var tour = _context.Tours.Where(x => x.Id == model.Id).First();
-            tour.ModifiedBy = null;
+            var tour = _context.Tours.Where(x => x.Id == model.Id && !x.Deleted).First();
 
             while (tour.Descritions.Count > 0)
             {
                 var descr = tour.Descritions.First();
                 _context.TourDescrptions.Remove(descr);
             }
+
+            tour.Deleted = true;
+
 
             _context.Tours.Remove(tour);
         }
@@ -155,7 +157,7 @@ namespace LuxtourOnline.Repos
         {
 
 
-            var tour = _context.Tours.Where(x => x.Id == id).First();
+            var tour = _context.Tours.Where(x => x.Id == id && !x.Deleted).First();
             var description = tour.Descritions.Where(x => x.Lang == lang).First();
 
             RemoveTourModel model = new RemoveTourModel()
@@ -181,7 +183,7 @@ namespace LuxtourOnline.Repos
         {
             var list = new List<ManagerHotelList>();
 
-            var hotels = _context.Hotels.OrderByDescending(h => h.CreatedTime).ToList();
+            var hotels = _context.Hotels.OrderByDescending(h => h.CreatedTime).Where(x => !x.Deleted).ToList();
 
             
             
@@ -227,7 +229,7 @@ namespace LuxtourOnline.Repos
 
         public ManagerHotelRemove GetRemoveHotelModel(int id)
         {
-            var hotel = _context.Hotels.Where(x => x.Id == id).FirstOrDefault();
+            var hotel = _context.Hotels.Where(x => x.Id == id && !x.Deleted).First();
 
             if (hotel == null)
                 return null;
@@ -308,6 +310,24 @@ namespace LuxtourOnline.Repos
 
             _context.Hotels.Add(hotel);
 
+        }
+
+        public void EditApartments(ManagerEditApartmentsModel model)
+        {
+            
+        }
+
+        public ManagerEditApartmentsModel GetApartments(int id)
+        {
+            var hotel = _context.Hotels.Where(x => x.Id == id && !x.Deleted).First();
+
+            List<Aparment> apartments = hotel.Apartmetns.ToList();
+
+            if (apartments.Count == 0)
+                apartments.Add(new Aparment() { Hotel = hotel });
+
+            var model = new ManagerEditApartmentsModel() { Hotel = hotel, Apartents = apartments };
+            return model;
         }
 
         internal void EditHotel(ManagerHotelEdit model)
@@ -419,7 +439,7 @@ namespace LuxtourOnline.Repos
 
         public ManagerHotelEdit GetHotelEditModel(int Id)
         {
-            var hotel = _context.Hotels.Where(h => h.Id == Id).FirstOrDefault();
+            var hotel = _context.Hotels.Where(h => h.Id == Id && !h.Deleted).First();
 
             //hotel.Gallery = hotel.Gallery.OrderBy(x => x.Order).ToList();
 
@@ -449,8 +469,8 @@ namespace LuxtourOnline.Repos
 
                 feature.Id = AppRandom.RandomString(10);
 
-                feature.Paid.Add(new ManagerHotelElement() { Glyph = "ok", Id = -1, Title = "I am element" });
-                feature.Free.Add(new ManagerHotelElement() { Glyph = "eye-open", Id = -1, Title = "I am element" });
+                feature.Paid.Add(new ManagerHotelElement() { Glyph = "camera", Id = -1, Title = "I am element" });
+                feature.Free.Add(new ManagerHotelElement() { Glyph = "visibility", Id = -1, Title = "I am element" });
 
                 desrc.Features.Add(feature);
 

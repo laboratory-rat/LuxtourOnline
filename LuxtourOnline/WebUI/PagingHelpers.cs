@@ -35,5 +35,17 @@ namespace LuxtourOnline.WebUI
 
             return MvcHtmlString.Create(result.ToString());
         }
+
+        public static MvcHtmlString MdlValidation(string message)
+        {
+            StringBuilder result = new StringBuilder();
+
+            TagBuilder tag = new TagBuilder("span");
+            tag.AddCssClass("mdl-textfield__error");
+            tag.InnerHtml = message;
+            result.Append(tag);
+
+            return MvcHtmlString.Create(result.ToString());
+        }
     }
 }

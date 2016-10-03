@@ -245,6 +245,13 @@ namespace LuxtourOnline.Models.Manager
 
     }
 
+    public class ManagerEditApartmentsModel
+    {
+        public Hotel Hotel { get; set; }
+        public List<Aparment> Apartents { get; set; }
+
+    }
+
     public class SimpleImage
     {
         public string Path { get; set; }

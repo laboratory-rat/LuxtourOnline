@@ -399,9 +399,10 @@ namespace LuxtourOnline.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string ReturnUrl = "")
         {
             UserLoginModel model = new UserLoginModel();
+            model.RedirectUrl = ReturnUrl;
             return View();
         }
 
@@ -418,15 +419,14 @@ namespace LuxtourOnline.Controllers
             {
                 await _signInManager.SignInAsync(user, false, model.Remember);
 
+                if (!string.IsNullOrEmpty(model.RedirectUrl))
+                    return Redirect(model.RedirectUrl);
+
                 bool isManager = await _userManager.IsInRoleAsync(user.Id, "manager") || await _userManager.IsInRoleAsync(user.Id, "admin");
                 if (isManager)
-                {
                     return RedirectToAction("Index", "Manager");
-                }
                 else
-                {
                     return RedirectToAction("Index", "Home");
-                }
             }
 
             ModelState.AddModelError("", "Bad email or password");

@@ -11,13 +11,7 @@ namespace LuxtourOnline.Models
         public int Id { get; set; }
 
         [Required]
-        public string Lang { get; set; } = "en";
-
-        [Required]
         public string Title { get; set; }
-
-        [Required]
-        public string Description { get; set; }
 
         [Required]
         public Hotel Hotel { get; set; }
@@ -27,5 +21,7 @@ namespace LuxtourOnline.Models
 
         public bool Enabled { get; set; } = true;
 
+        [Required]
+        public bool Deleted { get; set; } = false;
     }
 }

@@ -39,6 +39,8 @@ namespace LuxtourOnline.Models
         [Display(Name = "Last modified by ")]
         public virtual AppUser ModifiedBy { get; set; }
 
+        [Required]
+        public bool Deleted { get; set; } = false;
 
         public Tour(SiteImage image)
         {

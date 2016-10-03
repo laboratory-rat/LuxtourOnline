@@ -141,6 +141,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Resources\aircraft_background_1.jpg" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -227,9 +228,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610030908005_init.cs" />
-    <Compile Include="Migrations\201610030908005_init.Designer.cs">
-      <DependentUpon>201610030908005_init.cs</DependentUpon>
+    <Compile Include="Migrations\201610031921079_init.cs" />
+    <Compile Include="Migrations\201610031921079_init.Designer.cs">
+      <DependentUpon>201610031921079_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
@@ -296,6 +297,7 @@
     <Content Include="Views\User\Update.cshtml" />
     <Content Include="Views\Manager\EditTour.cshtml" />
     <Content Include="Views\Manager\RemoveTour.cshtml" />
+    <Content Include="Views\Shared\jquery.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -311,8 +313,8 @@
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610030908005_init.resx">
-      <DependentUpon>201610030908005_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610031921079_init.resx">
+      <DependentUpon>201610031921079_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

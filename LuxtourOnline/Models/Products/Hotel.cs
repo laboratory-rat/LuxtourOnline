@@ -33,6 +33,9 @@ namespace LuxtourOnline.Models
         public DateTime CreatedTime { get; set; }
         public DateTime? ModifyDate { get; set; }
 
+        [Required]
+        public bool Deleted { get; set; } = false;
+
         public Hotel()
         {
 

@@ -308,6 +308,45 @@ namespace LuxtourOnline.Controllers
             return Json("success");
         }
 
+        [HttpGet]
+        public ActionResult EditApartments(int id)
+        {
+            ManagerEditApartmentsModel model;
+
+            try
+            {
+                using (var repo = _repository)
+                {
+                    model = repo.GetApartments(id);
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+
+            return View(model);
+        }
+
+        public async Task<ActionResult> EditApartments(ManagerEditApartmentsModel model)
+        {
+            try
+            {
+                using (var repo = _repository)
+                {
+                    repo.EditApartments(model);
+                    await repo.SaveAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+
+            return RedirectToAction("HotelsList");
+        }
         #endregion
 
         #region Utilites

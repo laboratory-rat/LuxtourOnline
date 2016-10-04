@@ -4,7 +4,6 @@
     ViewBag.Title = "Aprtments";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
-@Json.Encode(Model.Apartments)
 <div ng-app="ApartmentsApp" ng-controller="ApartmentsCtrl" ng-init="Data = @Json.Encode(Model.Apartments); Id = @Model.Hotel">
     @using (Html.BeginForm())
     {
@@ -75,9 +74,6 @@
             </div>
         </div>
     }
-
-{{Data}}
-    {{Id}}
 </div>
 
 

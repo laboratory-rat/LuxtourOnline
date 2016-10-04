@@ -219,35 +219,68 @@ namespace LuxtourOnline.Models.Manager
 
     public class ManagerEditApartmentsModel
     {
-        public Hotel Hotel { get; set; }
-        public List<Aparment> Apartents { get; set; }
+        public int Hotel { get; set; }
+        public List<EditApartment> Apartments { get; set; }
 
-    }
-
-    public class SimpleImage
-    {
-        public string Path { get; set; }
         public string Url { get; set; }
 
-        public void Delete()
+        [AllowHtml]
+        [DataType(DataType.MultilineText)]
+        public string Description { get; set; }
+        public string Title { get; set; }
+
+        public ManagerEditApartmentsModel()
         {
-            if (File.Exists(Path))
-                File.Delete(Path);
+
         }
 
-        public void Save(HttpPostedFileBase image)
+        public ManagerEditApartmentsModel(Hotel hotel, List<Aparment> apartments)
         {
-            var ex = System.IO.Path.GetExtension(image.FileName);
-            if (AppConsts.ImageExtensions.Contains(ex))
+            Hotel = hotel.Id;
+            Apartments = EditApartment.List(apartments);
+        }
+
+        public ManagerEditApartmentsModel(Hotel hotel)
+        {
+            Hotel = hotel.Id;
+            Apartments = EditApartment.List(hotel.Apartmetns.ToList());
+        }
+
+    }
+    
+    public class EditApartment
+    {
+        public int? Id { get; set; }
+        public string Title { get; set; }
+        public int? Adults { get; set; }
+        public int? Child { get; set; }
+        public bool Enabled { get; set; } = false;
+
+        public EditApartment()
+        {
+
+        }
+
+        public static List<EditApartment> List(List<Aparment> aparts)
+        {
+            List<EditApartment> result = new List<EditApartment>();
+
+            if (aparts != null)
             {
-                string name = AppRandom.RandomString(40);
-                string basePath = AppDomain.CurrentDomain.BaseDirectory;
-
-                Path = string.Format("{0}{1}{2}", basePath, name, ex);
-                Url = "~/Content/TmpImages/" + name + ex;
-
-                image.SaveAs(Path);
+                foreach (var apart in aparts)
+                {
+                    result.Add(new EditApartment()
+                    {
+                        Id = apart.Id,
+                        Title = apart.Title,
+                        Adults = apart.Adult,
+                        Child = apart.Child,
+                        Enabled = apart.Enabled,
+                    });
+                }
             }
+
+            return result;
         }
     }
 

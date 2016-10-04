@@ -8,7 +8,7 @@
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col">
             <span class="mdl-typography--display-1-color-contrast">Hotel list</span>
-            @Html.ActionLink("Create hotel", "EditHotel", new { id = -1}, new { @class= "mdl-button mdl-js-button mdl-button--raised mdl-button--primary", @style="float:right;"})
+            @Html.ActionLink("Create hotel", "EditHotel", new { id = -1 }, new { @class = "mdl-button mdl-js-button mdl-button--raised mdl-button--primary", @style = "float:right;" })
 
         </div>
 
@@ -40,6 +40,7 @@
                 </div>
                 <div class="mdl-card__actions mdl-card--border">
                     @Html.ActionLink("Remove", "RemoveHotel", new { id = hotel.Id }, new { @class = "mdl-button mdl-js-button mdl-button--colored mdl-color--red mdl-color-text--white" })
+                    @Html.ActionLink("Edit apartments", "EditApartments", new { id = hotel.Id }, new { @class="mdl-button mdl-js-button mdl-button--colored mdl-button--primary mdl-color-text--white mdl-button--raised", @style="float:right;"})
                 </div>
             </div>
         }

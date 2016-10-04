@@ -303,6 +303,7 @@
     <Content Include="Views\Manager\RemoveTour.cshtml" />
     <Content Include="Views\Shared\jquery.cshtml" />
     <Content Include="Views\User\PhoneNumber.cshtml" />
+    <Content Include="Views\Manager\EditApartments.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

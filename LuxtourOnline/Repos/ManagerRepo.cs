@@ -314,19 +314,53 @@ namespace LuxtourOnline.Repos
 
         public void EditApartments(ManagerEditApartmentsModel model)
         {
-            
+            var hotel = _context.Hotels.Where(x => x.Id == model.Hotel).FirstOrDefault();
+
+            if (hotel != null)
+            {
+                while(hotel.Apartmetns.Count > 0)
+                {
+                    _context.Apartents.Remove(hotel.Apartmetns[0]);
+                }
+
+                if (model.Apartments != null)
+                {
+                    for (int i = 0; i < model.Apartments.Count; i++)
+                    {
+                        var a = model.Apartments[i];
+
+                        Aparment apart = new Aparment() { Adult = a.Adults, Child = a.Child, Enabled = a.Enabled, Hotel = hotel, Deleted = false, Title = a.Title };
+
+                        hotel.Apartmetns.Add(apart);
+                    }
+                }
+            }
         }
 
-        public ManagerEditApartmentsModel GetApartments(int id)
+        public ManagerEditApartmentsModel GetApartments(int id, string lang = "")
         {
             var hotel = _context.Hotels.Where(x => x.Id == id && !x.Deleted).First();
 
+            if (string.IsNullOrEmpty(lang))
+                lang = AppConsts.DefaultLanguage;
+
             List<Aparment> apartments = hotel.Apartmetns.ToList();
 
-            if (apartments.Count == 0)
-                apartments.Add(new Aparment() { Hotel = hotel });
+            var descr = hotel.Descriptions.Where(x => x.Lang == lang).FirstOrDefault();
 
-            var model = new ManagerEditApartmentsModel() { Hotel = hotel, Apartents = apartments };
+            string title = hotel.Title;
+            string description = "";
+
+            if (descr != null)
+                description = descr.Description;
+            else
+                description = "No description for this language";
+
+            string url = hotel.Images[0].Url;
+
+            var aparts = EditApartment.List(apartments);
+
+            var model = new ManagerEditApartmentsModel() { Hotel = hotel.Id, Apartments = aparts, Url = url, Title = title, Description = description };
             return model;
         }
 

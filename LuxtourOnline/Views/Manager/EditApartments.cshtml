@@ -1,0 +1,132 @@
+﻿@model LuxtourOnline.Models.Manager.ManagerEditApartmentsModel
+
+@{
+    ViewBag.Title = "Aprtments";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+@Json.Encode(Model.Apartments)
+<div ng-app="ApartmentsApp" ng-controller="ApartmentsCtrl" ng-init="Data = @Json.Encode(Model.Apartments); Id = @Model.Hotel">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--12-col">
+                <span class="mdl-typography--headline">Manage apartments</span>
+            </div>
+            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet mdl-cell--hide-phone">
+                <div class="mdl-card__title" style="height: 250px; background-size: cover; background-image: url(@Url.Content(Model.Url));">
+                    <div class="mdl-card__title-text">@Model.Title</div>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    @Model.Description
+                </div>
+            </div>
+            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--12-col-phone">
+                <div class="mdl-card__title">
+                    <div class="mdl-card__title-text">Apartments</div>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    <table class="mdl-data-table">
+                        <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Title</th>
+                                <th>Adult count</th>
+                                <th>Child count</th>
+                                <th class="mdl-data-table__cell--non-numeric">Is enable now</th>
+                                <th class="mdl-data-table__cell--non-numeric"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="apart in Data">
+                                <td class="mdl-data-table__cell--non-numeric">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                        <input type="text" class="mdl-textfield__input" name="Title" ng-model="apart.Title" id="{{apart.Title}}" />
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                        <input type="number" min="0" max="10" class="mdl-textfield__input" name="Adults" ng-model="apart.Adults" id="{{apart.Adults}}" />
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                                        <input type="text" class="mdl-textfield__input" name="Chlild" ng-model="apart.Child" id="{{apart.Child}}" />
+                                    </div>
+                                </td>
+
+                                <td class="mdl-data-table__cell--non-numeric">
+                                        <input type="checkbox" class="mdl-checkbox__input" name="Enable" ng-model="apart.Enable">
+                                </td>
+                                <td>
+                                    <button type="button" class="mdl-button mdl-js-button mdl-button--colored mdl-color--red mdl-color-text--white" ng-click="Remove(apart)">Remove</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mdl-card__actions">
+                    @Html.ActionLink("Back", "HotelsList", null, new { @class = "mdl-button mdl-js-button" })
+                    <button role="button" type="button" class="mdl-button mdl-js-button" ng-click="Add()">Add new</button>
+                    <input type="button" ng-click="Upload()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-color-text--white" style="float: right;" value="Save" />
+                </div>
+            </div>
+        </div>
+    }
+
+{{Data}}
+    {{Id}}
+</div>
+
+
+@section Scripts
+{
+
+    <script>
+
+        var app = angular.module("ApartmentsApp", ['ngAnimate']);
+
+        app.controller("ApartmentsCtrl", ['$scope', '$http', function ($scope, $http) {
+            $scope.Data = [];
+            $scope.Id = "";
+
+            $scope.Remove = function (apart) {
+                var i = $scope.Data.indexOf(apart);
+
+                if (!isNaN(i)) {
+                    $scope.Data.splice(i, 1);
+                }
+            };
+
+            $scope.Add = function () {
+                $scope.Data.push(
+                    {
+                        id: null,
+                        Title: 'New',
+                        Adults: 0,
+                        Child: 0,
+                        Enable: false,
+                    });
+            };
+
+            $scope.Upload = function()
+            {
+                var data = 
+                    {
+                        Hotel: $scope.Id,
+                        Apartments: $scope.Data,
+                    };
+
+                $http.post('/manager/EditApartments', data)
+                .success(function (resp) {
+                    if (resp == "success")
+                        alert("Success!");
+                });
+            }
+        }]);
+
+    </script>
+
+}

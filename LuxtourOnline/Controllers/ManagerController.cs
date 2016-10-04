@@ -345,7 +345,7 @@ namespace LuxtourOnline.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
 
-            return RedirectToAction("HotelsList");
+            return Json("success");
         }
         #endregion
 

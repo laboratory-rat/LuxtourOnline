@@ -4,20 +4,26 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Manager</title>
+    <title>@ViewBag.Title</title>
     <!-- <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />-->
     <link href="~/Content/Manager.css" rel="stylesheet" />
 
     <!-- <link rel="stylesheet" href="~/Content/mdl-v1.1.2/material.min.css"> -->
-     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.amber-light_blue.min.css"> 
-    
+    <!-- Internet <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.amber-light_blue.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="~/Content/mdl-v1.1.2/material.amber-light_blue.min.css" />
+
     <script src="~/Content/mdl-v1.1.2/material.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Intenrnet <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
+    <link rel="stylesheet" href="~/Content/mdl-v1.1.2/icon.css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/Manager.css" type="text/css" rel="stylesheet" />
     @RenderSection("Style", false)
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
+
+    <!-- Debug only! Change after reliase! -->
+    <meta name="description" content="Luxtour online. First online tour operator" />
+
 </head>
 <body>
 
@@ -35,29 +41,35 @@
                     @Html.ActionLink("Home", "Index", "Manager", null, new { @class = "mdl-navigation__link" })
                     @Html.ActionLink("Tours", "TourList", "Manager", null, new { @class = "mdl-navigation__link" })
                     @Html.ActionLink("Hotels", "HotelsList", "Manager", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Users", "UserList", "User", null, new { @class = "mdl-navigation__link" })
+
                     <a href="#" id="LayoutLanguage" class="mdl-navigation__link">
                         Language
                     </a>
-
                     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
                         for="LayoutLanguage">
-                        <li class="mdl-menu__item">@Html.ActionLink( "English",  "ChangeLanguage",  "User",  new {lang = "en", Action = ViewContext.RouteData.Values["action"], Controller = ViewContext.RouteData.Values["controller"] }, new { })</li>
-                        <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "ChangeLanguage", "User", new {lang="uk", Action = ViewContext.RouteData.Values["action"], Controller = ViewContext.RouteData.Values["controller"] }, new { })</li>
-                        <li class="mdl-menu__item">@Html.ActionLink("Russian", "ChangeLanguage", "User", new { lang = "ru", Action = ViewContext.RouteData.Values["action"], Controller = ViewContext.RouteData.Values["controller"] }, new { })</li>
+                        <li class="mdl-menu__item">@Html.ActionLink("English", "Index", "Manager", new { language = "en" }, new { @class = "mdl-navigation__link" })</li>
+                        <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "Index", "Manager", new { language = "uk" }, new { @class = "mdl-navigation__link" })</li>
+                        <li class="mdl-menu__item">@Html.ActionLink("Russian", "Index", "Manager", new { language = "ru" }, new { @class = "mdl-navigation__link" })</li>
                     </ul>
-                    @Html.ActionLink("SignOut", "Login", "User", null, new { @class= "mdl-navigation__link" })
+                    @Html.ActionLink("SignOut", "Login", "User", null, new { @class = "mdl-navigation__link" })
                 </nav>
             </div>
         </header>
-        
+
         <div class="mdl-layout__drawer">
-            <span class="mdl-layout-title">Menu</span>
+            <span class="mdl-layout-title">Quick actions</span>
             <nav class="mdl-navigation">
+                @Html.ActionLink("Add tour", "EditTour", "Manager", null, new { @class = "mdl-navigation__link" })
                 @Html.ActionLink("Add hotel", "EditHotel", "Manager", null, new { @class = "mdl-navigation__link" })
-                
+
             </nav>
+            <span class="mdl-layout-title">Account</span>
+            <div class="mdl-navigation">
+                @Html.ActionLink("My account", "Index", "User", null, new { @class = "mdl-navigation__link" })
+            </div>
         </div>
-        
+
         <main class="mdl-layout__content">
             <div class="page-content">
                 @RenderBody()

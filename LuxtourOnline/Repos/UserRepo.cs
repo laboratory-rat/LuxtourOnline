@@ -37,6 +37,8 @@ namespace LuxtourOnline.Repos
                     throw new FieldAccessException($"User {GetCurrentUser().FullName} try delete { manager.Users.Where(x => x.Id == id).FirstOrDefault().FullName}");
                 }
 
+                _log.Info($"User {GetCurrentUser().FullName} removed user {userToRemove.FullName} / {userToRemove.Email} with role: {GetUserRoles(userToRemove.Id)[0]}");
+
                 await manager.DeleteAsync(userToRemove);
             }
             else
@@ -170,6 +172,33 @@ namespace LuxtourOnline.Repos
             user.FullName = model.FullName;
 
             await manager.UpdateAsync(user);
+
+            return true;
+        }
+
+        public ChangePhoneNumber ChangePhoneModel()
+        {
+            var user = GetCurrentUser();
+
+            var model = new ChangePhoneNumber(user);
+
+            return model;
+        }
+
+        public async Task<bool> ChangePhoneNumber(ChangePhoneNumber model)
+        {
+            var user = GetCurrentUser();
+
+            var manager = _userManager;
+
+            bool result = await manager.CheckPasswordAsync(user, model.Password);
+
+            if (!result)
+                return false;
+
+            var token = await manager.GenerateChangePhoneNumberTokenAsync(user.Id, model.PhoneNumber);
+
+            await manager.ChangePhoneNumberAsync(user.Id, model.PhoneNumber, token);
 
             return true;
         }

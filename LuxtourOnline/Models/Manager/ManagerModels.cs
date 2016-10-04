@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace LuxtourOnline.Models.Manager
 {
+    #region Tours
     public class EditTourModel
     {
         public int Id { get; set; }
@@ -91,7 +92,7 @@ namespace LuxtourOnline.Models.Manager
         public RemoveTourModel(Tour tour)
         {
             Id = tour.Id;
-            
+
         }
 
     }
@@ -105,7 +106,7 @@ namespace LuxtourOnline.Models.Manager
         public int? Adult { get; set; }
         public int? Child { get; set; }
         public int? DaysCount { get; set; }
-        public bool Avalible { get; set; } 
+        public bool Avalible { get; set; }
         public string ImageUrl { get; set; }
 
         public AppUser ModifyUser { get; set; }
@@ -192,7 +193,7 @@ namespace LuxtourOnline.Models.Manager
         public static List<ListTourModel> CreateList(List<Tour> tours, string lang)
         {
             List<ListTourModel> list = new List<ListTourModel>();
-            foreach(var t in tours)
+            foreach (var t in tours)
             {
                 list.Add(new ListTourModel(t, lang));
             }
@@ -200,50 +201,21 @@ namespace LuxtourOnline.Models.Manager
             return list;
         }
     }
+    #endregion
 
-    public class CreateHotelModel
-    {
-        public List<SimpleImage> Images { get; set; }
+    #region Hotels
 
-        public string TitleEn { get; set; }
-        [DataType(DataType.MultilineText)]
-        [AllowHtml]
-        public string DescriptionEn { get; set; }
+    #endregion
 
-        public string TitleUk { get; set; }
-        [DataType(DataType.MultilineText)]
-        [AllowHtml]
-        public string DescriptionUk { get; set; }
+    #region Apartments
 
-        public string TitleRu { get; set; }
-        [DataType(DataType.MultilineText)]
-        [AllowHtml]
-        public string DescriptionRu { get; set; }
+    #endregion
 
-        public List<SimpleFeature> FeatureEn { get; set; } = new List<SimpleFeature>();
-        public List<SimpleFeature> FeatureUk { get; set; } = new List<SimpleFeature>();
-        public List<SimpleFeature> FeatureRu { get; set; } = new List<SimpleFeature>();
+    #region Etc
 
-        public void AddFeature(string lang)
-        {
-            switch(lang)
-            {
-                case "en":
-                    FeatureEn.Add(new SimpleFeature(lang));
-                    break;
-                case "uk":
-                    FeatureUk.Add(new SimpleFeature(lang));
-                    break;
-                case "ru":
-                    FeatureRu.Add(new SimpleFeature(lang));
-                    break;
-                default:
-                    break;
-            }
-        }
+    #endregion
 
 
-    }
 
     public class ManagerEditApartmentsModel
     {

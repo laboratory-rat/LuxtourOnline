@@ -5,40 +5,44 @@
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-<div>
-    <div class="page-header">
-        <h1>My account <small>Subtext for header</small></h1>
+<div class="mdl-grid" style="max-width: 600px; margin: 0 auto;">
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+        <button id="menu" class="mdl-button mdl-js-button mdl-js-ripple-effect" style="position:absolute; width: 100px; right: 0px;">
+            Menu
+        </button>
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="menu">
+            <li class="mdl-menu__item">@Html.ActionLink("Change name", "FullName", null, new { @class = "mdl-navigation__link" })</li>
+            <li class="mdl-menu__item">@Html.ActionLink("Change email", "Email", null, new { @class = "mdl-navigation__link" })</li>
+            <li class="mdl-menu__item">@Html.ActionLink("Change phone number", "Phone", null, new { @class = "mdl-navigation__link" })</li>
+            <li class="mdl-menu__item--full-bleed-divider"></li>
+            <li class="mdl-menu__item">@Html.ActionLink("Change password", "Password", null, new { @class = "mdl-navigation__link" })</li>
+        </ul>
+        <div class="mdl-card__title" style="height: 150px; background-size: cover; background-image: url(@Url.Content("~/Content/Resources/abstract_back.png"));">
+            <div class="mdl-card__title-text mdl-color-text--white">My account</div>
+
+        </div>
+        <div class="mdl-card__supporting-text">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                Full name: <input readonly type="text" class="mdl-textfield__input" id="FullName" name="FullName" value="@Model.FullName" />
+            </div>
+
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                Emai address: <input readonly type="text" class="mdl-textfield__input" id="FullName" name="FullName" value="@Model.Email" />
+            </div>
+
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                Phone number: <input readonly type="text" class="mdl-textfield__input" id="FullName" name="FullName" value="@Model.PhoneNumber" />
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                <input readonly type="text" class="mdl-textfield__input" id="FullName" name="FullName" value="@Model.Role" />
+            </div>
+
+        </div>
+        <div class="mdl-card__actions">
+            @Html.ActionLink("To main page", "Index", "Home", null, new { @class = "mdl-button mdl-js-button mdl-button--primary mdl-button--raised mdl-color-text--white", @style="float:right;" })
+        </div>
     </div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Role)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Role)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Change Fullname", "FullName") |
-    @Html.ActionLink("Change Email", "Email") |
-    @Html.ActionLink("Change Password", "Password") |
-    @Html.ActionLink("To index", "Index", "Home")
-</p>

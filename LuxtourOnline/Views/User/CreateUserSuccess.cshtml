@@ -4,13 +4,24 @@
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-<div class="page-header">
-    <h1>Success <small>created new user</small></h1>
-</div>
-<div class="row">
-    User email: @ViewBag.Email
-    User password: @ViewBag.Password
-</div>
-<div class="row">
-    <a href="~/User/UserList" class="mdl-button">Go to list</a>
+<div class="mdl-grid" style="max-width:600px; margin: 0 auto;">
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+        <div class="mdl-card__title" style="height: 150px; background-size: cover; background-image: url(@Url.Content("~/Content/Resources/abstract_back.png"));">
+            <div class="mdl-card__title-text mdl-color-text--white">Success</div>
+        </div>
+        <div class="mdl-card__supporting-text">
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                <input type="text" readonly class="mdl-textfield__input" value="@ViewBag.Email" />
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                <input type="text" readonly class="mdl-textfield__input" value="@ViewBag.Password"/>
+            </div>
+
+        </div>
+        <div class="mdl-card__actions mdl-card--border">
+            @Html.ActionLink("Back to list", "UserList", null, new { @class = "mdl-button mdl-js-button mdl-button--accent mdl-button--raised mdl-button--primary", @style="float:right;" })
+        </div>
+    </div>
 </div>

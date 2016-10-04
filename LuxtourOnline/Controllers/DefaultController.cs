@@ -35,27 +35,40 @@ namespace LuxtourOnline.Controllers
                 string language = (string)requestContext.RouteData.Values["language"] ?? "";
                 language = language.ToLower();
 
-                if (!string.IsNullOrEmpty(language) && AvalibleLangs.Contains(language))
+                if (!AppConsts.Langs.Contains(language))
                 {
-                    _lang = language;
-                    SetLangCookie(language, requestContext);
+                    language = AppConsts.DefaultLanguage;
                 }
-                else
+
+                var session = requestContext.HttpContext.Session;
+
+                if (session["language"] == null || string.IsNullOrEmpty(session["language"].ToString()))
                 {
-                    var cookie = requestContext.HttpContext.Request.Cookies[COOKIE_TITLE] ?? new HttpCookie(COOKIE_TITLE);
-                    if (string.IsNullOrEmpty(cookie[COOKIE_KEY]) || !AvalibleLangs.Contains(cookie[COOKIE_KEY]))
+                    HttpCookie cookie = requestContext.HttpContext.Request.Cookies[COOKIE_TITLE] ?? null;
+
+                    if (cookie == null)
                     {
-                        var l = requestContext.HttpContext.Request.UserLanguages[0].ToLower().Substring(0, 2);
+                        var lang = language == AppConsts.DefaultLanguage ? SelectLanguage(requestContext) : language;// SelectLanguage(requestContext, language);
+                        SetLangCookie(lang, requestContext);
 
-                        if (!AvalibleLangs.Contains(l))
-                            l = "en";
-
-                        SetLangCookie(l, requestContext);
+                        session.Add("language", lang);
+                        _lang = lang;
                     }
                     else
                     {
+                        session.Add("language", cookie[COOKIE_KEY]);
                         _lang = cookie[COOKIE_KEY];
                     }
+                }
+                else if (session["language"].ToString() != language)
+                {
+                    session["language"] = language;
+                    SetLangCookie(language, requestContext);
+                    _lang = language;
+                }
+                else
+                {
+                    _lang = AppConsts.Langs.Contains(session["language"].ToString()) ? session["language"].ToString() : AppConsts.DefaultLanguage;
                 }
                 
             }
@@ -69,6 +82,34 @@ namespace LuxtourOnline.Controllers
             base.Initialize(requestContext);
         }
         
+        protected string SelectLanguage(RequestContext context, string defaultLanguage = "")
+        {
+            string result = "";
+
+            var langs = context.HttpContext.Request.UserLanguages;
+
+            foreach(var l in langs)
+            {
+                var ll = l.Substring(0, 2).ToLower();
+
+                if (AppConsts.Langs.Contains(ll))
+                {
+                    result = ll;
+                    break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(result))
+            {
+                if (string.IsNullOrEmpty(defaultLanguage))
+                    result = AppConsts.DefaultLanguage;
+                else
+                    result = defaultLanguage;
+            }
+
+            return result;
+        }
+
         protected virtual void SetLangCookie(string lang, RequestContext context)
         {
             lang = lang.ToLower();

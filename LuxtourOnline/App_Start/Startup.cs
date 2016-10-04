@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using System.Web;
 using NLog;
+using Microsoft.Owin.Infrastructure;
 
 [assembly: OwinStartup(typeof(LuxtourOnline.App_Start.Startup))]
 
@@ -33,6 +34,7 @@ namespace LuxtourOnline.App_Start
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/User/Login"),
+                ExpireTimeSpan = TimeSpan.FromDays(31),
             });
 
             

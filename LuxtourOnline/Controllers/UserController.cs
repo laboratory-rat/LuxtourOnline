@@ -197,6 +197,58 @@ namespace LuxtourOnline.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult PhoneNumber()
+        {
+            ChangePhoneNumber model;
+
+            try
+            {
+                using (var repo = _repository)
+                {
+                    model = repo.ChangePhoneModel();
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PhoneNumber(ChangePhoneNumber model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                using (var repo = _repository)
+                {
+                    bool result = await repo.ChangePhoneNumber(model);
+
+                    if (!result)
+                    {
+                        ModelState.AddModelError("", "Bad password");
+                        model.Password = "";
+                        return View(model);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+            }
+
+            return RedirectToAction("Index");
+
+        }
 
         [HttpGet]
         [Authorize(Roles = "manager, admin")]
@@ -371,6 +423,9 @@ namespace LuxtourOnline.Controllers
                 await manager.CreateAsync(user, password);
                 await manager.AddToRoleAsync(user.Id, role);
 
+                var current = User.Identity.Name;
+
+                _logger.Info($"User {current} created new user: {user.FullName} / {user.Email} with role: {role}");
 
                 ViewBag.Email = email;
                 ViewBag.Password = password;
@@ -409,7 +464,7 @@ namespace LuxtourOnline.Controllers
 
             UserLoginModel model = new UserLoginModel();
             model.RedirectUrl = ReturnUrl;
-            return View();
+            return View(model);
         }
 
         [HttpPost]

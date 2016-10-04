@@ -5,72 +5,77 @@
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-<h2>Update</h2>
+<div class="mdl-grid" style="max-width: 600px;">
+    @using (Html.BeginForm())
+    {
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+
+            <div class="mdl-card__title" style="height: 150px; background-size: cover; background-image: url(@Url.Content("~/Content/Resources/abstract_back.png"));">
+                <div class="mdl-card__title-text mdl-color-text--white">Update user data</div>
+            </div>
+            <div class="mdl-card__supporting-text">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.Id)
+
+                <div class="mdl-color-text--red">
+                    @Html.ValidationSummary()
+                </div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <input type="text" class="mdl-textfield__input" id="FullName" name="FullName" value="@Model.FullName" />
+                    <label class="mdl-textfield__label" for="FullName">Full name</label>
+                    <span class="mdl-textfield__error">Name is required</span>
+                </div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <input type="email" class="mdl-textfield__input" id="Email" name="Email" value="@Model.Email" />
+                    <label class="mdl-textfield__label" for="Email">Email</label>
+                    <span class="mdl-textfield__error">Email</span>
+                </div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <input type="number" class="mdl-textfield__input" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" />
+                    <label class="mdl-textfield__label" for="PhoneNumber">Phone number</label>
+                    <span class="mdl-textfield__error">Phone number is required</span>
+                </div>
+                
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <input disabled type="text" class="mdl-textfield__input" id="Role" name="Role" value="@Model.Role" />
+                </div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <select class="mdl-textfield__input" id="NewRole" name="NewRole">
+                        <option value=""></option>
+                        <option value="user">User</option>
+                        <option value="agent">Agent</option>
+
+                        @if (User.IsInRole("manager") || User.IsInRole("admin"))
+                        {
+                            <option value="content_manager">Content Manager</option>
+                            <option value="manager">Manager</option>
+                        }
+
+                        @if (User.IsInRole("admin"))
+                        {
+                            <option value="admin">Admin</option>
+                        }
+                    </select>
+                    <label class="mdl-textfield__label" for="NewRole">New role</label>
+                </div>
 
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        <h4>UpdateUserModel</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+            <div class="mdl-card__actions">
+                @Html.ActionLink("Back", "UserList", "User", null, new { @class = "mdl-button mdl-js-button" })
+                <input type="submit" class="mdl-button mdl-js-button mdl-button--primary mdl-button--raised" value="Update" style="float:right; width:250px;"/>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.PhoneNumber, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.DisplayFor(model => model.Role, new { @class="form-control"})
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NewRole, new { @class="control-label"})
-            <select name="NewRole" id="NewRole" class="form-control">
-                <option value=""></option>
-                <option value="user">User</option>
-                <option value="agent">Agent</option>
-                <option value="content_manager">Content Manager</option>
-                <option value="manager">Manager</option>
-                @if (User.IsInRole("admin"))
-                {<option value="admin">Admin</option>}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "UserList")
+    }
 </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+@section Scripts
+{
+    @Html.Partial("jquery")
+}

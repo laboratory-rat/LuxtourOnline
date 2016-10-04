@@ -8,5 +8,6 @@ namespace LuxtourOnline
     public static class Constants
     {
         public static readonly string[] AvaliableLangs = new string[] { "en", "ru", "uk" };
+        public static string DefaultLanguage { get { return AvaliableLangs[0]; } }
     }
 }

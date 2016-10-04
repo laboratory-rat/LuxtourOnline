@@ -20,15 +20,12 @@ namespace LuxtourOnline.WebUI
                 tag.MergeAttribute("href", pageUrl(i));
                 tag.InnerHtml = i.ToString();
 
-                tag.AddCssClass("btn");
+                tag.AddCssClass("mdl-button mdl-js-button");
 
                 if (i == pagingInfo.CurrentPange)
                 {
-                    tag.AddCssClass("selected");
-                    tag.AddCssClass("btn-primary");
+                    tag.AddCssClass("mdl-button--primary");
                 }
-                else
-                    tag.AddCssClass("btn-default");
 
                 result.Append(tag.ToString());
             }

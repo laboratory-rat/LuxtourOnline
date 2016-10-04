@@ -5,18 +5,14 @@
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-<div class="mdl-grid" style="max-width:800px; margin: 0 auto;">
-    <div class="mdl-cell mdl-cell--12-col">
-        <div class="mdl-typography--title">
-            Create user interface
-        </div>
-    </div>
+<div class="mdl-grid" style="max-width:600px; margin: 0 auto;">
+@using (Html.BeginForm())
+{
     <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
-        <div class="mdl-card__title">
-            <div class="mdl-card__title-text">New user</div>
+        <div class="mdl-card__title" style="height: 150px; background-size: cover; background-image: url(@Url.Content("~/Content/Resources/abstract_back.png"));">
+            <div class="mdl-card__title-text mdl-color-text--white">New user</div>
         </div>
-    @using (Html.BeginForm())
-    {   <div class="mdl-card__supporting-text">
+        <div class="mdl-card__supporting-text">
             @Html.AntiForgeryToken()
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
@@ -36,24 +32,35 @@
             </div>
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
                 <select class="mdl-textfield__input" name="RoleToUse" id="RoleToUse">
-                    <option value="user"></option>
-                    <option value="agent"></option>
-                    <option value="content_manager"></option>
-                    <option value="manager"></option>
+                    <option value="user">User</option>
+                    <option value="agent">Agent</option>
+
+                    @if (User.IsInRole("admin") || User.IsInRole("manager"))
+                    {
+                        <option value="content_manager">Content manager</option>
+                        <option value="manager">Manager</option>
+                    }
+
                     @if (User.IsInRole("admin"))
                     {
-                        <option value="admin"></option>}
+                        <option value="admin">Administrator</option>
+                    }
                 </select>
-                @Html.LabelFor(x => Model.RoleToUse, new { @class = "mdl-textfield__label" })
+                <label class="mdl-textfield__label" for="RoleToUse">Role to use</label>
                 @Html.ValidationMessageFor(x => Model.RoleToUse, "", new { @class = "mdl-textfield__error" })
             </div>
         </div>
         <div class="mdl-card__actions mdl-card--border">
-            <div class="mdl-textfield">
-                @Html.ActionLink("Back to list", "UserList", null, new { @class = "mdl-button mdl-js-button mdl-button--accent mdl-button--raised" })
-                <input type="submit" name="Create" class="mdl-button mdl-js-button mdl-button--primary mdl-button--raised" style="float:right;" />
-            </div>
+            @Html.ActionLink("Back to list", "UserList", null, new { @class = "mdl-button mdl-js-button mdl-button--accent mdl-button--raised" })
+            <input type="submit" name="Create" class="mdl-button mdl-js-button mdl-button--primary mdl-button--raised" style="float:right;" />
         </div>
-    }
     </div>
+}
+
+
 </div>
+
+@section Scripts
+{
+    @Html.Partial("jquery")
+}

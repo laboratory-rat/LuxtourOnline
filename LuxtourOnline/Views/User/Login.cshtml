@@ -11,8 +11,14 @@
 <head>
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="~/Content/mdl-v1.1.2/material.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="~/Content/mdl-v1.1.2/material.amber-light_blue.min.css" />
+    <link rel="stylesheet" href="~/Content/mdl-v1.1.2/icon.css" />
+
+    <!--
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.amber-light_blue.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        -->
 
     <script src="~/Content/mdl-v1.1.2/material.min.js"></script>
 </head>
@@ -27,33 +33,33 @@
                     <div class="mdl-card__title-text mdl-color-text--white">Login</div>
                 </div>
                 <div class="mdl-card__supporting-text">
-                @Html.AntiForgeryToken()
-                @Html.HiddenFor(x => Model.RedirectUrl)
-                <div class="mdl-typography--body-1 mdl-color-text--red">
-                    @Html.ValidationSummary()
-                </div>
-                <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield">
-                    @Html.TextBoxFor(x => Model.Email, null, new { @Class = "mdl-textfield__input" })
-                    @Html.LabelFor(x => Model.Email, new { @class = "mdl-textfield__label" })
-                </div>
-                <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield">
-                    @Html.LabelFor(x => Model.Password, new { @class = "mdl-textfield__label" })
-                    @Html.PasswordFor(x => Model.Password, new { @Class = "mdl-textfield__input"})
-                </div>
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => Model.RedirectUrl)
+                    <div class="mdl-typography--body-1 mdl-color-text--red">
+                        @Html.ValidationSummary()
+                    </div>
+                    <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield">
+                        @Html.TextBoxFor(x => Model.Email, null, new { @Class = "mdl-textfield__input" })
+                        @Html.LabelFor(x => Model.Email, new { @class = "mdl-textfield__label" })
+                    </div>
+                    <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield">
+                        @Html.LabelFor(x => Model.Password, new { @class = "mdl-textfield__label" })
+                        @Html.PasswordFor(x => Model.Password, new { @Class = "mdl-textfield__input" })
+                    </div>
                     <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="Remember">
                         <input type="checkbox" id="Remember" class="mdl-checkbox__input" name="Remember" value="true" checked>
                         <span class="mdl-checkbox__label">Remember me</span>
                     </label>
-            </div>
-            <div class="mdl-card__actions">
-                <button class="mdl-button mdl-js-button">Registration</button>
-                <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary mdl-color-text--white" 
-                       value="Login" style="float:right; width:200px;" />
-            </div>
+                </div>
+                <div class="mdl-card__actions">
+                    <button class="mdl-button mdl-js-button">Registration</button>
+                    <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary mdl-color-text--white"
+                           value="Login" style="float:right; width:200px;" />
+                </div>
             }
 
         </div>
     </div>
-@Html.Partial("jquery")
+    @Html.Partial("jquery")
 </body>
 </html>

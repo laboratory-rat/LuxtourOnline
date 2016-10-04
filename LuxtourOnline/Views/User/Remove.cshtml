@@ -5,37 +5,50 @@
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-<h2>Remove</h2>
+<div class="mdl-grid" style="max-width: 600px;">
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @style="width: 100%;" }))
+    {
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col">
 
-<div>
-    <h4>RemoveUserModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
+            <div class="mdl-card__title" style="height: 150px; background-size: cover; background-image: url(@Url.Content("~/Content/Resources/abstract_back.png"));">
+                <div class="mdl-card__title-text mdl-color-text--white">Remove user</div>
+            </div>
+            <div class="mdl-card__supporting-text">
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(x => x.Id)
 
-        <dd>
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
+                <div class="mdl-color-text--red">
+                    @Html.ValidationSummary()
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <input disabled type="text" class="mdl-textfield__input" id="FullName" name="FullName" value="@Model.FullName" />
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <input disabled type="email" class="mdl-textfield__input" id="Email" name="Email" value="@Model.Email" />
+                </div>
 
-    </dl>
+                
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <input type="number" class="mdl-textfield__input" id="PhoneNumber" name="PhoneNumber" value="@Model.PhoneNumber" />
+                </div>
+                    
+
+
+
+            </div>
+            <div class="mdl-card__actions">
+                @Html.ActionLink("Back", "UserList", "User", null, new { @class = "mdl-button mdl-js-button" })
+                @Html.ActionLink("Remove", "RemoveConfirm", "User", new { id = Model.Id}, new { @class = "mdl-button mdl-js-button mdl-button--raised mdl-color--red mdl-color-text--white", @style = "float:right; width:250px;" })
+            </div>
+        </div>
+    }
 </div>
-<form action="/User/RemoveConfirm">
-    <input type="hidden" name="id" value="@Model.Id" />
-    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-        Remove
-    </button>
-</form>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "UserList")
-</p>
+
+
+
+@section Scripts
+{
+    @Html.Partial("jquery")
+}

@@ -111,6 +111,7 @@ namespace LuxtourOnline.Models
     {
         public string Id { get; set; }
         public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Role { get; set; }
 
@@ -125,6 +126,7 @@ namespace LuxtourOnline.Models
             FullName = user.FullName;
             Email = user.Email;
             Role = roles;
+            PhoneNumber = user.PhoneNumber;
         }
     }
 
@@ -197,6 +199,31 @@ namespace LuxtourOnline.Models
 
     }
 
+    public class ChangePhoneNumber
+    {
+        [Required]
+        public string Id { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        public ChangePhoneNumber()
+        {
+
+        }
+
+        public ChangePhoneNumber(AppUser user)
+        {
+            Id = user.Id;
+            PhoneNumber = user.PhoneNumber;
+        }
+    }
+
 
     #region Manager
 
@@ -252,9 +279,18 @@ namespace LuxtourOnline.Models
 
     public class CreateUserModel
     {
+        [Required]
         public string FullName { get; set; }
+
+        [Required]
+        [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        [Required]
         public string RoleToUse { get; set; }
     }
 
@@ -262,6 +298,7 @@ namespace LuxtourOnline.Models
     {
         public string Id { get; set; }
         public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
         public string Email { get; set; }
 
 
@@ -275,6 +312,7 @@ namespace LuxtourOnline.Models
             Id = user.Id;
             FullName = user.FullName;
             Email = user.Email;
+            PhoneNumber = user.PhoneNumber;
         }
     }
 

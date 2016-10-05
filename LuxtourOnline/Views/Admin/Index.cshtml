@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="mdl-grid" ng-app="LogsApp" ng-controller="LogsCtrl">
+    <div class="mdl-cell--12-col">
+        <div class="mdl-typography--headline">Hello, Oleg <div class="mdl-spinner mdl-js-spinner" ng-class="{'is-active': Data == null}"></div></div>
+    </div>
+    <div class="mdl-cell mdl-cell--12-col">
+        <div style="float:right;">
+            <button ng-repeat="i in GetTotalPages()" ng-click="UpdateData(i)" class="mdl-button mdl-js-button" ng-class="IsPrime(i)">{{i}}</button>
+        </div>
+    </div>
+    <div class="app-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--3-col" ng-repeat="log in Data.Logs" ng-class="GetClass(log.EventLevel)">
+        <div class="mdl-card__title">
+            <div class="mdl-card__title-text mdl-color-text--white">{{log.Id}}</div>
+        </div>
+        <div class="mdl-card__supporting-text">
+            {{log.ErrorClass}}<br />
+            {{log.ErrorMessage}}<br />
+            {{log.ErrorMethod}}<br />
+            {{log.ErrorSource}}<br />
+            {{log.EventDateTime | ctime | date : 'medium'}}<br />
+            {{log.EventMessage}}<br />
+            {{log.ErrorClass}}<br />
+            {{log.InnerErrorMessage}}<br />
+            {{log.UserName}}<br />
+        </div>
+    </div> 
+    
+    <div class="mdl-cell mdl-cell--12-col">
+        <div style="margin: 0 auto;">
+            <button ng-repeat="i in GetTotalPages()" ng-click="UpdateData(i)" class="mdl-button mdl-js-button" ng-class="IsPrime(i)">{{i}}</button>
+        </div>
+    </div>
+</div>
+
+
+@section Style
+{
+<style>
+    .app-error .mdl-card__title
+    {
+        background-color: red;
+    }
+
+    .app-info .mdl-card__title
+    {
+        background-color: blue;
+    }
+
+    .app-fatal .mdl-card__title
+    {
+        background-color: black;
+    }
+
+    
+    /*#region Animation */
+
+    .app-card
+    {
+
+
+        opacity: 1;
+    }
+
+    .app-card.ng-enter {
+
+        -moz-transition: all 500ms ease-out 150ms;
+        -o-transition: all 500ms ease-out 150ms;
+        -webkit-transition: all 500ms ease-out 150ms;
+        transition: all 500ms ease-out 150ms;
+
+        opacity: 0;
+    }
+
+    .app-card.ng-enter-active
+    {
+        opacity: 1;
+    }
+
+    .app-card.ng-leave
+    {
+        -moz-transition: all 200ms ease-out 50ms;
+        -o-transition: all 200ms ease-out 50ms;
+        -webkit-transition: all 200ms ease-out 50ms;
+        transition: all 200ms ease-out 50ms;
+
+        opacity: 1;
+    }
+
+    .app-card.ng-leave-active
+    {
+        opacity: 0;
+    }
+
+
+    /*#endregion */
+
+</style>    
+}
+
+@section Scripts
+{
+    <script async>
+        var app = angular.module("LogsApp", ['ngAnimate']);
+
+        app.filter('ctime', function () {
+
+            return function (jsonDate) {
+
+                var date = new Date(parseInt(jsonDate.substr(6)));
+                return date;
+            };
+
+        });
+
+        app.controller("LogsCtrl", ['$scope', '$http', function ($scope, $http) {
+            $scope.Data = null;
+
+            $scope.UpdateData = function(page)
+            {
+                $scope.Data = null;
+
+                $http.get("/Admin/Logs/", 
+                    {
+                        params:
+                            { page: page },
+                    })
+                .success(function (response) {
+                    if (response != null)
+                        $scope.Data = response;
+                });
+            }
+
+            $scope.IsPrime = function(i)
+            {
+                if (i == $scope.Data.Pagin.CurrentPange)
+                    return "mdl-button--raised mdl-button--primary";
+
+                return "";
+            }
+
+            $scope.GetTotalPages = function()
+            {
+                if ($scope.Data == null)
+                    return new Array();
+
+                var arr = new Array();
+
+                while (arr.length < $scope.Data.Pagin.TotalPages)
+                {
+                    var i = arr.length + 1;
+                    arr.push(i);
+                }
+                
+                console.log(arr);
+
+                return arr;
+            }
+
+            $scope.ToDate = function(date)
+            {
+                return new Date(date);
+            }
+
+            $scope.GetClass = function(ex)
+            {
+                switch(ex)
+                {
+                    case "Info":
+                        return "app-info";
+                        break;
+                    case "Error":
+                        return "app-error";
+                        break;
+                    case "FatalError":
+                        return "app-fatal";
+                        break;
+                    default:
+                        return "";
+                        break;
+                }
+            }
+
+            $scope.UpdateData(1);
+        }]);
+    </script>
+}

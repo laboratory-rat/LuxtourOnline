@@ -329,7 +329,7 @@ namespace LuxtourOnline.Repos
                     {
                         var a = model.Apartments[i];
 
-                        Aparment apart = new Aparment() { Adult = a.Adults, Child = a.Child, Enabled = a.Enabled, Hotel = hotel, Deleted = false, Title = a.Title };
+                        Apartment apart = new Apartment() { Adult = a.Adults, Child = a.Child, Enabled = a.Enabled, Hotel = hotel, Deleted = false, Title = a.Title };
 
                         hotel.Apartmetns.Add(apart);
                     }
@@ -344,7 +344,7 @@ namespace LuxtourOnline.Repos
             if (string.IsNullOrEmpty(lang))
                 lang = AppConsts.DefaultLanguage;
 
-            List<Aparment> apartments = hotel.Apartmetns.ToList();
+            List<Apartment> apartments = hotel.Apartmetns.ToList();
 
             var descr = hotel.Descriptions.Where(x => x.Lang == lang).FirstOrDefault();
 

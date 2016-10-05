@@ -234,7 +234,7 @@ namespace LuxtourOnline.Models.Manager
 
         }
 
-        public ManagerEditApartmentsModel(Hotel hotel, List<Aparment> apartments)
+        public ManagerEditApartmentsModel(Hotel hotel, List<Apartment> apartments)
         {
             Hotel = hotel.Id;
             Apartments = EditApartment.List(apartments);
@@ -261,7 +261,7 @@ namespace LuxtourOnline.Models.Manager
 
         }
 
-        public static List<EditApartment> List(List<Aparment> aparts)
+        public static List<EditApartment> List(List<Apartment> aparts)
         {
             List<EditApartment> result = new List<EditApartment>();
 

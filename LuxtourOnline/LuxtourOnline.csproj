@@ -96,10 +96,20 @@
       <HintPath>..\packages\NLog.4.3.9\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLog.Extended, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Extended.4.0.0.1\lib\net45-full\NLog.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog.Web, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Web.4.2.1\lib\net35\NLog.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -224,6 +234,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -232,14 +243,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610040746506_init.cs" />
-    <Compile Include="Migrations\201610040746506_init.Designer.cs">
-      <DependentUpon>201610040746506_init.cs</DependentUpon>
+    <Compile Include="Migrations\201610050834427_init.cs" />
+    <Compile Include="Migrations\201610050834427_init.Designer.cs">
+      <DependentUpon>201610050834427_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610050948079_second.cs" />
+    <Compile Include="Migrations\201610050948079_second.Designer.cs">
+      <DependentUpon>201610050948079_second.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
     <Compile Include="Models\DbContext.cs" />
     <Compile Include="Models\General\GeneralModels.cs" />
+    <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\Manager\ManagerDisplayToursModels.cs" />
     <Compile Include="Models\Manager\ManagerHotel.cs" />
     <Compile Include="Models\Manager\ManagerModels.cs" />
@@ -262,6 +279,7 @@
     <Compile Include="Repos\UserRepo.cs" />
     <Compile Include="Utilites\AppRandom.cs" />
     <Compile Include="Utilites\Constants.cs" />
+    <Compile Include="Utilites\HandleErrorExtension.cs" />
     <Compile Include="WebUI\PagingHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -304,6 +322,10 @@
     <Content Include="Views\Shared\jquery.cshtml" />
     <Content Include="Views\User\PhoneNumber.cshtml" />
     <Content Include="Views\Manager\EditApartments.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Shared\_partial_top_manager.cshtml" />
+    <Content Include="Views\Shared\_partial_top_admin.cshtml" />
+    <Content Include="Views\Shared\_partial_top_content_manager.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -315,13 +337,20 @@
     <Folder Include="App_Data\Images\" />
     <Folder Include="Content\SystemImages\" />
     <Folder Include="Content\TmpImages\" />
+    <Folder Include="Logs\" />
     <Folder Include="Models\User\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610040746506_init.resx">
-      <DependentUpon>201610040746506_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610050834427_init.resx">
+      <DependentUpon>201610050834427_init.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610050948079_second.resx">
+      <DependentUpon>201610050948079_second.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

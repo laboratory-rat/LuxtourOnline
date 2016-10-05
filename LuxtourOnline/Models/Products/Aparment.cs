@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LuxtourOnline.Models
 {
-    public class Aparment
+    public class Apartment
     {
         public int Id { get; set; }
 

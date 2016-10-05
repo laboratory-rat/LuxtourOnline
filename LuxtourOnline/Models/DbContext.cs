@@ -10,7 +10,7 @@ namespace LuxtourOnline.Models
 {
     public class SiteDbContext : IdentityDbContext<AppUser>
     {
-        public SiteDbContext() : base("DebugConnection")
+        public SiteDbContext() : base("DefaultConnection")
         {
         }
 
@@ -20,10 +20,12 @@ namespace LuxtourOnline.Models
         public DbSet<HotelDescription> HotelDescriptions { get; set; }
         public DbSet<HotelFeature> Features { get; set; }
         public DbSet<HotelElement> HotelElements { get; set; }
-        public DbSet<Aparment> Apartents { get; set; }
+        public DbSet<Apartment> Apartents { get; set; }
         public DbSet<SiteImage> SiteImages { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Tag> Tags { get; set; }
+
+        public DbSet<Log> Logs { get; set; }
     }
 
 

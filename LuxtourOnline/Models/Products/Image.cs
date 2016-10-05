@@ -27,7 +27,7 @@ namespace LuxtourOnline.Models
 
         public virtual Tour Tour { get; set; } = null;
         public virtual Hotel Hotel { get; set; } = null;
-        public virtual Aparment Apartment { get; set; } = null;
+        public virtual Apartment Apartment { get; set; } = null;
 
     }
 }

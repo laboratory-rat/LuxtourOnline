@@ -1,4 +1,28 @@
-﻿
+﻿@{
+    ViewBag.Hello = "";
+
+    if (User.IsInRole("manager"))
+    {
+        ViewBag.Hello = "Manager";
+    }
+    else if (User.IsInRole("admin"))
+    {
+        ViewBag.Hello = "Administrator";
+    }
+    else if (User.IsInRole("content_manager"))
+    {
+        ViewBag.Hello = "Content Manager";
+    }
+    else if (User.IsInRole("agent"))
+    {
+        ViewBag.Hello = "Agent";
+    }
+    else if (User.IsInRole("user"))
+    {
+        ViewBag.Hello = User.Identity.Name;
+    }
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,15 +128,41 @@
             <!-- <div class="mdl-layout-icon"></div>-->
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <span class="mdl-layout-title">Manager</span>
+                <span class="mdl-layout-title">
+                    @ViewBag.Hello
+                </span>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation. We hide it in small screens. -->
                 <nav class="mdl-navigation">
-                    @Html.ActionLink("Home", "Index", "Manager", null, new { @class = "mdl-navigation__link" })
+                    @*@Html.ActionLink("Home", "Index", "Manager", null, new { @class = "mdl-navigation__link" })
                     @Html.ActionLink("Tours", "TourList", "Manager", null, new { @class = "mdl-navigation__link" })
                     @Html.ActionLink("Hotels", "HotelsList", "Manager", null, new { @class = "mdl-navigation__link" })
-                    @Html.ActionLink("Users", "UserList", "User", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Users", "UserList", "User", null, new { @class = "mdl-navigation__link" })*@
+
+
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        @Html.Partial("_partial_top_user")
+                    }
+                    else
+                    {
+                        if (User.IsInRole("manager"))
+                        {
+                            @Html.Partial("_partial_top_manager")
+                        }
+                        else if (User.IsInRole("admin"))
+                        {
+                            @Html.Partial("_partial_top_admin")
+                        }
+                        else if (User.IsInRole("content_manager"))
+                        {
+                            @Html.Partial("_partial_top_content_manager")
+                        }
+                    }
+
+
+
 
                     <a href="#" id="LayoutLanguage" class="mdl-navigation__link">
                         Language
@@ -123,10 +173,15 @@
                         <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "Index", "Manager", new { language = "uk" }, new { @class = "mdl-navigation__link" })</li>
                         <li class="mdl-menu__item">@Html.ActionLink("Russian", "Index", "Manager", new { language = "ru" }, new { @class = "mdl-navigation__link" })</li>
                     </ul>
-                    @Html.ActionLink("SignOut", "Login", "User", null, new { @class = "mdl-navigation__link" })
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("SignOut", "Login", "User", null, new { @class = "mdl-navigation__link" })
+                    }
                 </nav>
             </div>
         </header>
+
+
 
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Quick actions</span>

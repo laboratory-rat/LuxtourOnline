@@ -21,7 +21,7 @@ namespace LuxtourOnline.Models
 
         public virtual List<Tag> Tags { get; set; }
 
-        public virtual List<Aparment> Apartmetns { get; set; }
+        public virtual List<Apartment> Apartmetns { get; set; }
 
         public virtual List<Review> Rewiews { get; set; }
 

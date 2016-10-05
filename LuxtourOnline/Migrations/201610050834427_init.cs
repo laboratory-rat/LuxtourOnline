@@ -8,7 +8,7 @@ namespace LuxtourOnline.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Aparments",
+                "dbo.Apartments",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -104,7 +104,7 @@ namespace LuxtourOnline.Migrations
                         Hotel_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Aparments", t => t.Apartment_Id)
+                .ForeignKey("dbo.Apartments", t => t.Apartment_Id)
                 .ForeignKey("dbo.Hotels", t => t.Hotel_Id)
                 .Index(t => t.Apartment_Id)
                 .Index(t => t.Hotel_Id);
@@ -272,13 +272,13 @@ namespace LuxtourOnline.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Aparments", "Hotel_Id", "dbo.Hotels");
+            DropForeignKey("dbo.Apartments", "Hotel_Id", "dbo.Hotels");
             DropForeignKey("dbo.Hotels", "ModifyUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.TagTours", "Tour_Id", "dbo.Tours");
             DropForeignKey("dbo.TagTours", "Tag_Id", "dbo.Tags");
             DropForeignKey("dbo.TagHotels", "Hotel_Id", "dbo.Hotels");
             DropForeignKey("dbo.TagHotels", "Tag_Id", "dbo.Tags");
-            DropForeignKey("dbo.Aparments", "Tag_Id", "dbo.Tags");
+            DropForeignKey("dbo.Apartments", "Tag_Id", "dbo.Tags");
             DropForeignKey("dbo.Reviews", "Tour_Id", "dbo.Tours");
             DropForeignKey("dbo.Reviews", "Hotel_Id", "dbo.Hotels");
             DropForeignKey("dbo.Tours", "ModifiedBy_Id", "dbo.AspNetUsers");
@@ -288,7 +288,7 @@ namespace LuxtourOnline.Migrations
             DropForeignKey("dbo.Tours", "Id", "dbo.SiteImages");
             DropForeignKey("dbo.TourDescriptions", "ConnectedTour_Id", "dbo.Tours");
             DropForeignKey("dbo.SiteImages", "Hotel_Id", "dbo.Hotels");
-            DropForeignKey("dbo.SiteImages", "Apartment_Id", "dbo.Aparments");
+            DropForeignKey("dbo.SiteImages", "Apartment_Id", "dbo.Apartments");
             DropForeignKey("dbo.HotelDescriptions", "Hotel_Id", "dbo.Hotels");
             DropForeignKey("dbo.HotelElements", "HotelFeature_Id1", "dbo.HotelFeatures");
             DropForeignKey("dbo.HotelFeatures", "HotelDescription_Id", "dbo.HotelDescriptions");
@@ -317,8 +317,8 @@ namespace LuxtourOnline.Migrations
             DropIndex("dbo.HotelFeatures", new[] { "HotelDescription_Id" });
             DropIndex("dbo.HotelDescriptions", new[] { "Hotel_Id" });
             DropIndex("dbo.Hotels", new[] { "ModifyUser_Id" });
-            DropIndex("dbo.Aparments", new[] { "Hotel_Id" });
-            DropIndex("dbo.Aparments", new[] { "Tag_Id" });
+            DropIndex("dbo.Apartments", new[] { "Hotel_Id" });
+            DropIndex("dbo.Apartments", new[] { "Tag_Id" });
             DropTable("dbo.TagTours");
             DropTable("dbo.TagHotels");
             DropTable("dbo.AspNetRoles");
@@ -335,7 +335,7 @@ namespace LuxtourOnline.Migrations
             DropTable("dbo.HotelFeatures");
             DropTable("dbo.HotelDescriptions");
             DropTable("dbo.Hotels");
-            DropTable("dbo.Aparments");
+            DropTable("dbo.Apartments");
         }
     }
 }

@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @Html.Partial("_logo")
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <!-- <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />-->
+    <link href="~/Content/Manager.css" rel="stylesheet" />
+
+    <!-- <link rel="stylesheet" href="~/Content/mdl-v1.1.2/material.min.css"> -->
+    <!-- Internet <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.amber-light_blue.min.css"> -->
+    <link rel="stylesheet" type="text/css" href="~/Content/mdl-v1.1.2/material.amber-light_blue.min.css" />
+
+    <script src="~/Content/mdl-v1.1.2/material.min.js"></script>
+    <!-- Intenrnet <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
+    <link rel="stylesheet" href="~/Content/mdl-v1.1.2/icon.css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Manager.css" type="text/css" rel="stylesheet" />
+    @RenderSection("Style", false)
+
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+
+    <!-- Debug only! Change after reliase! -->
+    <meta name="description" content="Luxtour online. First online tour operator" />
+
+    <!-- Azure Insights -->
+
+    <script type="text/javascript">
+      var appInsights=window.appInsights||function(config){
+        function i(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s="AuthenticatedUserContext",h="start",c="stop",l="Track",a=l+"Event",v=l+"Page",y=u.createElement(o),r,f;y.src=config.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js";u.getElementsByTagName(o)[0].parentNode.appendChild(y);try{t.cookie=u.cookie}catch(p){}for(t.queue=[],t.version="1.0",r=["Event","Exception","Metric","PageView","Trace","Dependency"];r.length;)i("track"+r.pop());return i("set"+s),i("clear"+s),i(h+a),i(c+a),i(h+v),i(c+v),i("flush"),config.disableExceptionTracking||(r="onerror",i("_"+r),f=e[r],e[r]=function(config,i,u,e,o){var s=f&&f(config,i,u,e,o);return s!==!0&&t["_"+r](config,i,u,e,o),s}),t
+        }({
+            instrumentationKey:"1df4bbe1-2789-4a32-b259-60eee77d4cce"
+        });
+
+        window.appInsights=appInsights;
+        appInsights.trackPageView();
+    </script>
+
+</head>
+<body>
+
+    <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--no-desktop-drawer-button">
+        <header class="mdl-layout__header">
+            <!-- <div class="mdl-layout-icon"></div>-->
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+                <span class="mdl-layout-title">
+                    Luxtour Online
+                </span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation mdl-cell--hide-phone ">
+
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Tours", "Tours", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("News", "News", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Contacts", "Contacts", "Home", null, new { @class = "mdl-navigation__link" })
+                    <a href="#" id="LayoutLanguage" class="mdl-navigation__link">
+                        Language
+                    </a>
+                    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                        for="LayoutLanguage">
+                        <li class="mdl-menu__item">@Html.ActionLink("English", "Index", "Home", new { language = "en" }, new { @class = "mdl-navigation__link" })</li>
+                        <li class="mdl-menu__item">@Html.ActionLink("Ukranian", "Index", "Home", new { language = "uk" }, new { @class = "mdl-navigation__link" })</li>
+                        <li class="mdl-menu__item">@Html.ActionLink("Russian", "Index", "Home", new { language = "ru" }, new { @class = "mdl-navigation__link" })</li>
+                    </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @Html.ActionLink("SignOut", "Login", "User", null, new { @class = "mdl-navigation__link" })
+                    }
+                </nav>
+            </div>
+        </header>
+
+
+
+        <div class="mdl-layout__drawer">
+            <span class="mdl-layout-title">Menu</span>
+            <nav class="mdl-navigation">
+                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "mdl-navigation__link" })
+                @Html.ActionLink("Tours", "Tours", "Home", null, new { @class = "mdl-navigation__link" })
+                @Html.ActionLink("News", "News", "Home", null, new { @class = "mdl-navigation__link" })
+                @Html.ActionLink("Contacts", "Contacts", "Home", null, new { @class = "mdl-navigation__link" })
+            </nav>
+        </div>
+
+        <main class="mdl-layout__content">
+            <div class="page-content">
+                @RenderBody()
+            </div>
+            <footer class="app-footer-absolute-bottom mdl-mega-footer">
+                <p>&copy; @DateTime.Now.Year - LuxtourOnline</p>
+            </footer>
+        </main>
+    </div>
+
+    <script src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <!-- <script src="~/Scripts/bootstrap.min.js"></script> -->
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>

@@ -25,7 +25,7 @@ namespace LuxtourOnline.Controllers
         {
             _currentContext = context;
         }
-        
+
         public ActionResult Index()
         {
             return View();

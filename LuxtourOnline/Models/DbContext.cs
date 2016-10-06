@@ -10,7 +10,7 @@ namespace LuxtourOnline.Models
 {
     public class SiteDbContext : IdentityDbContext<AppUser>
     {
-        public SiteDbContext() : base("DefaultConnection")
+        public SiteDbContext() : base("AzureConnection")
         {
         }
 
@@ -26,7 +26,11 @@ namespace LuxtourOnline.Models
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<Log> Logs { get; set; }
+
+        
     }
+
+    
 
 
 }

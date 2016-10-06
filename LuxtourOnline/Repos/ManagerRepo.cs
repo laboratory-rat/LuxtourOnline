@@ -564,6 +564,13 @@ namespace LuxtourOnline.Repos
             var path = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Content\\TmpImages\\", full);
             var url = Path.Combine(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority), "/Content/TmpImages/", full);
 
+            string tmpDirectory = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Content\\TmpImages");
+
+            if (!Directory.Exists(tmpDirectory))
+            {
+                Directory.CreateDirectory(tmpDirectory);
+                _log.Info("Created tmp directory for images");
+            }
 
             image.SaveAs(path);
 
@@ -625,6 +632,15 @@ namespace LuxtourOnline.Repos
 
             var path = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Content\\SystemImages\\", full);
             var url = Path.Combine(HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority), "/Content/SystemImages/", full);
+
+
+            string directory = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, "Content\\SystemImages");
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+                _log.Info("Created directory for images");
+            }
 
 
             file.SaveAs(path);

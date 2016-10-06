@@ -230,6 +230,24 @@ namespace LuxtourOnline.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.Logs",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        EventDateTime = c.DateTime(nullable: false),
+                        EventLevel = c.String(nullable: false, maxLength: 100),
+                        UserName = c.String(nullable: false, maxLength: 100),
+                        MachineName = c.String(nullable: false, maxLength: 100),
+                        EventMessage = c.String(nullable: false),
+                        ErrorSource = c.String(maxLength: 100),
+                        ErrorClass = c.String(maxLength: 500),
+                        ErrorMethod = c.String(),
+                        ErrorMessage = c.String(),
+                        InnerErrorMessage = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.AspNetRoles",
                 c => new
                     {
@@ -322,6 +340,7 @@ namespace LuxtourOnline.Migrations
             DropTable("dbo.TagTours");
             DropTable("dbo.TagHotels");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Logs");
             DropTable("dbo.Tags");
             DropTable("dbo.Reviews");
             DropTable("dbo.AspNetUserRoles");

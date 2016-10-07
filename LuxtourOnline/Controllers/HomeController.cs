@@ -16,7 +16,7 @@ using System.Dynamic;
 
 namespace LuxtourOnline.Controllers
 {
-    [OutputCache(Location = System.Web.UI.OutputCacheLocation.Server, VaryByParam = "language", Duration = 60)]
+    //[OutputCache(Location = System.Web.UI.OutputCacheLocation.Server, VaryByParam = "language", Duration = 60)]
     public class HomeController : BaseAppController, IDisposable
     {
         protected SiteDbContext _currentContext = null;

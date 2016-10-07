@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     <!-- <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />-->
-    <link href="~/Content/Manager.css" rel="stylesheet" />
 
     <!-- <link rel="stylesheet" href="~/Content/mdl-v1.1.2/material.min.css"> -->
     <!-- Internet <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.amber-light_blue.min.css"> -->
@@ -17,7 +16,6 @@
     <!-- Intenrnet <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
     <link rel="stylesheet" href="~/Content/mdl-v1.1.2/icon.css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/Manager.css" type="text/css" rel="stylesheet" />
     @RenderSection("Style", false)
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
@@ -42,18 +40,17 @@
 <body>
     @Html.Partial("_Facebook")
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--no-desktop-drawer-button">
-        <header class="mdl-layout__header">
-            <!-- <div class="mdl-layout-icon"></div>-->
-            <div class="mdl-layout__header-row">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--no-desktop-drawer-button" >
+        <header id="head" class="mdl-layout__header">
+            <!-- <div class="mdl-layout-icon"></div> -->
+            <div class="mdl-layout__header-row" >
                 <!-- Title -->
-                <span class="mdl-layout-title">
-                    Luxtour Online
-                </span>
+
+                <div class="mdl-layout-title"><img src="~/Content/Resources/logo.png" /></div>
                 <!-- Add spacer, to align navigation to the right -->
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation. We hide it in small screens. -->
-                <nav class="mdl-navigation mdl-cell--hide-phone ">
+                <nav class="mdl-navigation mdl-cell--hide-phone app-hide-tablet">
 
                     @Html.ActionLink("Home", "Index", "Home", null, new { @class = "mdl-navigation__link" })
                     @Html.ActionLink("Tours", "Tours", "Home", null, new { @class = "mdl-navigation__link" })
@@ -88,7 +85,7 @@
             </nav>
         </div>
 
-        <main class="mdl-layout__content">
+        <main id="content" class="mdl-layout__content">
             <div class="page-content">
                 @RenderBody()
             </div>
@@ -98,11 +95,62 @@
         </main>
     </div>
 
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="~/Scripts/jquery-3.1.0.min.js"></script>
     <!-- <script src="~/Scripts/bootstrap.min.js"></script> -->
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/angular-route.js"></script>
     <script src="~/Scripts/angular-animate.js"></script>
     @RenderSection("Scripts", false)
+
+    <script>
+        $('#content').on('scroll', function () {
+
+            var height = $('#content').scrollTop();
+            var h = $('#head');
+
+            console.log(height);
+
+            if (height < 100)
+            {
+                h.removeClass('app-white-1');
+                h.removeClass('app-white-2');
+                h.removeClass('app-white-3');
+                h.removeClass('app-white-4');
+            }
+            else if (height >= 100 && height < 200)
+            {
+                h.addClass('app-white-1');
+                h.removeClass('app-white-2');
+                h.removeClass('app-white-3');
+                h.removeClass('app-white-4');
+            }
+            else if (height >= 200 && height < 300)
+            {
+                h.removeClass('app-white-1');
+                h.addClass('app-white-2');
+                h.removeClass('app-white-3');
+                h.removeClass('app-white-4');
+            }
+            else if (height >= 300 && height < 400)
+            {
+                h.removeClass('app-white-1');
+                h.removeClass('app-white-2');
+
+                h.addClass('app-white-3');
+                h.removeClass('app-white-4');
+            }
+            else 
+            {
+                h.removeClass('app-white-1');
+                h.removeClass('app-white-2');
+                h.removeClass('app-white-3');
+                h.addClass('app-white-4')
+            }
+
+        });
+        
+    </script>
+
 </body>
 </html>

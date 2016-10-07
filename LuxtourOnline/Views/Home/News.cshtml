@@ -3,11 +3,13 @@
     ViewBag.Title = "News";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
-<div class="mdl-grid" ng-app="NewsApp" ng-controller="NewsCtrl" ng-init="Count = @ViewBag.Count; Page = @ViewBag.Page">
-    <div class="mdl-cell mdl-cell--12-col">
-        <div class="mdl-typography--headline">News</div>
+<div class="mdl-grid" ng-app="NewsApp" ng-controller="NewsCtrl" ng-init="Count = @ViewBag.Count; Page = @ViewBag.Page"  
+     infinite-scroll="LoadMore()" infinite-scroll-disabled="Last == true" infinity-scroll-container='".mdl-grid"' style="overflow:auto;">
+    <div class="mdl-cell mdl-cell--12-col" >
+        <div class="mdl-typography--headline" ng-click="LoadMore()">News {{Last}}</div>
     </div>
-    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone" ng-repeat="item in Data">
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone" ng-repeat="item in Data"
+         ng-style="{'visibility:none;': Data == null}">
         <div class="mdl-card__title" style="height: 250px; background-size:cover; background-image:url({{item.full_picture}});">
             <div class="mdl-card__title-text mdl-typography--headline-color-contrast app-card__title-text">{{item.story}}</div>
         </div>
@@ -18,34 +20,50 @@
             <a href="{{item.link}}" target="_blank">Читати на Facebook</a>
         </div>
     </div>
+    
 </div>
-
+<div style='clear: both;'></div>
 
 @section Scripts
 {
+    <script type="text/javascript" src="~/Scripts/ng-infinite-scroll.js"></script>
 
-    <script async>
-        var app = angular.module("NewsApp", ['ngAnimate']);
 
-        app.controller("NewsCtrl", ['$scope', '$http', function ($scope, $http) {
+    <script async type="text/javascript">
+        var app = angular.module("NewsApp", ['ngAnimate', 'infinite-scroll']);
+
+        app.controller("NewsCtrl", ['$scope', '$http', '$window', '$timeout', function ($scope, $http, $window, $timeout) {
+            console.log("1sadad23");
+
             $scope.Data = null;
 
             $scope.Count = 10;
-            $scope.Page = 1;
+            $scope.Page;
+            $scope.Last = false;
+
+            $scope.LoadMore = function () {
+                $scope.Last = true;
+
+                $timeout(function () {
+                    console.log("Started");
+                    $scope.Load();
+                }, 1000);
+            };
+
+            
 
             $scope.Load = function () {
-
-                console.log($scope.Page + " // " + $scope.Count);
                 $http({
                     url: "/Home/GetNews",
                     method: "GET",
                     params: { page: $scope.Page, count: $scope.Count }
                 })
                 .success(function (response) {
-                    console.log(response);
-                    
                     if ($scope.Data == null)
                         $scope.Data = [];
+
+                    if (response == undefined)
+                        return;
 
                     for (i = 0; i < response.length; i++)
                     {
@@ -53,16 +71,23 @@
                             $scope.Data.push(response[i]);
                     }
 
+                    $scope.Last = false;
+
                 });
+
+                $scope.Page++;
             };
+
+
 
             $scope.GetImage = function (i) {
                 return "Background-image: url(" + i.full_picture + ");";
             };
 
-            $scope.Load();
-        }]);
 
+
+
+        }]);
 
     </script>
 

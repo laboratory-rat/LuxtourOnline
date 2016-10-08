@@ -202,6 +202,7 @@
     <Content Include="Content\mdl-v1.1.2\material.js" />
     <Content Include="Content\mdl-v1.1.2\material.min.css" />
     <Content Include="Content\mdl-v1.1.2\material.min.js" />
+    <Content Include="Content\Resources\baba.png" />
     <Content Include="Content\Resources\back_1.jpg" />
     <Content Include="Content\Resources\back_2.jpg" />
     <Content Include="Content\Resources\back_3.png" />
@@ -211,7 +212,26 @@
     <Content Include="Content\Resources\back_7.png" />
     <Content Include="Content\Resources\back_8.png" />
     <Content Include="Content\Resources\back_9.png" />
+    <Content Include="Content\Resources\coffee.png" />
+    <Content Include="Content\Resources\gift.png" />
+    <Content Include="Content\Resources\grid-1-1.png" />
+    <Content Include="Content\Resources\grid-1-2.png" />
+    <Content Include="Content\Resources\grid-1-3.png" />
+    <Content Include="Content\Resources\grid-1-4.png" />
+    <Content Include="Content\Resources\grid-1-5.png" />
+    <Content Include="Content\Resources\grid-1-6.png" />
+    <Content Include="Content\Resources\grid-2-1.png" />
+    <Content Include="Content\Resources\grid-2-2.png" />
+    <Content Include="Content\Resources\grid-2-3.png" />
+    <Content Include="Content\Resources\grid-2-4.png" />
+    <Content Include="Content\Resources\head.png" />
+    <Content Include="Content\Resources\in_out.png" />
     <Content Include="Content\Resources\logo.png" />
+    <Content Include="Content\Resources\land_card.png" />
+    <Content Include="Content\Resources\map.png" />
+    <Content Include="Content\Resources\pen.png" />
+    <Content Include="Content\Resources\photo.png" />
+    <Content Include="Content\Resources\tickets.png" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -285,6 +305,8 @@
     <Content Include="Scripts\ng-file-upload.min.js" />
     <Content Include="Scripts\ng-infinite-scroll.js" />
     <Content Include="Scripts\ng-infinite-scroll.min.js" />
+    <Content Include="Scripts\slick.js" />
+    <Content Include="Scripts\slick.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

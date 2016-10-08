@@ -236,3 +236,222 @@
 }
 
 /*#endregion */
+
+/*#region Land */
+
+
+
+
+section
+{
+    width: 100%;
+    height: 890px;
+    background-size: cover;
+}
+
+#last_section
+{
+
+}
+
+@media only screen and (max-width: 1366px)
+{
+    section
+    {
+        width: 100%;
+        height: 770px;
+        background-size: cover;
+    }
+
+    .land-card-text
+    {
+        position: absolute;
+        left: 41.6%;
+        margin-top: -20px;
+        background-color: rgb(71, 142, 235);
+        z-index: 300;
+        padding: 10px;
+        color: white;
+    }
+
+    .land-form-one button
+    {
+        width: 100%;
+        height: 50px;
+        margin-top: 50px;
+        margin-left: 30px;
+    }
+
+
+}
+
+.land-card
+{
+    background-color: rgba(0,0,0,0);
+    border: 2px solid #FFC107;
+}
+
+.land-card .material-icons
+{
+    position: absolute;
+    color: white;
+    top: -2px;
+}
+
+.land-card input
+{
+    border-color: white;
+    color: white;
+}
+
+.land-card .mdl-button
+{
+    width: 260px;
+    height: 49px;
+    margin-top: 21%;
+    margin-left: 20px;
+}
+/*#endregion */
+
+#photos
+{
+    margin-top: 58%;
+    position: absolute;
+}
+
+.land_card_1_container
+{
+    position: absolute;
+
+    max-width:900px;
+    
+    margin-top: 300px;
+    margin-left: 20%;
+
+}
+
+.land_card_1_first
+{
+
+}
+
+.land_card_1_second
+{
+    margin-left: 0px;
+    margin-top: -130px;
+}
+
+.card_general
+{
+    background-position:center;
+    background-size: cover;
+    background-image: url(/Content/Resources/land_card.png);
+
+    display: inline-block;
+
+    width:260px;
+    height: 260px;
+}
+
+.card_general>div
+{
+    font-size: 12px;
+    position: absolute;
+    width: 180px;
+    padding-top: 00px;
+    padding-left: 40px;
+}
+.card_general .card_title
+{
+    font-weight: bold;
+}
+
+.card_general .card_subtitle
+{
+    margin-top: -40px;
+
+}
+
+.card_general i
+{
+    font-size: 49px;
+}
+
+.card_general img
+{
+    padding-top: 35px;
+    padding-bottom: 45px;
+}
+
+.card_general span
+{
+}
+
+#card_1{
+
+}
+#card_2{
+
+}
+#card_3{
+
+}
+#card_4{
+
+}
+#card_5{
+
+}
+
+#tickets
+{
+    position: absolute;
+    right: 5%;
+    margin-top: 55%;
+}
+
+#coffee
+{
+    position: absolute;
+    left: 5%;
+    margin-top: 55%;
+}
+
+#map
+{
+    position: absolute;
+    right: -17%;
+    margin-top: 5%;
+}
+
+#pen
+{
+    position: absolute;
+    left: 6%;
+    
+    margin-top: 42%;
+}
+
+.app-img-center
+{
+    display: block;
+    margin: 0 auto;
+}
+
+
+/*#region SlickLand */
+
+#tours .slick-slide {
+    -moz-transition: all ease-out 250ms;
+    -o-transition: all ease-out 250ms;
+    -webkit-transition: all ease-out 250ms;
+    transition: all ease-out 250ms;
+
+    width: 250px;
+}
+
+#tours .slick-current
+{
+    width: 300px;
+}
+/*#endregion */

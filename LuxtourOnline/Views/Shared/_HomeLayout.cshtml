@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
     <!-- <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />-->
-
     <!-- <link rel="stylesheet" href="~/Content/mdl-v1.1.2/material.min.css"> -->
     <!-- Internet <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.amber-light_blue.min.css"> -->
     <link rel="stylesheet" type="text/css" href="~/Content/mdl-v1.1.2/material.amber-light_blue.min.css" />
@@ -16,6 +15,7 @@
     <!-- Intenrnet <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
     <link rel="stylesheet" href="~/Content/mdl-v1.1.2/icon.css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     @RenderSection("Style", false)
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
@@ -26,13 +26,13 @@
     <!-- Azure Insights -->
 
     <script type="text/javascript">
-      var appInsights=window.appInsights||function(config){
-        function i(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s="AuthenticatedUserContext",h="start",c="stop",l="Track",a=l+"Event",v=l+"Page",y=u.createElement(o),r,f;y.src=config.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js";u.getElementsByTagName(o)[0].parentNode.appendChild(y);try{t.cookie=u.cookie}catch(p){}for(t.queue=[],t.version="1.0",r=["Event","Exception","Metric","PageView","Trace","Dependency"];r.length;)i("track"+r.pop());return i("set"+s),i("clear"+s),i(h+a),i(c+a),i(h+v),i(c+v),i("flush"),config.disableExceptionTracking||(r="onerror",i("_"+r),f=e[r],e[r]=function(config,i,u,e,o){var s=f&&f(config,i,u,e,o);return s!==!0&&t["_"+r](config,i,u,e,o),s}),t
+        var appInsights = window.appInsights || function (config) {
+            function i(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = "AuthenticatedUserContext", h = "start", c = "stop", l = "Track", a = l + "Event", v = l + "Page", y = u.createElement(o), r, f; y.src = config.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js"; u.getElementsByTagName(o)[0].parentNode.appendChild(y); try { t.cookie = u.cookie } catch (p) { } for (t.queue = [], t.version = "1.0", r = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; r.length;) i("track" + r.pop()); return i("set" + s), i("clear" + s), i(h + a), i(c + a), i(h + v), i(c + v), i("flush"), config.disableExceptionTracking || (r = "onerror", i("_" + r), f = e[r], e[r] = function (config, i, u, e, o) { var s = f && f(config, i, u, e, o); return s !== !0 && t["_" + r](config, i, u, e, o), s }), t
         }({
-            instrumentationKey:"1df4bbe1-2789-4a32-b259-60eee77d4cce"
+            instrumentationKey: "1df4bbe1-2789-4a32-b259-60eee77d4cce"
         });
 
-        window.appInsights=appInsights;
+        window.appInsights = appInsights;
         appInsights.trackPageView();
     </script>
 
@@ -40,10 +40,10 @@
 <body>
     @Html.Partial("_Facebook")
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--no-desktop-drawer-button" >
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--no-desktop-drawer-button">
         <header id="head" class="mdl-layout__header">
             <!-- <div class="mdl-layout-icon"></div> -->
-            <div class="mdl-layout__header-row" >
+            <div class="mdl-layout__header-row">
                 <!-- Title -->
 
                 <div class="mdl-layout-title"><img src="~/Content/Resources/logo.png" /></div>
@@ -111,37 +111,32 @@
 
             console.log(height);
 
-            if (height < 100)
-            {
+            if (height < 100) {
                 h.removeClass('app-white-1');
                 h.removeClass('app-white-2');
                 h.removeClass('app-white-3');
                 h.removeClass('app-white-4');
             }
-            else if (height >= 100 && height < 200)
-            {
+            else if (height >= 100 && height < 200) {
                 h.addClass('app-white-1');
                 h.removeClass('app-white-2');
                 h.removeClass('app-white-3');
                 h.removeClass('app-white-4');
             }
-            else if (height >= 200 && height < 300)
-            {
+            else if (height >= 200 && height < 300) {
                 h.removeClass('app-white-1');
                 h.addClass('app-white-2');
                 h.removeClass('app-white-3');
                 h.removeClass('app-white-4');
             }
-            else if (height >= 300 && height < 400)
-            {
+            else if (height >= 300 && height < 400) {
                 h.removeClass('app-white-1');
                 h.removeClass('app-white-2');
 
                 h.addClass('app-white-3');
                 h.removeClass('app-white-4');
             }
-            else 
-            {
+            else {
                 h.removeClass('app-white-1');
                 h.removeClass('app-white-2');
                 h.removeClass('app-white-3');
@@ -149,7 +144,7 @@
             }
 
         });
-        
+
     </script>
 
 </body>

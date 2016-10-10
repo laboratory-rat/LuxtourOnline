@@ -89,8 +89,72 @@
             <div class="page-content">
                 @RenderBody()
             </div>
-            <footer class="app-footer-absolute-bottom mdl-mega-footer">
-                <p>&copy; @DateTime.Now.Year - LuxtourOnline</p>
+            <footer class="mdl-mega-footer">
+                @*
+                <div class="mdl-mega-footer__top-section">
+                    <div class="mdl-mega-footer__left-section">
+                        <button class="mdl-mega-footer__social-btn">Facebook</button>
+                        <button class="mdl-mega-footer__social-btn">Vkontakte</button>
+                        <button class="mdl-mega-footer__social-btn">Twitter</button>
+                    </div>
+                    <div class="mdl-mega-footer__right-section">
+                        <a href="">To partnert</a>
+                        <a href="">Link 2</a>
+                        <a href="">Link 3</a>
+                    </div>
+            
+                </div>
+                *@
+                <div class="mdl-mega-footer__middle-section">
+                    @*<div class="mdl-mega-footer__drop-down-section">
+                        <h1 class="mdl-mega-footer__heading">Heading </h1>
+                        <ul class="mdl-mega-footer__link-list">
+                            <li><a href="">Link A</a></li>
+                            <li><a href="">Link B</a></li>
+                        </ul>
+                    </div>*@
+                    <div class="mdl-mega-footer__drop-down-section">
+                        <h1 class="mdl-mega-footer__heading mdl-typography--font-regular">Luxtour.online </h1>
+                        <ul class="mdl-mega-footer__link-list">
+                            <li style="font-size: 16px;">78001, city Lviv, Oprishkivska street, 3</li>
+                            <li style="font-size: 16px;">+38095-gotoanothertouroperator</li>
+                        </ul>
+                    </div>
+                    <div class="mdl-mega-footer__drop-down-section mdl-typography--text-center">
+                        <h1 class="mdl-mega-footer__heading mdl-typography--font-bold">Партнерам </h1>
+                        <ul class="mdl-mega-footer__link-list mdl-color-text--primary">
+                            <li><a href="@Url.Action("Index", "Partner")">Для турфірм</a></li>
+                            <li><a href="@Url.Action("Index", "Agent")">Для Агентів</a></li>
+                            <li><a href="@Url.Action("Index", "Partner")">Франшиза</a></li>
+                        </ul>
+                    </div>
+                    <div class="mdl-mega-footer__drop-down-section mdl-typography--text-center">
+                        <h1 class="mdl-mega-footer__heading mdl-typography--font-bold">Ваш відпочинок</h1>
+                        <ul class="mdl-mega-footer__link-list mdl-color-text--primary">
+                            <li><a href="@Url.Action("Tour")">Тури</a></li>
+                            <li><a href="@Url.Action("News")">Новини</a></li>
+                        </ul>
+                    </div>
+                    <form id="footer-form" class="mdl-cell--hide-tablet mdl-cell--hide-phone">
+                        <div class="mdl-typography--headline mdl-color-text--primary mdl-typography--text-center">Замовити дзвінок</div>
+                        <div style="padding-top: 10px;">
+                            <i class="material-icons">person</i>
+                            <div class="mdl-textfield">
+                                <input type="text" id="FooterName" placeholder="Your Name" class="mdl-textfield__input" name="FooterName" />
+                            </div>
+                        </div>
+                        <div>
+                            <i class="material-icons">call</i>
+                            <div class="mdl-textfield">
+                                <input type="number" id="FooterPhone" placeholder="Your phone number" class="mdl-textfield__input" name="FooterName" />
+                            </div>
+                        </div>
+                        <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-color-text--white mdl-button--raised mdl-button--accent">
+                            Подзвоніть мені!
+                        </button>
+                    </form>
+                </div>
+
             </footer>
         </main>
     </div>

@@ -1,13 +1,34 @@
 ﻿@{
     ViewBag.Title = "LuxtourOnlne";
 }
-<section style="background-image: url(/Content/Resources/back_1.jpg); margin-top: -64px;"></section>
+<section style="background-image: url(/Content/Resources/back_1.jpg); margin-top: -64px;">
+    <div class="mdl-grid" id="land-first">
+        <div class="mdl-cell mdl-cell--12-col">
+            <div class="mdl-typography--display-1 mdl-color-text--white">
+                Незабутній відпочинок на побережжі Турції
+            </div>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col mdl-color-text--white">
+            <div class="mdl-typography--headline mdl-typography--font-light">
+                ПЕРШИЙ В УКРАЇНІ ТУРОПЕРАТОР ONLINE ПРОДАЖІВ
+            </div>
+            <div class="mdl-typography--headline">
+                Персональний підбір туру
+            </div>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col">
+            <a class="mdl-color-text--white mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--accent">
+                <span>Замовити тур зараз</span>
+            </a>
+        </div>
+    </div>
+</section>
 <section style="background-image: url(/Content/Resources/back_2.jpg);">
-    <div class="mdl-grid" style="position: absolute; margin-top: -160px;">
+    <div class="mdl-grid" style="position: absolute; margin-top: -140px;">
         <div class="mdl-cell mdl-cell--12-col" style="max-width: 807px; margin: 0 auto; ">
             <h3 class="mdl-color-text--white mdl-typography--text-center mdl-typography--display-2">Luxtour online</h3>
             <h6 class="mdl-color-text--white mdl-typography--text-center
-                mdl-typography--title">
+                mdl-typography--title mdl-typography--font-light">
                 Luxtour online - украінський туроператор, створений командою моложих професіоналів за підтримки англійських партнерів із Лондона. Ціль - стати "гуру" з відпочинку у туреччині.
             </h6>
         </div>
@@ -19,8 +40,8 @@
             margin-top: -70px;
             max-width: 952px;">
             <div class="mdl-typography--text-center mdl-color-text--white">
-                <h4 class="mdl-typography--display-1">Наші погляди</h4>
-                <span class="mdl-typography--title">
+                <h4 class="mdl-typography--display-1 mdl-typography--font-light">Наші погляди</h4>
+                <span class="mdl-typography--title mdl-typography--font-light mdl-typography--subhead" style="font-size: 20px;" >
                     У нас на сайті Ви маєте можливість ознайомитися та,У нас на сайті Ви маєте можливість ознайомитися та,
                     У нас на сайті Ви маєте можливість ознайомитися та,
                     У нас на сайті Ви маєте можливість ознайомитися та,
@@ -30,7 +51,7 @@
                 </span>
             </div>
         </div>
-        <div style="width:100%; margin-top: 70px;">
+        <div class="land-form-1">
             <h5 class="land-card-text mdl-typography--headline">Замовити дзвінок</h5>
             <div class="mdl-card land-card mdl-cell mdl-cell--6-col-desktop mdl-cell--3-offset-desktop mdl-cell--8-col mdl-cell--2-offset-tablet">
                 <div class="mdl-card__supporting-text">
@@ -39,17 +60,27 @@
                             <div class="mdl-cell mdl-cell--6-col">
                                 <div class="mdl-textfield mdl-js-textfield">
                                     <input type="text" class="mdl-textfield__input" id="CallInputName" name="CallInputName" />
-                                    <label for="CallInputName" class="mdl-textfield__label"><i class="material-icons">edit</i></label>
+                                    <label for="CallInputName" class="mdl-textfield__label">
+                                        <i class="material-icons">
+                                            person
+                                        </i>
+                                    </label>
                                 </div>
 
                                 <div class="mdl-textfield mdl-js-textfield">
 
                                     <input type="text" class="mdl-textfield__input" id="CallInputPhone" name="CallInputPhone" />
-                                    <label for="CallInputPhone" class="mdl-textfield__label"><i class="material-icons">edit</i></label>
+                                    <label for="CallInputPhone" class="mdl-textfield__label">
+                                        <i class="material-icons">
+                                            call
+                                        </i>
+                                    </label>
                                 </div>
                             </div>
                             <div class="mdl-cell mdl-cell--6-col">
-                                <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored mdl-button--primary">Подзвоніть мені</button>
+                                <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored mdl-button--primary">
+                                    Подзвоніть мені
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -112,11 +143,8 @@
     <div id="coffee">
         <img src="~/Content/Resources/coffee.png" />
     </div>
-    <div class="mdl-grid mdl-grid--no-spacing" 
-        style="max-width: 860px;
-        margin: 0 auto;
-        padding-top: 320px;">
-        <div class="mdl-cell mdl-cell--12-col" style="padding-top:20px;">
+    <div class="mdl-grid land-grid-1">
+        <div class="mdl-cell mdl-cell--12-col" style="padding-top:20px; margin-top: -20px; ">
             <h4 class="mdl-typography--display-2 mdl-typography--text-center">МИ ПРОПОНУЄМО</h4>
         </div>
         <div class="mdl-cell--4-col mdl-typography--text-center">
@@ -144,7 +172,7 @@
             <img src="~/Content/Resources/grid-1-6.png" class="app-img-center" />
             <h6 class="mdl-typography--title" style="max-width: 60%; margin: 0 auto;">Вибір туру онлайн</h6>
         </div>
-        <div class="mdl-cell mdl-cell--12-col" style="height:60px;"></div>
+        <div class="mdl-cell mdl-cell--12-col" style="height:90px;"></div>
         <div class="mdl-cell mdl-cell--12-col">
             <div style="width: 260px; margin: 0 auto;">
                 <button class="mdl-button mdl-shadow--16dp mdl-js-button mdl-button--raised mdl-button--accent mdl-button--colored mdl-js-ripple-effect mdl-color-text--white"
@@ -156,18 +184,18 @@
     </div>
 </section>
 <section style="background-image: url(/Content/Resources/back_5.png);">
-    <div class="mdl-grid" style="max-width: 900px; padding-top: 300px;">
+    <div class="mdl-grid" style="max-width: 1060px; padding-top: 240px;">
         <div class="mdl-cell--12-col">
             <h4 class="mdl-typography--display-2 mdl-typography--text-center">НАШІ ТУРИ</h4>
         </div>
-        <div class="mdl-cell--12-col">
+        <div class="mdl-cell--12-col" style="padding-top: 90px;">
             <div id="tours">
-                <div><img src="http://placehold.it/250/250" /></div>
-                <div><img src="http://placehold.it/250/250" /></div>
-                <div><img src="http://placehold.it/250/250" /></div>
-                <div><img src="http://placehold.it/250/250" /></div>
-                <div><img src="http://placehold.it/250/250" /></div>
-                <div><img src="http://placehold.it/250/250" /></div>
+                <div><img src="http://placehold.it/304x368" /></div>
+                <div><img src="http://placehold.it/304x368" /></div>
+                <div><img src="http://placehold.it/304x368" /></div>
+                <div><img src="http://placehold.it/304x368" /></div>
+                <div><img src="http://placehold.it/304x368" /></div>
+                <div><img src="http://placehold.it/304x368" /></div>
             </div>
         </div>
     </div>
@@ -176,14 +204,190 @@
     <div id="pen">
         <img src="~/Content/Resources/pen.png" />
     </div>
+    <div class="mdl-grid landing-grid-2">
+        <div class="mdl-cell mdl-cell--12-col" style="padding-bottom: 48px;">
+            <div class="mdl-typography--text-center mdl-color-text--white mdl-typography--display-1 mdl-typography--font-light">
+                ЧОМУ ВАРТО ОБРАТИ САМЕ НАС
+            </div>
+        </div>
+        <div class="mdl-cell mdl-cell--3-col">
+            <img src="~/Content/Resources/grid-2-1.png" />
+            <div class="mdl-typography--headline mdl-color-text--white mdl-typography--font-light">
+                Комфортні перельоти
+            </div>
+            <div class="mdl-typography--body-1 mdl-typography--font-light">
+                Зручні перельоти доповнюють
+                чудові враження про відпочинок загалом
+            </div>
+        </div>
+
+        <div class="mdl-cell mdl-cell--3-col">
+            <img src="~/Content/Resources/grid-2-2.png" />
+            <div class="mdl-typography--headline mdl-color-text--white mdl-typography--font-light">
+                Комфортні перельоти
+            </div>
+            <div class="mdl-typography--body-1 mdl-typography--font-light">
+                Зручні перельоти доповнюють
+                чудові враження про відпочинок загалом
+            </div>
+        </div>
+
+        <div class="mdl-cell mdl-cell--3-col">
+            <img src="~/Content/Resources/grid-2-3.png" />
+            <div class="mdl-typography--headline mdl-color-text--white mdl-typography--font-light">
+                Комфортні перельоти
+            </div>
+            <div class="mdl-typography--body-1 mdl-typography--font-light">
+                Зручні перельоти доповнюють
+                чудові враження про відпочинок загалом
+            </div>
+        </div>
+
+        <div class="mdl-cell mdl-cell--3-col">
+            <img src="~/Content/Resources/grid-2-4.png" />
+            <div class="mdl-typography--headline mdl-color-text--white mdl-typography--font-light">
+                Комфортні перельоти
+            </div>
+            <div class="mdl-typography--body-1 mdl-typography--font-light">
+                Зручні перельоти доповнюють
+                чудові враження про відпочинок загалом
+            </div>
+        </div>
+    </div>
+    <div class="mdl-grid land-form-2">
+        <div class="out-block">
+            <div class="mdl-typography--headline mdl-typography--font-light">ПІДПИСАТИСЯ НА НОВИНИ</div>
+            <div class="mdl-typography--body-1 mdl-typography--font-thin" style="padding-top: 10px;">
+                Раз в тиждень ви зможете отримувати свіжі новини та пропозиції у сфері туризму
+            </div>
+        </div>
+
+        <div class="mdl-card mdl-cell mdl-cell--12-col ">
+            <form>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+
+                    <input type="text" class="mdl-textfield__input" id="secondFormName" name="CustomerName" />
+                    <label class="mdl-textfield__label" for="secondFormName"><i class="material-icons">person</i> Ім'я</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <input type="email" class="mdl-textfield__input" id="secondFormEmail" name="CustomerEmail" />
+                    <label class="mdl-textfield__label" for="secondFormEmail"><i class="material-icons">local_post_office</i> Email</label>
+                </div>
+                <button type="button" class="mdl-js-button mdl-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect">
+                    ПІДПИСАТИСЯ
+                </button>
+            </form>
+        </div>
+    </div>
 </section>
 <section style="background-image: url(/Content/Resources/back_7.png);">
     <div id="map">
         <img src="~/Content/Resources/map.png" />
     </div>
+    
+    <div class="land-grid-3">
+        <div style="width: 100%; padding-bottom: 40px; padding-top: 80px;" class="mdl-typography--text-center mdl-typography--text-uppercase mdl-color-text--white mdl-typography--display-1 mdl-typography--font-light">
+            Як ми працюємо
+        </div> 
+            <div class="element">
+                <img src="~/Content/Resources/3.1.png" />
+                <div class="mdl-typography--body-1 mdl-color-text--white">
+                    Обираєте тур
+                </div>
+            </div>
+            <div class="element arrow">
+                <img src="~/Content/Resources/ar.png" />
+            </div>
+            <div class="element">
+                <img src="~/Content/Resources/3.2.png" />
+                <div class="mdl-typography--body-1 mdl-color-text--white">
+                    Обираєте тур
+                </div>
+            </div>
+            <div class="element arrow">
+                <img src="~/Content/Resources/ar.png" />
+            </div>
+            <div class="element">
+                <img src="~/Content/Resources/3.3.png" />
+                <div class="mdl-typography--body-1 mdl-color-text--white">
+                    Обираєте тур
+                </div>
+            </div>
+            <div class="element arrow">
+                <img src="~/Content/Resources/ar.png" />
+            </div>
+            <div class="element">
+                <img src="~/Content/Resources/3.4.png" />
+                <div class="mdl-typography--body-1 mdl-color-text--white">
+                    Обираєте тур
+                </div>
+            </div>
+
+        
+    </div>
 </section>
-<section style="background-image: url(/Content/Resources/back_8.png);"></section>
-<section id="last_section" style="background-image: url(/Content/Resources/back_9.png);"></section>
+<section style="background-image: url(/Content/Resources/back_8.png);">
+    <div class="mdl-grid" style="max-width: 806px;">
+        <div class="mdl-cell--12-col">
+            <h4 class="mdl-typography--display-1 mdl-typography--text-center mdl-color-text--white">Наш команда</h4>
+        </div>
+        <div class="mdl-cell--12-col" style="padding-left: -20px;">
+            <div id="team">
+                <div>
+                    <img src="http://placehold.it/188" />
+                    <div class="slick-text mdl-typography--text-center">
+                        <div class="mdl-typography--headline mdl-typography--font-light">Oleg Alekseevich Timofeev</div>
+                        <div class="mdl-typography--subhead mdl-typography--bold">Work</div>
+                        <div class="mdl-typography--body-1 mdl-typography--font-light">More</div>
+                    </div>
+                </div>
+                <div>
+                    <img src="http://placehold.it/188" />
+                    <div class="slick-text">
+                        Work this!
+                    </div>
+                </div>
+                <div><img src="http://placehold.it/188" /></div>
+                <div><img src="http://placehold.it/188" /></div>
+                <div><img src="http://placehold.it/188" /></div>
+                <div><img src="http://placehold.it/188" /></div>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-grid" style="max-width: 806px;">
+        <div class="mdl-cell--12-col">
+            <h4 class="mdl-typography--display-1 mdl-typography--text-center">ВІДГУКИ КЛІЄНТІВ</h4>
+        </div>
+        <div class="mdl-cell--12-col" style="padding-left: -20px; padding-top: 50px;">
+            <div id="reviews">
+                <div>
+                    <img src="http://placehold.it/188" />
+                    <div class="slick-text mdl-typography--text-center">
+                        <div class="mdl-typography--headline mdl-typography--font-light">Oleg Alekseevich Timofeev</div>
+                        <div class="mdl-typography--subhead mdl-typography--bold">Work</div>
+                        <div class="mdl-typography--body-1 mdl-typography--font-light">More</div>
+                    </div>
+                </div>
+                <div>
+                    <img src="http://placehold.it/188" />
+                    <div class="slick-text">
+                        <div class="mdl-typography--headline">Hello</div>
+                        <div class="mdl-typography--body-1 mdl-typography--font-thin">
+                            Work this!
+                        </div>
+                    </div>
+                </div>
+                <div><img src="http://placehold.it/188" /></div>
+                <div><img src="http://placehold.it/188" /></div>
+                <div><img src="http://placehold.it/188" /></div>
+                <div><img src="http://placehold.it/188" /></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="last_section" style="background-image: url(/Content/Resources/back_9.png);">
+
+</section>
 
 @section Style
 {
@@ -210,6 +414,62 @@
             slidesToShow: 3,
             fade: false,
             arrows: false,
+            responsive: [
+              {
+                  breakpoint: 768,
+                  settings: {
+                      arrows: false,
+                      centerMode: true,
+                      centerPadding: '40px',
+                      slidesToShow: 3
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      arrows: false,
+                      centerMode: true,
+                      centerPadding: '40px',
+                      slidesToShow: 1
+                  }
+              }
+            ]
+        });
+
+        $('#team').slick({
+            centerMode: true,
+            centerPadding: '0px',
+            slidesToShow: 3,
+            fade: false,
+            arrows: true,
+            responsive: [
+              {
+                  breakpoint: 768,
+                  settings: {
+                      arrows: false,
+                      centerMode: true,
+                      centerPadding: '40px',
+                      slidesToShow: 3
+                  }
+              },
+              {
+                  breakpoint: 480,
+                  settings: {
+                      arrows: false,
+                      centerMode: true,
+                      centerPadding: '40px',
+                      slidesToShow: 1
+                  }
+              }
+            ]
+        });
+
+        $('#reviews').slick({
+            centerMode: true,
+            centerPadding: '0px',
+            slidesToShow: 1,
+            fade: true,
+            arrows: true,
             responsive: [
               {
                   breakpoint: 768,

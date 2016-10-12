@@ -201,6 +201,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Home.css" />
     <Content Include="Content\mdl-v1.1.2\icon.css" />
     <Content Include="Content\mdl-v1.1.2\material.amber-light_blue.min.css" />
     <Content Include="Content\Resources\3.1.png" />
@@ -221,6 +222,7 @@
     <Content Include="Content\mdl-v1.1.2\material.min.js" />
     <Content Include="Content\Resources\ar.png" />
     <Content Include="Content\Resources\baba.png" />
+    <Content Include="Content\Resources\background_tours.png" />
     <Content Include="Content\Resources\back_1.jpg" />
     <Content Include="Content\Resources\back_2.jpg" />
     <Content Include="Content\Resources\back_3.png" />
@@ -260,6 +262,7 @@
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
+    <Content Include="Scripts\angular-parallax.js" />
     <Content Include="Scripts\angular-route.js" />
     <Content Include="Scripts\angular-route.min.js" />
     <Content Include="Scripts\angular.js" />
@@ -298,6 +301,7 @@
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
     <Content Include="Scripts\FileAPI.min.js" />
+    <Content Include="Scripts\Home\TourApp.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -324,6 +328,7 @@
     <Content Include="Scripts\ng-file-upload.min.js" />
     <Content Include="Scripts\ng-infinite-scroll.js" />
     <Content Include="Scripts\ng-infinite-scroll.min.js" />
+    <Content Include="Scripts\ngParallax.min.js" />
     <Content Include="Scripts\slick.js" />
     <Content Include="Scripts\slick.min.js" />
     <Content Include="Web.config">
@@ -429,6 +434,7 @@
     <Content Include="Views\Shared\_Logo.cshtml" />
     <Content Include="Views\Shared\_Facebook.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
+    <Content Include="Views\Home\Tours.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

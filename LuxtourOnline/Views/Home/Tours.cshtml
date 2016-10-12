@@ -1,0 +1,118 @@
+﻿
+@{
+    ViewBag.Title = "Tour";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div id="tour-holder" ng-app="TourApp" ng-controller="TourCtrl" ng-init="LoadData()">
+    <div id="cover-image-tours" style="margin-top: {{coverMargin}}px;">
+
+    </div>
+    <div id="up-block" ng-show="Active == null">
+        <div class="mdl-grid">
+            <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col app-tour-card" ng-repeat="tour in Data.tours">
+                <div class="img-block" style='background-size: cover; background-position: center center; background-image: url({{tour.image}}); '>
+                    <div class="mdl-typography--headline mdl-typography--font-medium mdl-color-text--white mdl-typography--text-center app-block-title">
+                        {{tour.title}}
+                    </div>
+                </div>
+                <div class="text-block">
+                    <div class="tour-head">
+                        <div class="mdl-typography--font-regular mdl-color-text--teal app-tour-separ">
+                            <span class="mdl-typography--display-1">
+                                {{tour.count}}
+                            </span>
+                            <span class="mdl-typography--headline ">
+                                днів
+                            </span>
+                        </div>
+                        <div>
+                            <span class="mdl-color-text--orange-800 mdl-typography--headline mdl-typography--font-light" style="display: block; padding-top: 8px;">
+                                ${{tour.price}}
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <div class="mdl-typography--body-1 mdl-typography--font-regular tour-body">
+                        {{tour.description}}
+                    </div>
+                    <div class="tour-footer">
+                        <button class="mdl-button mdl-js-button mdl-button--accent" ng-click="SetActive(tour)">Детально</button>
+                        <button class="mdl-color--green-500 mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-color-text--white">Замовити</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>'
+    <div id="bfd" ng-show="Active != null">
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--12-col crumb">
+                <a href="/">Home</a> / <a href="/Home/Tours">Tours</a> / {{Active.title}}
+            </div>
+            <div class="mdl-card mdl-shadow--8dp mdl-cell mdl-cell--8-col">
+                <div class="mdl-grid  active-tour-grid">
+
+                    <div class="mdl-cell mdl-cell--6-col"
+                         style="background-size: cover; background-position: center center; background-image: url({{Active.image}}); height: 264px; margin-top: 0px; margin-left: 0px;">
+
+                    </div>
+                    <div class="mdl-cell  mdl-cell--6-col">
+
+                        <div class="mdl-typography--display-1 mdl-typography--font-light"  style="padding-top: 8px; padding-bottom: 30px;">
+                            {{Active.title}}
+                        </div>
+                        <div class="mdl-grid mdl-grid--no-spacing active-tour-grid mdl-typography--text-center separ-grid">
+                            <div class="mdl-cell mdl-cell--4-col mdl-color-text--teal-500">
+                                <span class="mdl-typography--title mdl-typography--font-light">
+                                    Тривалість днів
+                                </span>
+                                <div class="mdl-typography--headline mdl-typography--font-medium">{{Active.count}}</div>
+                            </div>
+                            <div class="mdl-cell mdl-cell--4-col mdl-color-text--light-blue-500">
+                                <span class="mdl-typography--title mdl-typography--font-light">
+                                    Кількість людей
+                                </span>
+                                <div class="mdl-typography--headline mdl-typography--font-medium">{{Active.child + Active.adult}}</div>
+                            </div>
+                            <div class="mdl-cell mdl-cell--4-col mdl-color-text--orange-800">
+                                <span class="mdl-typography--title mdl-typography--font-light">
+                                    Ціна<br> від
+                                </span>
+                                <div class="mdl-typography--headline mdl-typography--font-medium">{{Active.price | currency:"$" : 1}}</div>
+                            </div>
+                            <div class="mdl-cell mdl-cell--12-col" style="padding-top: 16%;">
+                                <button type="button" style="width: 66%; height: 36px; margin: 0 auto;" 
+                                        class="mdl-color--green-500 mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-color-text--white">
+                                    Замовити тур
+                                </button>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--12-col">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="mdl-cell mdl-cell--4-col">
+                <div>
+
+                </div>
+
+            </div>
+        </div>
+        <span ng-click="SetActive(null)">{{Active.title}}</span>
+    </div>
+
+    {{Data}}
+</div>
+
+
+
+
+@section scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.0/angular-scroll.min.js"></script>
+    <script src="~/Scripts/Home/TourApp.js"></script>
+}

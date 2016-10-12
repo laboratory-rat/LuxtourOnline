@@ -1,0 +1,304 @@
+﻿#cover-image-tours {
+    position: absolute;
+    width: 100%;
+    height: 448px !important;
+    background-image: url('/Content/Resources/background_tours.png');
+    top: 0px;
+}
+
+
+#up-block {
+    position: relative;
+    max-width: 1200px;
+    background-color: rgba(0,0,0,0);
+    margin: 0 auto;
+    min-height: 700px;
+    margin-top: 332px;
+    opacity: 1;
+}
+
+.app-tour-card {
+    min-height: 253px;
+    border-radius: 9px;
+    display: inline-block;
+}
+
+    .app-tour-card:hover {
+        box-shadow: 0 8px 10px 1px rgba(0,0,0,.14),0 3px 14px 2px rgba(0,0,0,.12),0 5px 5px -3px rgba(0,0,0,.2);
+    }
+
+    .app-tour-card > div {
+        float: left;
+    }
+
+.app-block-title {
+    /*
+        background-color: #2296f3;
+    */
+    background-color: rgba(34, 150, 243, 0.80);
+    width: 100%;
+    padding: 14px 0;
+}
+
+.app-tour-card .img-block {
+    width: 283px;
+    height: 100%;
+}
+
+.app-tour-card .text-block {
+    width: calc(560px - 300px);
+    padding: 16px 14px;
+}
+
+
+
+.tour-head {
+    height: 34px;
+}
+
+    .tour-head > div {
+        float: left;
+        height: 34px;
+        width: 49%;
+        text-align: center;
+    }
+
+    .tour-head div:last-child {
+        width: 45%;
+    }
+
+    .tour-head div:first-child {
+        padding-right: 10px;
+    }
+
+.app-tour-separ {
+    border-right: 1px solid black;
+    border-color: rgba(0,0,0,0.14);
+}
+
+.tour-body {
+    padding: 24px 0px;
+    opacity: 0.87;
+}
+
+.tour-footer {
+    position: absolute;
+    bottom: 12px;
+    width: 264px;
+}
+
+    .tour-footer button:first-child {
+        float: left;
+        border: 1px solid #2196F3;
+        color: #2196F3;
+    }
+
+    .tour-footer button:last-child {
+        float: right;
+    }
+
+#bfd {
+    min-height: 700px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 448px;
+    position: relative;
+    opacity: 1;
+    z-index: 1000;
+    background-color: #f5f5f5;
+}
+
+    #bfd.ng-hide {
+        opacity: 0;
+        position: absolute;
+    }
+
+    #bfd.ng-hide-add
+    {
+        position: absolute;
+        
+        -moz-transition: all ease-out 250ms;
+        -o-transition: all ease-out 250ms;
+        -webkit-transition: all ease-out 250ms;
+        transition: all ease-out 250ms;
+    }
+
+    #bfd.ng-hide-remove
+    {
+        position: absolute;
+
+         -moz-transition: all ease-out 700ms;
+        -o-transition: all ease-out 700ms;
+        -webkit-transition: all ease-out 700ms;
+        transition: all ease-out 700ms;
+    }
+
+#tour-holder {
+    min-height: 1400px;
+}
+
+#up-block.ng-hide-add {
+    -webkit-animation: 0.5s hide;
+    -moz-animation: 0.5s hide;
+    -o-animation: 0.5s hide;
+    animation: 0.5s hide;
+}
+
+#bfd .mdl-grid
+{
+    margin-left: 24px;
+    margin-right: 24px;
+}
+
+#bfd .crumb a
+{
+    text-decoration: none;
+    opacity: 0.87;
+    color: black;
+}
+
+.active-tour-grid
+{
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding: 0px !important;
+}
+
+.separ-grid .mdl-cell
+{
+    border-right: solid;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.14);
+}
+
+.separ-grid .mdl-cell:last-child, .separ-grid .mdl-cell:nth-last-child(2)
+{
+    border-right: none;
+}
+
+@keyframes hide {
+    0% {
+        opacity: 1;
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    30% {
+        -moz-transform: scale(1.02);
+        -ms-transform: scale(1.02);
+        -o-transform: scale(1.02);
+        -webkit-transform: scale(1.02);
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 0;
+        -moz-transform: scale(0.5);
+        -ms-transform: scale(0.5);
+        -o-transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+}
+
+@-webkit-keyframes hide {
+    0% {
+        opacity: 1;
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    30% {
+        -moz-transform: scale(1.02);
+        -ms-transform: scale(1.02);
+        -o-transform: scale(1.02);
+        -webkit-transform: scale(1.02);
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 0;
+        -moz-transform: scale(0.5);
+        -ms-transform: scale(0.5);
+        -o-transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+}
+
+
+#up-block.ng-hide-remove {
+    -webkit-animation: 0.45s show;
+    -moz-animation: 0.45s show;
+    -o-animation: 0.45s show;
+    animation: 0.45s show;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        -moz-transform: scale(0.5);
+        -ms-transform: scale(0.5);
+        -o-transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+
+    70% {
+        -moz-transform: scale(1.02);
+        -ms-transform: scale(1.02);
+        -o-transform: scale(1.02);
+        -webkit-transform: scale(1.02);
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@-webkit-keyframes show {
+    0% {
+        opacity: 0;
+        -moz-transform: scale(0.5);
+        -ms-transform: scale(0.5);
+        -o-transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
+    }
+
+    70% {
+        -moz-transform: scale(1.02);
+        -ms-transform: scale(1.02);
+        -o-transform: scale(1.02);
+        -webkit-transform: scale(1.02);
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+#up-block.ng-hide-add, #up-block.ng-hide-remove, #up-block.ng-hide
+{
+    margin-left: calc(50% - 600px);
+    position: absolute;
+}

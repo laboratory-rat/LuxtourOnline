@@ -46,9 +46,61 @@ namespace LuxtourOnline.Controllers
         [HttpGet]
         public ActionResult Tours()
         {
-
             return View();
         }
+
+        protected int _defaultToursPerPage = 10;
+
+        [HttpGet]
+        public ActionResult GetTours(int? page, int? toursPerPage)
+        {
+            int currentPage = (page == null || (int)page < 1) ? 1 : (int)page;
+            int perPage = (toursPerPage == null || (int)toursPerPage < 1) ? _defaultToursPerPage : (int)toursPerPage;
+
+
+
+            List<Tour> tours;
+            PagingInfo paging = new PagingInfo();
+
+            _currentContext = _context;
+
+            tours = _currentContext.Tours.OrderByDescending(x => x.CreateTime).Skip((currentPage - 1) * perPage).Take(perPage).ToList();
+
+            List<dynamic> resultTures = new List<dynamic>();
+
+            foreach(var tour in tours)
+            {
+                var descr = tour.Descritions.Where(x => x.Lang == _lang).FirstOrDefault();
+
+                if (descr == null)
+                    continue;
+
+                resultTures.Add(new
+                {
+                    id = tour.Id,
+                    child = 2,
+                    adult = 2,
+                    price = 1500,
+                    image = tour.Image.Url,
+                    title = descr.Title,
+                    description = descr.Description,
+                    count = 10,
+                });
+            }
+
+            paging.CurrentPange = currentPage;
+            paging.ItemsPerPage = perPage;
+            paging.TotalItems = tours.Count;
+
+            return Json(
+                new{
+                    tours = resultTures,
+                    lang = _lang,
+                    paging = paging,
+            }, JsonRequestBehavior.AllowGet);
+
+        }
+
 
         protected int _newsCount = 10;
 
@@ -100,4 +152,14 @@ namespace LuxtourOnline.Controllers
 
         }
     }
+
+    public class TourViewModel
+    {
+        public List<Tour> Tours { get; set; }
+
+        public string lang { get; set; }
+
+        public PagingInfo Paging { get; set; }
+    }
+
 }

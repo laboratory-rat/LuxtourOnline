@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/Content/mdl-v1.1.2/icon.css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Home.css" />
     @RenderSection("Style", false)
 
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
@@ -172,8 +173,6 @@
 
             var height = $('#content').scrollTop();
             var h = $('#head');
-
-            console.log(height);
 
             if (height < 100) {
                 h.removeClass('app-white-1');

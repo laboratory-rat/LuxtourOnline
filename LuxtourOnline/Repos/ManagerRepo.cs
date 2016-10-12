@@ -132,6 +132,11 @@ namespace LuxtourOnline.Repos
 
             tour.ModifiedBy = user;
 
+            tour.Price = model.Price;
+            tour.Adults = model.Adult;
+            tour.Child = model.Child;
+            tour.DaysCount = model.DaysCount;
+
             _context.Tours.Add(tour);
 
             await _context.SaveChangesAsync();

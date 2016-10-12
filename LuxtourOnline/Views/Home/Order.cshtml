@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div class="mdl-grid" ng-app="OrderApp" ng-controller="OrderCtrl" ng-init="TourId = @ViewBag.id; LoadTour();">
+    <div class="mdl-cell mdl-cell--12-col" style="padding-top: 64px;">
+        <a href="/Home">Головна</a> / <a href="/Home/Tours">Тури</a> / {{TourData.title}}
+    </div>
+    <div class="mdl-cell mdl-cell--12-col">
+        <div class="mdl-card mdl-shadow--6dp mdl-grid mdl-grid--no-spacing" style="width: 100%;">
+            <div class="mdl-cell mdl-cell--4-col" id="BigImage" style="background-image: url({{TourData.image}});">
+
+            </div>
+            <div class="mdl-cell mdl-cell--8-col mdl-typography--text-center">
+                <div>{{TourData.title}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+<script src="~/Scripts/Home/OrderApp.js"></script>    
+    
+}
+
+@section Style
+{
+    <link href="~/Content/Order.css" type="text/css" rel="stylesheet" />
+}

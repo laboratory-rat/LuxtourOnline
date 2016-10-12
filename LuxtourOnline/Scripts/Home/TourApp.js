@@ -3,7 +3,7 @@
 
     var app = angular.module('TourApp', ['ngRoute', 'ngAnimate', 'duScroll']);
 
-    app.controller('TourCtrl', ['$scope', '$http', '$window', '$document', function ($scope, $http, $window, $document) {
+    app.controller('TourCtrl', ['$scope', '$http', '$window', '$document', '$location', function ($scope, $http, $window, $document, $location) {
         $scope.Data = null;
 
         $scope.PerPage = 10;
@@ -17,6 +17,7 @@
         $scope.coverMargin = 0;
 
         $scope.Active = null;
+        $scope.Disactive = [];
 
         $scope.SaveOffset = 0;
 
@@ -26,15 +27,23 @@
             if (tour != null)
             {
                 $scope.Active = tour;
+                $scope.Disactive = [];
 
+                for (var i = 0; i < $scope.Data.tours.length; i++)
+                {
+                    var t = $scope.Data.tours[i];
+
+                    if ($scope.Active != t)
+                    {
+                        $scope.Disactive.push(t);
+                    }
+                }
 
                 var e = angular.element('#cover-image-tours');
                 var offset = -424 + $scope.coverMargin;
                 var duration = 1000;
 
                 $scope.SaveOffset = $scope.coverMargin;
-
-                console.log(e);
 
                 $scope.content.scrollToElement(e, offset, duration);
             }
@@ -44,8 +53,6 @@
                 var e = angular.element('#cover-image-tours');
                 var offset = -$scope.SaveOffset;
                 var duration = 1000;
-
-                console.log(e);
 
                 $scope.content.scrollToElement(e, offset, duration);
             }
@@ -72,7 +79,10 @@
             });
         };
 
-
+        $scope.Order = function(id)
+        {
+            $window.location = '/Home/Order?id='+id;
+        }
 
         angular.element('#content').on('scroll', function () {
             

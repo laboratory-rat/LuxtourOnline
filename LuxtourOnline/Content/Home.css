@@ -87,10 +87,10 @@
     width: 264px;
 }
 
-    .tour-footer button:first-child {
+    .tour-footer button:first-child, .empty-button {
         float: left;
-        border: 1px solid #2196F3;
-        color: #2196F3;
+        border: 1px solid #4caf50;
+        color: #4caf50;
     }
 
     .tour-footer button:last-child {
@@ -144,10 +144,12 @@
     animation: 0.5s hide;
 }
 
-#bfd .mdl-grid
+#bfd > .mdl-grid
 {
     margin-left: 24px;
     margin-right: 24px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }
 
 #bfd .crumb a
@@ -175,6 +177,68 @@
 .separ-grid .mdl-cell:last-child, .separ-grid .mdl-cell:nth-last-child(2)
 {
     border-right: none;
+}
+
+.app-slider-card
+{
+    margin-top: 16px;
+    width: 100%;
+    height: 188px;
+    display: inline-block;
+    min-height: 188px;
+}
+
+.app-slider-card > div
+{
+    display: inline-block;
+
+}
+
+.app-slider-card > .img-block
+{
+    width: 200px;
+    height: 188px;
+    float: left;
+}
+
+.app-slider-card > .img-block > div
+{
+    background-color: rgba(34, 150, 243, 0.80);
+    height: 34px;
+    width: 100%;
+    padding: 0px;
+    padding-top: 14px
+}
+
+.app-slider-card .text-block
+{
+    width: 50%;
+    float: left;
+    padding-top: 8px;
+}
+
+.app-slider-card .tour-body
+{
+    padding: 14px;
+    padding-top: 8px;
+    overflow: hidden;
+    height: 70px;
+    line-height: 18px;
+     
+}
+
+.app-slider-card .tour-footer
+{
+    width: 218px;
+    bottom: 8px;
+}
+
+.app-slider-card .tour-footer button
+{
+    display: block;
+    float: none;
+    width: 56%;
+    margin: 0 auto;
 }
 
 @keyframes hide {

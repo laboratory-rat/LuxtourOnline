@@ -59,7 +59,7 @@
 
                         <div class="mdl-cell--3-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
-                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Price" value="@Model.Price" />
+                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Price" name="Price" value="@Model.Price" />
                                 @Html.LabelFor(x => x.Price, new { @class = "mdl-textfield__label" })
                                 @Html.ValidationMessageFor(x => x.Price, "", new { @class = "mdl-textfield__error" })
                             </div>
@@ -67,7 +67,7 @@
 
                         <div class="mdl-cell--3-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
-                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="DaysCount" value="@Model.DaysCount" />
+                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="DaysCount" name="DaysCount" value="@Model.DaysCount" />
                                 @Html.LabelFor(x => x.DaysCount, new { @class = "mdl-textfield__label" })
                                 @Html.ValidationMessageFor(x => x.DaysCount, "", new { @class = "mdl-textfield__error" })
                             </div>
@@ -75,14 +75,14 @@
 
                         <div class="mdl-cell--3-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
-                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Adult" value="@Model.Adult" />
+                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Adult" name="Adult" value="@Model.Adult" />
                                 @Html.LabelFor(x => x.Adult, new { @class = "mdl-textfield__label" })
                                 @Html.ValidationMessageFor(x => x.Adult, "", new { @class = "mdl-textfield__error" })
                             </div>
                         </div>
                         <div class="mdl-cell--3-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone app-padding-8">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
-                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Child" value="@Model.Child" />
+                                <input type="number" class="mdl-textfield__input mdl-textfield--full-width" id="Child" name="Child" value="@Model.Child" />
                                 @Html.LabelFor(x => x.Child, new { @class = "mdl-textfield__label" })
                                 @Html.ValidationMessageFor(x => x.Child, "", new { @class = "mdl-textfield__error" })
                             </div>

@@ -78,13 +78,13 @@ namespace LuxtourOnline.Controllers
                 resultTures.Add(new
                 {
                     id = tour.Id,
-                    child = 2,
-                    adult = 2,
-                    price = 1500,
+                    child = tour.Child,
+                    adult = tour.Adults,
+                    price = tour.Price,
                     image = tour.Image.Url,
                     title = descr.Title,
                     description = descr.Description,
-                    count = 10,
+                    count = tour.DaysCount,
                 });
             }
 
@@ -101,6 +101,62 @@ namespace LuxtourOnline.Controllers
 
         }
 
+
+        [HttpGet]
+        public ActionResult Order(int id)
+        {
+            ViewBag.id = id;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult OrderTourJson(int id)
+        {
+            dynamic unsver;
+
+            var _c = _context;
+
+            var tour = _c.Tours.Where(x => x.Id == id && x.Enable == true).FirstOrDefault();
+
+            if (tour == null)
+                return Json(new { result = "Error", data = "" }, JsonRequestBehavior.AllowGet);
+
+            var descr = tour.Descritions.Where(x => x.Lang == _lang).FirstOrDefault();
+
+            var hotels = _c.Hotels.Where(x => x.Avaliable == true && x.Deleted == false).ToList();
+
+            List<dynamic> hots = new List<dynamic>();
+
+            foreach (var h in hotels)
+            {
+                hots.Add(new { id = h.Id, title = h.Title });
+            }
+
+            unsver = new
+            {
+                title = descr.Title,
+                description = descr.Description,
+                price = tour.Price,
+                child = tour.Child,
+                adults = tour.Adults,
+                count = tour.DaysCount,
+                id = id,
+                image = tour.Image.Url,
+                hotels = hots,
+        };
+
+
+
+            return Json(new { result = "success", data = unsver }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpGet]
+        public ActionResult OrderHotelJson(int id)
+        {
+            return Json(new { result = "error", data = "" }, JsonRequestBehavior.AllowGet);
+        }
 
         protected int _newsCount = 10;
 

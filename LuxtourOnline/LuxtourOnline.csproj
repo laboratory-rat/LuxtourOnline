@@ -204,6 +204,7 @@
     <Content Include="Content\Home.css" />
     <Content Include="Content\mdl-v1.1.2\icon.css" />
     <Content Include="Content\mdl-v1.1.2\material.amber-light_blue.min.css" />
+    <Content Include="Content\Order.css" />
     <Content Include="Content\Resources\3.1.png" />
     <Content Include="Content\Resources\3.2.png" />
     <Content Include="Content\Resources\3.3.png" />
@@ -252,6 +253,7 @@
     <Content Include="Content\Resources\map.png" />
     <Content Include="Content\Resources\pen.png" />
     <Content Include="Content\Resources\photo.png" />
+    <Content Include="Content\Resources\stars.png" />
     <Content Include="Content\Resources\tickets.png" />
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -301,6 +303,7 @@
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
     <Content Include="Scripts\FileAPI.min.js" />
+    <Content Include="Scripts\Home\OrderApp.js" />
     <Content Include="Scripts\Home\TourApp.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -435,6 +438,7 @@
     <Content Include="Views\Shared\_Facebook.cshtml" />
     <Content Include="Views\Home\News.cshtml" />
     <Content Include="Views\Home\Tours.cshtml" />
+    <Content Include="Views\Home\Order.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

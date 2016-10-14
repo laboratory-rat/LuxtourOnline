@@ -110,6 +110,8 @@ namespace LuxtourOnline.Controllers
             return View();
         }
 
+        int _moreTours = 2;
+
         [HttpGet]
         public ActionResult OrderTourJson(int id)
         {
@@ -130,8 +132,22 @@ namespace LuxtourOnline.Controllers
 
             foreach (var h in hotels)
             {
-                hots.Add(new { id = h.Id, title = h.Title });
+                List<dynamic> apartments = new List<dynamic>();
+
+                foreach(var a in h.Apartmetns)
+                {
+                    apartments.Add(new {
+                        id = a.Id,
+                        title = a.Title,
+                        adult = a.Adult,
+                        child = a.Child,
+                    });
+                }
+
+
+                hots.Add(new { id = h.Id, title = h.Title, rate = h.Rate, apartments = apartments, avaliable = h.Avaliable});
             }
+
 
             unsver = new
             {
@@ -144,7 +160,7 @@ namespace LuxtourOnline.Controllers
                 id = id,
                 image = tour.Image.Url,
                 hotels = hots,
-        };
+            };
 
 
 
@@ -155,7 +171,54 @@ namespace LuxtourOnline.Controllers
         [HttpGet]
         public ActionResult OrderHotelJson(int id)
         {
-            return Json(new { result = "error", data = "" }, JsonRequestBehavior.AllowGet);
+            var hotel = _currentContext.Hotels.Where(x => x.Id == id).FirstOrDefault();
+
+            if (hotel == null)
+                return Json(new { result = "error", data = "No such hotel" }, JsonRequestBehavior.AllowGet);
+
+            var desc = hotel.Descriptions.Where(x => x.Lang == _lang).FirstOrDefault();
+
+            List<dynamic> features = new List<dynamic>();
+
+
+            foreach(var f in desc.Features)
+            {
+                List<dynamic> free = new List<dynamic>();
+                List<dynamic> paid = new List<dynamic>();
+
+                foreach(var ff in f.Free)
+                    free.Add(new { title = ff.Title, ico = ff.Glyph});
+
+                foreach (var ff in f.Paid)
+                    paid.Add(new { title = ff.Title, ico = ff.Glyph });
+
+                features.Add(new
+                {
+                    title = f.Title,
+                    description = f.Description,
+                    ico = f.Glyph,
+                    free = free,
+                    paid = paid,
+                });
+            }
+
+            List<dynamic> images = new List<dynamic>();
+
+            foreach(var image in hotel.Images)
+                images.Add(new { image = image.Url });
+
+            dynamic result = new
+            {
+                id = id,
+                title = hotel.Title,
+                rate = hotel.Rate,
+                
+                description = desc.Description,
+                features = features,
+                images = images,
+            };
+
+            return Json(new { result = "success", data = result }, JsonRequestBehavior.AllowGet);
         }
 
         protected int _newsCount = 10;

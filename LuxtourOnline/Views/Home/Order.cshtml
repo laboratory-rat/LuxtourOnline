@@ -4,30 +4,387 @@
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
-<div class="mdl-grid" ng-app="OrderApp" ng-controller="OrderCtrl" ng-init="TourId = @ViewBag.id; LoadTour();">
-    <div class="mdl-cell mdl-cell--12-col" style="padding-top: 64px;">
-        <a href="/Home">Головна</a> / <a href="/Home/Tours">Тури</a> / {{TourData.title}}
-    </div>
-    <div class="mdl-cell mdl-cell--12-col">
-        <div class="mdl-card mdl-shadow--6dp mdl-grid mdl-grid--no-spacing" style="width: 100%;">
-            <div class="mdl-cell mdl-cell--4-col" id="BigImage" style="background-image: url({{TourData.image}});">
+<div ng-app="OrderApp" ng-controller="OrderCtrl" ng-init="TourId = @ViewBag.id; LoadTour();" style="min-height: 1200px;">
 
-            </div>
-            <div class="mdl-cell mdl-cell--8-col mdl-typography--text-center">
-                <div>{{TourData.title}}</div>
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col" style="padding-top: 64px;">
+            <a href="/Home">Головна</a> / <a href="/Home/Tours">Тури</a> / {{TourData.title}}
+        </div>
+        <div class="mdl-cell mdl-cell--12-col card-animation" id="main-card" ng-hide="TourData === null" style="visibility: hidden;">
+            <div class="mdl-card mdl-shadow--6dp mdl-grid mdl-grid--no-spacing" style="width: 100%;">
+                <div class="mdl-cell mdl-cell--5-col" id="BigImage" style="background-image: url({{TourData.image}});">
+
+                </div>
+                <div class="mdl-cell mdl-cell--7-col mdl-typography--text-center" id="tourInfo">
+                    <div class="mdl-typography--display-1 mdl-color-text--orange-800">{{TourData.title}}</div>
+                    <div class="mdl-typography--title text-main mdl-typography--font-regular" style="padding-top: 10px;">Інформація про тур</div>
+
+                    <div class="mdl-grid mdl-grid--no-spacing" id="tourInfoGrid">
+                        <div class="mdl-cell mdl-cell--3-col mdl-typography--title mdl-typography--font-light mdl-color-text--orange-800">
+                            Ціна <br> від
+                            <div class="mdl-typography--headline mdl-typography--font-medium">{{TourData.price}}</div>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--3-col mdl-typography--title mdl-typography--font-light mdl-color-text--light-blue-500">
+                            Кількість <br> людей
+                            <div class="mdl-typography--headline mdl-typography--font-medium">{{TourData.adults + TourData.child}}</div>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--3-col mdl-typography--title mdl-typography--font-light mdl-color-text--teal-500">
+                            Тривалість <br> (днів)
+                            <div class="mdl-typography--headline mdl-typography--font-medium">{{TourData.count}}</div>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--3-col mdl-typography--title mdl-typography--font-light mdl-color-text--light-green-500">
+                            Харчування <br>і проїзд<br>
+                            <div class="mdl-typography--headline mdl-typography--font-medium">Включено</div>
+                        </div>
+
+                        <!-- Date and weather -->
+
+                        <div class="mdl-cell mdl-cell--6-col" id="dateArea">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <label for="dateFrom" class="">Дата виїзду</label>
+                                <input type="date" class="mdl-textfield__input" id="dateFrom" name="DateFrom" ng-model="FromDate" min="{{TodayDate | date:'yyyy-MM-dd'}}" />
+                                <label for="dateFrom" class="mdl-textfield__label"></label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <label for="city" class="">Виїзд з</label>
+                                <select class="mdl-textfield__input" id="city" name="City" ng-model="UploadData.fromCity">
+                                    <option value="lviv">Львів</option>
+                                    <option value="lviv">Івано-Франківськ</option>
+                                    <option value="lviv">Червоноград</option>
+                                    <option value="lviv">Ходорів</option>
+                                    <option value="lviv">Жидачів</option>
+                                    <option value="lviv">Зимна Вода</option>
+                                    <option value="lviv">Як вийде</option>
+                                </select>
+                                <label for="city" class="mdl-textfield__label"></label>
+                            </div>
+                            <div>
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-color--blue-500 mdl-color-text--white mdl-js-ripple-effect">
+                                    Вибір готелю
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="mdl-cell mdl-cell--6-col">
+                            <div id="weather"></div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
-</div>
 
+    <div class="mdl-grid" id="hotel-table" style="visibility: hidden;">
+
+        <!-- General hotels info -->
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col mdl-typography--text-center">
+            <div class="mdl-typography--headline mdl-typography--font-medium text-main table-title">Вибір готелю</div>
+            <table class="mdl-data-table mdl-js-data-table" style="width: 100%;">
+                <col style="width:5%">
+                <col style="width:10%">
+                <col style="width:20%">
+                <col style="width:10%">
+                <col style="width:30%">
+                <col style="width:10%">
+                <col style="width:15%">
+                <thead>
+                    <tr>
+                        <th class="mdl-data-table__cell--non-numeric"></th>
+                        <th class="mdl-data-table__cell--non-numeric">Наявність</th>
+                        <th class="mdl-data-table__cell--non-numeric">Готель</th>
+                        <th class="">Зірок</th>
+                        <th class="">Номер</th>
+                        <th class="mdl-data-table__cell--non-numeric">Ночей</th>
+                        <th class="">Регіон</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="hotel in TourData.hotels" class="table-animation" ng-class="{'strip': isStrip(hotel)}">
+                        <td>
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="{{hotel.id}}" style="top: -16px;">
+                                <input type="radio" id="{{hotel.id}}" class="mdl-radio__button" name="options" value="{{hotel.id}}" ng-click="SetHotel(hotel)">
+                            </label>
+                        </td>
+                        <td class="mdl-data-table__cell--non-numeric">Наявний</td>
+                        <td class="mdl-data-table__cell--non-numeric">{{hotel.title}}</td>
+                        <td class="">{{hotel.rate}}</td>
+                        <td class="mdl-data-table__cell--non-numeric">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <select name="Apartment" id="Apartment" class="mdl-textfield__input" ng-disabled="ActiveHotel.id !== hotel.id"
+                                        ng-model="tmlAA"
+                                        ng-options="a.id as (a.title + ' ( ' + a.adult + ' / ' + a.child +' )') for a in hotel.apartments"
+                                        ng-change="SetAA(hotel, tmlAA)"></select>
+                            </div>
+
+                        </td>
+                        <td>{{TourData.count}}</td>
+                        <td>Лімасос</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mdl-cell mdl-cell--4-col">
+
+        </div>
+    </div>
+    <div class="mdl-card mdl-grid hotel-description" ng-show="ActiveHotel !== null" id="about-hotel">
+        <div class="mdl-cell mdl-cell--12-col mdl-typography--text-center mdl-color--blue-500 mdl-typography--headline mdl-typography--font-medium mdl-color-text--white">
+            Опис готелю {{ActiveHotel.title}}
+        </div>
+        <div class="mdl-cell mdl-cell--6-col">
+            <div class="mdl-typography--text-center mdl-typography--title mdl-typography--font-medium">
+                Про готель {{ActiveHotel.title}}
+            </div>
+            {{ActiveHotel.description}}
+        </div>
+        <div class="mdl-cell mdl-cell--6-col">
+            <ul rn-carousel rn-carousel-auto-slide="7" rn-carousel-controls-allow-loop rn-carousel-index="0" id="gallery" class="image">
+                <li ng-if="ActiveHotel !== undefined" ng-repeat="url in ActiveHotel.images">
+                    <div class="layer"><img src="{{url.image}}" alt="{{ActiveHotel.title}}" /></div>
+                </li>
+            </ul>
+            <!-- <div rn-carousel-indicators ng-if="ActiveHotel.images.length > 1" slides="ActiveHotel.images" rn-carousel-index="0"></div> -->
+        </div>
+        <div class="mdl-cell mdl-cell--12-col">
+            <div class="mdl-grid">
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet" ng-repeat="feature in ActiveHotel.features">
+                    <div class="mdl-card__title">
+                        <div class="mdl-card__title-text">
+                            <i class="material-icons">
+                                {{feature.ico}}
+                            </i> {{feature.title}}
+
+                        </div>
+                    </div>
+                    <div class="mdl-card__subtitle-text mdl-card--border">
+                        <div>
+                            Безкоштовно
+                        </div>
+                        <span ng-repeat="ff in feature.free"><i class="material-icons">{{ff.ico}}</i> {{ff.title}}</span>
+                        <div>
+                            Платно
+                        </div>
+                        <span ng-repeat="ff in feature.paid"><i class="material-icons">{{ff.ico}}</i> {{ff.title}}</span>
+                    </div>
+                    <div class="mdl-card__supporting-text mdl-card--border">
+                        {{feature.description}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-grid" ng-show="ActiveHotel !== null" id="tourMain">
+        <div class="mdl-cell mdl-cell--12-col mdl-typography--text-center mdl-color--blue-500 mdl-color-text--white">
+            Оформлення туру
+        </div>
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col">
+            <div class="mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-cell mdl-cell--6-col"
+                     style="background-size: cover; background-position: center center; background-image: url({{TourData.image}});">
+
+                </div>
+                <div class="mdl-cell mdl-cell--6-col" style="padding: 8px">
+                    <div class="mdl-color-text--primary">{{TourData.title}}</div>
+
+                    <div>Готель: {{ActiveHotel.title}}</div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col" style="padding: 8px;">
+                    <div>Номер: {{ActiveHotel.aa.title}}</div>
+                    <div>
+                        Хто їде: {{ActiveHotel.aa.adult}} дорослих
+                        <span ng-if="ActiveHotel.aa.child !== null && ActiveHotel.aa.child > 0"> та {{ActiveHotel.aa.child}} дітей</span>
+                    </div>
+                    <div>
+                        Дати тура: {{FromDate | date : 'shortDate'}} - {{UntilDate(10) | date : 'shortDate'}}
+                    </div>
+                    <div>
+                        Ціна за тур: <span>{{TourData.price | currency : '$' : 2}}</span>
+                    </div>
+                    <div>
+                        Виїзд з міста: <span>{{UploadData.fromCity}}</span>
+                    </div>
+                    <div>
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary" ng-disabled="IsValid()">
+                            Оформити тур
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col">
+            <div class="mdl-tabs mdl-js-tabs">
+                <div class="mdl-tabs__tab-bar">
+                    <a ng-repeat="customer in UploadData.customers" class="mdl-tabs__tab" id="link-{{customer.id}}"
+                       ng-click="SetCustomerActive(customer.id)" style="cursor: pointer;" ng-switch on="IsNull(customer.fullName)">
+                        <span ng-switch-when="true">Гість {{GetCustomerIndex(customer) + 1}}</span>
+                        <span ng-switch-default>{{ customer.fullName | limitTo: 15 }}{{customer.fullName.length > 20 ? '...' : ''}}</span>
+                    </a>
+                </div>
+                <div class="mdl-grid">
+
+                    <div class="mdl-tabs__panel" ng-repeat="data in UploadData.customers" id="{{data.id}}">
+                        <div class="mdl-cell mdl-cell--6-col" style="float: left;">
+                            <form>
+                                <div>Контактні дані</div>
+                                <label class="mdl-checkbox mdl-js-checkbox" for="isChild{{data.id}}">
+                                    <input type="checkbox" id="isChild{{data.id}}" class="mdl-checkbox__input" ng-model="data.isChild" ng-checked="data.isChild === true" disabled>
+                                    <span class="mdl-checkbox__label"> Дитина</span>
+                                </label>
+
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input name="fullname{{data.id}}" id="fullname{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.fullName" />
+                                    <label for="fullname{{data.id}}" class="mdl-textfield__label">
+                                        ПІБ
+                                    </label>
+                                </div>
+
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input name="city{{data.id}}" id="city{{data.id}}" class="mdl-textfield__input" type="text" ng-model="UploadData.city" />
+                                    <label for="city{{data.id}}" class="mdl-textfield__label">
+                                        <span ng-if="UploadData.city == ''">Місто</span>
+                                    </label>
+                                </div>
+
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input name="tel{{data.id}}" id="tel{{data.id}}" class="mdl-textfield__input" type="tel" ng-model="UploadData.tel" />
+                                    <label for="tel{{data.id}}" class="mdl-textfield__label">
+                                        <span ng-if="UploadData.tel == ''">Мобільний телефон</span>
+                                    </label>
+                                </div>
+
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input name="email{{data.id}}" id="email{{data.id}}" class="mdl-textfield__input" type="email" ng-model="UploadData.email" />
+                                    <label for="email{{data.id}}" class="mdl-textfield__label">
+                                        <span ng-if="UploadData.email == ''">Email</span>
+                                    </label>
+                                </div>
+
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <textarea name="comment{{data.id}}" id="comment{{data.id}}" class="mdl-textfield__input" type="text" ng-model="UploadData.comment"> </textarea>
+                                    <label for="comment{{data.id}}" class="mdl-textfield__label">
+                                        <span ng-if="UploadData.comment == ''"> Питання та уточнення </span>
+                                    </label>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="mdl-cell mdl-cell--6-col" style="float: left;">
+                            <div>Дані закордонного паспорта</div>
+
+                            <label class="mdl-checkbox mdl-js-checkbox" for="loadPassport{{data.id}}" ng-if="!data.isChild">
+                                <input type="checkbox" id="loadPassport{{data.id}}" class="mdl-checkbox__input" ng-model="data.passportIsFiles" ng-disabled="data.isChild">
+                                <span class="mdl-checkbox__label">Завантажити скани паспорта</span>
+                            </label>
+
+
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <label for="br{{data.id}}" class="">Дата народження</label>
+                                <input type="date" class="mdl-textfield__input" id="br{{data.id}}" ng-model="data.birthday" max="{{TodayDate | date:'yyyy-MM-dd'}}" />
+                                <label for="br{{data.id}}" class="mdl-textfield__label"></label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield" ng-if="data.passportIsFiles && !data.isChild">
+                                <label for="passportFiles{{data.id}}">Скани паспорта</label>
+                                <input name="passportFiles{{data.id}}" id="passportFiles{{data.id}}" class="mdl-textfield__input" type="file" ng-model="data.passportFiles" ng-disabled="data.isChild" multiple />
+                                <label for="passportFiles{{data.id}}" class="mdl-textfield__label">
+                                    <span></span>
+                                </label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
+                                <label for="AliveCountry{{data.id}}">Країна народження</label>
+                                <select id="AliveCountry{{data.id}}" class="mdl-textfield__input" ng-model="data.countryAlive">
+                                    <option value="uk">Украіна</option>
+                                    <option value="null">Інше</option>
+                                </select>
+                                <label for="AliveCountry{{data.id}}" class="mdl-textfield__label">Країна народження</label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
+                                <label for="LiveCountry{{data.id}}">Громадянство</label>
+                                <select id="LiveCountry{{data.id}}" class="mdl-textfield__input" ng-model="data.liveCountry">
+                                    <option value="uk">Украіна</option>
+                                    <option value="null">Інше</option>
+                                </select>
+                                <label for="LiveCountry{{data.id}}" class="mdl-textfield__label">Країна проживання</label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
+                                <input name="pfn{{data.id}}" id="pfn{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.passportFullName" ng-disabled="data.isChild" />
+                                <label for="pfn{{data.id}}" class="mdl-textfield__label">
+                                    <span>Повне ім'я у паспорті</span>
+                                </label>
+                            </div>
+
+
+                            <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
+                                <label for="pu{{data.id}}" class="">Паспорт дійсний до</label>
+                                <input type="date" class="mdl-textfield__input" id="pu{{data.id}}" ng-model="data.passportUntil" min="{{TodayDate | date:'yyyy-MM-dd'}}" ng-disabled="data.isChild" />
+                                <label for="pu{{data.id}}" class="mdl-textfield__label"></label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
+                                <input name="passportFrom{{data.id}}" id="passportFrom{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.passportFrom" ng-disabled="data.isChild" />
+                                <label for="passportFrom{{data.id}}" class="mdl-textfield__label">
+                                    <span>Огран що видав</span>
+                                </label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
+                                <input name="passportFrom{{data.id}}" id="passportData{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.passportData" ng-disabled="data.isChild" />
+                                <label for="passportFrom{{data.id}}" class="mdl-textfield__label">
+                                    <span>Номер паспорта</span>
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    UploadData -- {{UploadData | json}}
+</div>
 @section Scripts
 {
+    <script src="~/bower_components/angular-carousel/dist/angular-carousel.min.js"></script>
+    <script src="~/bower_components/angular-touch/angular-touch.min.js"></script>
+    <script src="~/Scripts/jquery.simpleWeather.min.js"></script>
+    <script src="~/Scripts/Home/OrderApp.js"></script>
 
-<script src="~/Scripts/Home/OrderApp.js"></script>    
-    
+    <script>
+        $(document).ready(function () {
+            $.simpleWeather({
+                location: 'antalya, tr',
+                woeid: '',
+                unit: 'c',
+                success: function (weather) {
+                    html = '<ul><li> Регіон: ' + weather.city + '</li>';
+                    html += '<li class="currently">' + weather.currently + '</li>';
+                    html += '</ul>';
+                    html += '<h2><i class="icon-' + weather.code + '"></i> ' + weather.temp + '&deg;' + weather.units.temp + '</h2>';
+
+
+                    $("#weather").html(html);
+                },
+                error: function (error) {
+                    $("#weather").html('<p>' + error + '</p>');
+                }
+            });
+        });
+    </script>
 }
 
 @section Style
 {
+    <link href="~/bower_components/angular-carousel/dist/angular-carousel.css" type="text/css" rel="stylesheet" />
     <link href="~/Content/Order.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/weather.css" type="text/css" rel="stylesheet" />
 }

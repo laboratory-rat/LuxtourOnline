@@ -7,6 +7,11 @@
     color: rgba(0,0,0,0.87) !important;
 }
 
+.text-second
+{
+    color: rgba(0,0,0,0.54);
+}
+
 /*#region Layout */
 
 #head {

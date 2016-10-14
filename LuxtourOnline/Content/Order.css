@@ -1,6 +1,186 @@
-﻿#BigImage
-{
+﻿#BigImage {
     background-position: center center;
     background-size: cover;
     height: 450px;
+    
+}
+
+.card-animation
+{    
+
+    
+}
+
+.card-animation.ng-hide-remove {
+  -webkit-animation:0.5s show;
+  animation:0.5s show;
+}
+
+@keyframes show {
+  0% {
+    opacity:0;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.02);
+  }
+  100% { 
+    opacity:1;
+    transform: scale(1);
+  }
+}
+
+@-webkit-keyframes show {
+  0% {
+    opacity:0;
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.02);
+  }
+  100% { 
+    opacity:1;
+    transform: scale(1);
+  }
+}
+
+.hotel-description.ng-hide-remove
+{
+    -webkit-animation:1000ms show-scroll;
+    animation:1000ms show-scroll;
+}
+
+@keyframes show-scroll {
+  0% {
+    opacity:0;
+  }
+
+  100% { 
+    opacity:1;
+  }
+}
+
+@-webkit-keyframes show-scroll {
+  0% {
+    opacity:0;
+  }
+
+  100% { 
+    opacity:1;
+  }
+}
+
+#gallery
+{
+    width: 624px;
+    height: 432px;
+    padding: 0px;
+    margin: 0px;
+}
+
+#gallery img
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    padding: 0px;
+    margin: 0px;
+
+    border-radius: 0px;
+}
+
+/*#region Tour info */
+
+#tourInfo
+{
+    padding-top: 24px;
+}
+
+#tourInfoGrid
+{
+    padding-top: 24px;
+}
+
+/*#endregion */
+
+
+
+
+/*#region Date Area */
+
+#dateArea
+{
+    width: 233px;
+    margin: 0px 60px;
+}
+
+#dateArea > div:nth-child(2)
+{
+    margin-top: -20px;
+}
+
+#dateArea > div:last-child
+{
+    margin: 0 auto;
+    margin-top: 30px;
+
+    width: 192px;
+
+}
+#dateArea > div:last-child button
+{
+    width: 100%;
+}
+/*#endregion */
+
+/*#region Hotel table */
+
+#hotel-table .table-title
+{
+    padding: 12px 0px;
+}
+
+#hotel-table thead th
+{
+    background-color: #2196f3;
+    border: 1px solid rgba(255,255,255, 0.87);
+    color: white;
+    font-size: 16px;
+
+    font-weight: 500;
+    text-align: center;
+}
+
+#hotel-table tbody td
+{
+    height: 36px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#hotel-table .strip
+{
+    background: rgba(239,248,254,1);
+}
+
+/*#endregion */
+
+#about-hotel > div:first-child 
+{
+    height: 46px;
+    padding-top: 8px;
+    width: 100%;
+
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
+#about-hotel
+{
+    width: Calc(100% - 48px);
+    margin: 0px 24px;
+    padding: 0px !important;
 }

@@ -1,0 +1,15 @@
+{
+  "name": "simpleWeather",
+  "homepage": "https://github.com/monkeecreate/jquery.simpleWeather",
+  "version": "3.1.0",
+  "_release": "3.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.1.0",
+    "commit": "d15ca1f120e3c0e70b819cb5dfd5d648e8adf57c"
+  },
+  "_source": "https://github.com/monkeecreate/jquery.simpleWeather.git",
+  "_target": "~3.1.0",
+  "_originalSource": "simpleWeather",
+  "_direct": true
+}

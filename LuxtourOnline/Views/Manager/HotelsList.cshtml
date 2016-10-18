@@ -31,12 +31,12 @@
                     @Html.DisplayFor(x => hotel.Description)
                 </div>
                 <div class="mdl-card__menu">
-                    <button class="mdl-button mdl-js-button mdl-button--icon">
+                    <a href='@Url.Action("EditHotel", new { id = hotel.Id })' class="mdl-button mdl-js-button mdl-button--icon">
                         <i class="material-icons">edit</i>
-                    </button>
-                    <button class="mdl-button mdl-js-button mdl-button--icon">
+                    </a>
+                    <a href='@Url.Action("ShowHotel", new { id = hotel.Id})' class="mdl-button mdl-js-button mdl-button--icon">
                         <i class="material-icons">visibility</i>
-                    </button>
+                    </a>
                 </div>
                 <div class="mdl-card__actions mdl-card--border">
                     @Html.ActionLink("Remove", "RemoveHotel", new { id = hotel.Id }, new { @class = "mdl-button mdl-js-button mdl-button--colored mdl-color--red mdl-color-text--white" })

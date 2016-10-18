@@ -33,7 +33,7 @@ namespace LuxtourOnline.Controllers
 
 
         protected int _defaultCount = 30;
-        public ActionResult Logs(int page = 1, int count = 39, string errorMessage = "")
+        public ActionResult Logs(int page = 1, int count = 30, string errorMessage = "")
         {
             if (page < 1)
                 page = 1;
@@ -66,6 +66,27 @@ namespace LuxtourOnline.Controllers
             return Json(model, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult ClearLogs()
+        {
+            try
+            {
+                using (var c = _currentContext)
+                {
+                    if (c.Logs.Count() != 0)
+                    {  
+                        var list = c.Logs.ToList();
+                        c.Logs.RemoveRange(list);
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                _logger.Error(e);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (_currentContext != null)
@@ -74,6 +95,8 @@ namespace LuxtourOnline.Controllers
             base.Dispose(disposing);
         }
     }
+
+   
 
     public class LogListModel
     {

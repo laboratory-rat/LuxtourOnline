@@ -15,8 +15,7 @@
 /*#region Layout */
 
 #head {
-    background-color: rgba(0,0,0,0);
-    box-shadow: none;
+    background-color: #FFF;
     position: absolute;
     min-height: 48px;
     top: 0px;
@@ -32,23 +31,7 @@
 }
 
 #head .mdl-navigation__link {
-    color: white;
-}
-
-.app-white-1 .mdl-navigation__link {
-    color: black !important;
-}
-
-.app-white-2 .mdl-navigation__link {
-    color: black !important;
-}
-
-.app-white-3 .mdl-navigation__link {
-    color: black !important;
-}
-
-.app-white-4 .mdl-navigation__link {
-    color: black !important;
+    color: black;
 }
 
 .mdl-mega-footer
@@ -132,23 +115,7 @@
     margin-left: 40px;
 }
 
-.app-white-1 {
-    background-color: rgba(255,255,255,0.25) !important;
-    color: black;
-}
 
-.app-white-2 {
-    background-color: rgba(255,255,255,0.50) !important;
-}
-
-.app-white-3 {
-    background-color: rgba(255,255,255,0.75) !important;
-}
-
-.app-white-4 {
-    background-color: rgba(255,255,255,1) !important;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12) !important;
-}
 
 .mdl-layout__header-row .mdl-navigation__link {
     font-size: 18px;

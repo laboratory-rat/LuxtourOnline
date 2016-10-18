@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuxtourOnline.Models.Products;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace LuxtourOnline.Models
         public virtual List<Apartment> Apartmetns { get; set; }
 
         public virtual List<Review> Rewiews { get; set; }
+
+        public virtual List<Order> Orders { get; set; }
 
         [Required]
         [Range(1d, 5d, ErrorMessage = "Must be 1 - 5")]

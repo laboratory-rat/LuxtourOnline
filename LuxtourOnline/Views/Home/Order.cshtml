@@ -45,7 +45,7 @@
                         <div class="mdl-cell mdl-cell--6-col" id="dateArea">
                             <div class="mdl-textfield mdl-js-textfield">
                                 <label for="dateFrom" class="">Дата виїзду</label>
-                                <input type="date" class="mdl-textfield__input" id="dateFrom" name="DateFrom" ng-model="FromDate" min="{{TodayDate | date:'yyyy-MM-dd'}}" />
+                                <input type="date" class="mdl-textfield__input" id="dateFrom" name="DateFrom" min="{{TodayDate | date:'yyyy-MM-dd'}}" ng-model="UploadData.dateFrom" />
                                 <label for="dateFrom" class="mdl-textfield__label"></label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield">
@@ -85,10 +85,10 @@
             <div class="mdl-typography--headline mdl-typography--font-medium text-main table-title">Вибір готелю</div>
             <table class="mdl-data-table mdl-js-data-table" style="width: 100%;">
                 <col style="width:5%">
+                <col style="width:8%">
+                <col style="width:32%">
                 <col style="width:10%">
                 <col style="width:20%">
-                <col style="width:10%">
-                <col style="width:30%">
                 <col style="width:10%">
                 <col style="width:15%">
                 <thead>
@@ -131,7 +131,7 @@
 
         </div>
     </div>
-    <div class="mdl-card mdl-grid hotel-description" ng-show="ActiveHotel !== null" id="about-hotel">
+    <div class="mdl-card mdl-shadow--2dp mdl-grid hotel-description" ng-show="ActiveHotel !== null" id="about-hotel">
         <div class="mdl-cell mdl-cell--12-col mdl-typography--text-center mdl-color--blue-500 mdl-typography--headline mdl-typography--font-medium mdl-color-text--white">
             Опис готелю {{ActiveHotel.title}}
         </div>
@@ -151,12 +151,12 @@
         </div>
         <div class="mdl-cell mdl-cell--12-col">
             <div class="mdl-grid">
-                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet" ng-repeat="feature in ActiveHotel.features">
+                <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-desktop mdl-cell--6-col-tablet hotel-card" ng-repeat="feature in ActiveHotel.features">
                     <div class="mdl-card__title">
                         <div class="mdl-card__title-text">
                             <i class="material-icons">
                                 {{feature.ico}}
-                            </i> {{feature.title}}
+                            </i> <span class="mdl-typography--headline mdl-typography--font-regular">{{feature.title}}</span>
 
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                         Виїзд з міста: <span>{{UploadData.fromCity}}</span>
                     </div>
                     <div>
-                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary" ng-disabled="IsValid()">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary" ng-click="SendData()">
                             Оформити тур
                         </button>
                     </div>
@@ -250,7 +250,7 @@
                                 </div>
 
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <input name="tel{{data.id}}" id="tel{{data.id}}" class="mdl-textfield__input" type="tel" ng-model="UploadData.tel" />
+                                    <input name="tel{{data.id}}" id="tel{{data.id}}" class="mdl-textfield__input" type="tel" ng-model="UploadData.phone" />
                                     <label for="tel{{data.id}}" class="mdl-textfield__label">
                                         <span ng-if="UploadData.tel == ''">Мобільний телефон</span>
                                     </label>
@@ -264,7 +264,7 @@
                                 </div>
 
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <textarea name="comment{{data.id}}" id="comment{{data.id}}" class="mdl-textfield__input" type="text" ng-model="UploadData.comment"> </textarea>
+                                    <textarea name="comment{{data.id}}" id="comment{{data.id}}" class="mdl-textfield__input" type="text" ng-model="UploadData.comments"> </textarea>
                                     <label for="comment{{data.id}}" class="mdl-textfield__label">
                                         <span ng-if="UploadData.comment == ''"> Питання та уточнення </span>
                                     </label>
@@ -284,7 +284,7 @@
 
                             <div class="mdl-textfield mdl-js-textfield">
                                 <label for="br{{data.id}}" class="">Дата народження</label>
-                                <input type="date" class="mdl-textfield__input" id="br{{data.id}}" ng-model="data.birthday" max="{{TodayDate | date:'yyyy-MM-dd'}}" />
+                                <input type="date" class="mdl-textfield__input" id="br{{data.id}}" ng-model="data.bithday" max="{{TodayDate | date:'yyyy-MM-dd'}}" />
                                 <label for="br{{data.id}}" class="mdl-textfield__label"></label>
                             </div>
 
@@ -298,7 +298,7 @@
 
                             <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
                                 <label for="AliveCountry{{data.id}}">Країна народження</label>
-                                <select id="AliveCountry{{data.id}}" class="mdl-textfield__input" ng-model="data.countryAlive">
+                                <select id="AliveCountry{{data.id}}" class="mdl-textfield__input" ng-model="tmpCountry" ng-change="data.countryFrom = tmpCountry">
                                     <option value="uk">Украіна</option>
                                     <option value="null">Інше</option>
                                 </select>
@@ -307,7 +307,7 @@
 
                             <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
                                 <label for="LiveCountry{{data.id}}">Громадянство</label>
-                                <select id="LiveCountry{{data.id}}" class="mdl-textfield__input" ng-model="data.liveCountry">
+                                <select id="LiveCountry{{data.id}}" class="mdl-textfield__input" ng-model="tmpLive" ng-change="data.countryLive = tmpLive">
                                     <option value="uk">Украіна</option>
                                     <option value="null">Інше</option>
                                 </select>
@@ -315,7 +315,7 @@
                             </div>
 
                             <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
-                                <input name="pfn{{data.id}}" id="pfn{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.passportFullName" ng-disabled="data.isChild" />
+                                <input name="pfn{{data.id}}" id="pfn{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.passportData" ng-disabled="data.isChild" />
                                 <label for="pfn{{data.id}}" class="mdl-textfield__label">
                                     <span>Повне ім'я у паспорті</span>
                                 </label>
@@ -336,7 +336,7 @@
                             </div>
 
                             <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
-                                <input name="passportFrom{{data.id}}" id="passportData{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.passportData" ng-disabled="data.isChild" />
+                                <input name="passportFrom{{data.id}}" id="passportData{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.passportNumber" ng-disabled="data.isChild" />
                                 <label for="passportFrom{{data.id}}" class="mdl-textfield__label">
                                     <span>Номер паспорта</span>
                                 </label>
@@ -349,7 +349,6 @@
             </div>
         </div>
     </div>
-
     UploadData -- {{UploadData | json}}
 </div>
 @section Scripts

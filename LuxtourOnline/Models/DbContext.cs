@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using LuxtourOnline.Models.Products;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace LuxtourOnline.Models
 {
     public class SiteDbContext : IdentityDbContext<AppUser>
     {
-        public SiteDbContext() : base("DebugConnection")
+        public SiteDbContext() : base("SmartAsp")
         {
         }
 
@@ -27,7 +28,11 @@ namespace LuxtourOnline.Models
 
         public DbSet<Log> Logs { get; set; }
 
-        
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<CustomerData> CustomerData { get; set; }
+        public DbSet<PassportImage>  PassportImages { get; set; }
+
     }
 
     

@@ -53,26 +53,52 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
 
     $scope.UploadData = {
         email: '',
-        tel: '',
+        phone: '',
         city: '',
-        comment: '',
+        comments: '',
 
         fromCity: '',
+        dateFrom: '',
+
 
         customers: [{
             id: '',
             isChild: false,
             fullName: '',
+            countryFrom: '',
+            countryLive: '',
             passportFiles: [],
             passportIsFiles: false,
-            birthday: '',
+            bithday: '',
             passportUntil: '',
             passportFrom: '',
-            passportData: '',
+            passportNumber: '',
             passportFullName: '',
             }
         ]
     };
+
+    $scope.SendData = function()
+    {
+        var data = $scope.UploadData;
+        data.HotelId = $scope.ActiveHotel.id;
+        data.TourId = $scope.TourId;
+        data.ApartmentID = $scope.ActiveHotel.aa.id;
+
+        $http.post('/Home/CreateOrder', data)
+        .success(function (response) {
+            if (response.result == "error")
+            {
+                alert(response.data);
+            }
+            else
+            {
+                alert(response.data)
+            }
+        });
+        
+        
+    }
 
     $scope.AddCustomer = function(){$scope.AddCustomer(false);}
 

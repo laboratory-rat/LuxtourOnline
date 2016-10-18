@@ -31,7 +31,7 @@ namespace LuxtourOnline.Models.Manager
         public string Comment { get; set; } = "I'm comment";
 
         [Required]
-        public string TitleEn { get; set; } = "New hotel";
+        public string TitleEn { get; set; } = "New Tour";
 
         [Required]
         [DataType(DataType.MultilineText)]
@@ -39,7 +39,7 @@ namespace LuxtourOnline.Models.Manager
         public string DescriptionEn { get; set; } = "Some description";
 
         [Required]
-        public string TitleUk { get; set; } = "Я зоголовок";
+        public string TitleUk { get; set; } = "Я заголовок";
 
         [Required]
         [DataType(DataType.MultilineText)]

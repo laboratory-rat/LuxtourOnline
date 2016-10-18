@@ -611,6 +611,12 @@ namespace LuxtourOnline.Repos
 
             string newPath = Path.Combine(_basePath, "Content\\SystemImages\\", name);
 
+            if (!Directory.Exists(Path.Combine(_basePath, "Content\\SystemImages")))
+            {
+                Directory.CreateDirectory(Path.Combine(_basePath, "Content\\SystemImages"));
+                _log.Info("Created directory 'SystemImages'");
+            }
+
             if (File.Exists(path))
             {
                 File.Move(path, newPath);

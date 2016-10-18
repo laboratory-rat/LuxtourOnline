@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/mdl-v1.1.2/material.amber-light_blue.min.css" />
 
     <script src="~/Content/mdl-v1.1.2/material.min.js"></script>
-    <!-- Intenrnet <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="~/Content/mdl-v1.1.2/icon.css" />
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
@@ -168,47 +168,7 @@
     <script src="~/Scripts/angular-animate.js"></script>
     @RenderSection("Scripts", false)
 
-    <script>
-        $('#content').on('scroll', function () {
-
-            var height = $('#content').scrollTop();
-            var h = $('#head');
-
-            if (height < 100) {
-                h.removeClass('app-white-1');
-                h.removeClass('app-white-2');
-                h.removeClass('app-white-3');
-                h.removeClass('app-white-4');
-            }
-            else if (height >= 100 && height < 200) {
-                h.addClass('app-white-1');
-                h.removeClass('app-white-2');
-                h.removeClass('app-white-3');
-                h.removeClass('app-white-4');
-            }
-            else if (height >= 200 && height < 300) {
-                h.removeClass('app-white-1');
-                h.addClass('app-white-2');
-                h.removeClass('app-white-3');
-                h.removeClass('app-white-4');
-            }
-            else if (height >= 300 && height < 400) {
-                h.removeClass('app-white-1');
-                h.removeClass('app-white-2');
-
-                h.addClass('app-white-3');
-                h.removeClass('app-white-4');
-            }
-            else {
-                h.removeClass('app-white-1');
-                h.removeClass('app-white-2');
-                h.removeClass('app-white-3');
-                h.addClass('app-white-4')
-            }
-
-        });
-
-    </script>
+    
     <!--
 
                          Tb.          Tb.                                

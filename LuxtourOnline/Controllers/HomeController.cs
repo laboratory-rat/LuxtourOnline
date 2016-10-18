@@ -13,6 +13,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Facebook;
 using System.Dynamic;
+using System.ComponentModel.DataAnnotations;
+using LuxtourOnline.Models.Products;
 
 namespace LuxtourOnline.Controllers
 {
@@ -221,6 +223,103 @@ namespace LuxtourOnline.Controllers
             return Json(new { result = "success", data = result }, JsonRequestBehavior.AllowGet);
         }
 
+        public async Task<ActionResult> CreateOrder(AddOrderModel model)
+        {
+            if (!ModelState.IsValid)
+                return Json(new { result = "error", data = "Some errors in form" }, JsonRequestBehavior.AllowGet);
+
+            string orderId = "";
+
+            try
+            {
+                using (var c = _context)
+                {
+                    Tour tour = c.Tours.Where(x => x.Id == model.TourId).FirstOrDefault();
+                    Hotel hotel = c.Hotels.Where(x => x.Id == model.HotelId).FirstOrDefault();
+                    Apartment apartment = c.Apartents.Where(x => x.Id == model.ApartmentId).FirstOrDefault();
+
+                    if (tour == null || hotel == null || apartment == null)
+                        throw new ArgumentNullException("bad data");
+
+                    Order order = new Order()
+                    {
+                        Tour = tour,
+                        Hotel = hotel,
+                        Apartment = apartment,
+                        City = model.City,
+                        Comments = model.Comments,
+                        Date = DateTime.Now,
+                        Email = model.Email,
+                        Phone = model.Phone,
+                    };
+                    
+                    foreach(AddOrderCustomer cust in model.Customers)
+                    {
+                        CustomerData data = new CustomerData()
+                        {
+                            Birthday = cust.Bithday,
+                            FullName = cust.FullName,
+                            IsChild = cust.IsChild,
+                        };
+
+                        if (!cust.IsChild)
+                        {
+                            data.LoadPassportImages = cust.LoadPassportImages;
+
+                            if (!data.LoadPassportImages)
+                            {
+                                data.PassportData = cust.PassportData;
+                                data.PassportFrom = cust.PassportFrom;
+                                data.PassportUntil = cust.PassportUntil;
+                                data.CountryLive = cust.CountryLive;
+                                data.CountryFrom = cust.CountryFrom;
+                            }
+                            else
+                            {
+                                foreach(var image in cust.Images)
+                                {
+                                    PassportImage im = new PassportImage()
+                                    {
+                                        CustomerData = data,
+                                    };
+
+                                    using (Stream inputStream = image.InputStream)
+                                    {
+                                        MemoryStream memoryStream = inputStream as MemoryStream;
+                                        if (memoryStream == null)
+                                        {
+                                            memoryStream = new MemoryStream();
+                                            inputStream.CopyTo(memoryStream);
+                                        }
+                                        im.Data = memoryStream.ToArray();
+                                    }
+
+                                    data.PassportImages.Add(im);
+                                }
+                            }
+
+                        }
+
+                        order.CustomersData.Add(data);
+
+                    }
+
+                    c.Orders.Add(order);
+
+                    await c.SaveChangesAsync();
+
+                    orderId = order.Id;
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return Json(new { result = "error", data = "Internal server error" }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { result = "success", data = orderId }, JsonRequestBehavior.AllowGet);
+        }
+
         protected int _newsCount = 10;
 
         [HttpGet]
@@ -281,4 +380,43 @@ namespace LuxtourOnline.Controllers
         public PagingInfo Paging { get; set; }
     }
 
+    public class AddOrderModel
+    {
+        public int TourId { get; set; }
+        public int HotelId { get; set; }
+        public int ApartmentId { get; set; }
+        public string City { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public DateTime DateFrom { get; set; }
+        [DataType(DataType.MultilineText)]
+        public string Comments { get; set; }
+
+        public List<AddOrderCustomer> Customers { get; set; }
+
+    }
+
+    public class AddOrderCustomer
+    {
+        public string FullName { get; set; }
+
+        public bool IsChild { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime Bithday { get; set; }
+
+
+        public string CountryFrom { get; set; }
+        public string CountryLive { get; set; }
+
+        public string PassportData { get; set; }
+        public string PassportNumber { get; set; }
+        public string PassportFrom { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime PassportUntil { get; set; }
+
+        public bool LoadPassportImages { get; set; }
+
+        public List<HttpPostedFileBase> Images { get; set; }
+    }
 }

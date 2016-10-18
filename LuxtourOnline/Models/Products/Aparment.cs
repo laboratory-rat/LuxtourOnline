@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LuxtourOnline.Models.Products;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -23,5 +24,8 @@ namespace LuxtourOnline.Models
 
         [Required]
         public bool Deleted { get; set; } = false;
+
+        [Required]
+        public virtual List<Order> Orders { get; set; } = new List<Order>();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LuxtourOnline.Models;
+using LuxtourOnline.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,6 +20,8 @@ namespace LuxtourOnline
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             BundleMobileConfig.RegisterBundles(BundleTable.Bundles);
+
+            //JobScheduler.Start();
         }
     }
 }

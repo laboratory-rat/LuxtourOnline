@@ -77,10 +77,13 @@
 
 #gallery
 {
-    width: 624px;
+    width: 100%px;
+    max-width: 900px;
     height: 432px;
     padding: 0px;
     margin: 0px;
+    margin-left: 24px;
+
 }
 
 #gallery img
@@ -144,6 +147,7 @@
 #hotel-table
 {
     margin: 0 8px;
+    padding-bottom: 16px;
 }
 
 #hotel-table .table-title
@@ -199,6 +203,12 @@
 {
     background-color: #f5f5f5;
     border-radius: 9px;
+    flex: none;
+    display: block;
+    float: left;
+    min-height: 0px;
+    width: Calc(33% - 24px);
+    margin: 8px 12px 8px 12px;
 }
 
 .hotel-card i
@@ -209,6 +219,7 @@
 .hotel-card .mdl-card__title
 {
     padding: 24px;
+    padding-bottom: 8px;
 }
 
 .hotel-card .mdl-card__title-text
@@ -219,10 +230,267 @@
 
 .hotel-card .mdl-card__title-text > i 
 {
-    padding-right: 12px;
+    padding-right: 14px;
 }
 
 .hotel-card .mdl-card__title-text > span
 {
-    margin-bottom: 6px;
+    margin-top: -2px;
+}
+
+.hotel-card .mdl-card__subtitle-text > div
+{
+
+    margin: 0px 24px 8px 64px; 
+    border-top: 1px solid rgba(0,0,0,0.14);
+    padding-top: 8px;
+    line-height: 12px;
+}
+
+.hotel-card .mdl-card__subtitle-text > div > i
+{
+    color: #f44336;
+    font-size: 19px;
+}
+
+.hotel-card .mdl-card__subtitle-text > div:last-child
+{
+    border: none;
+    margin-top: -8px;
+    height: 0px;
+    border-bottom: 1px solid rgba(0,0,0,0.14);
+}
+
+.hotel-card .mdl-card__subtitle-text > span
+{
+    display: inline-block;
+    margin: 0px 24px 8px 64px;
+    border-bottom: 2px solid green;
+}
+
+.hotel-card .mdl-card__subtitle-text > span > i
+{
+    padding-right: 12px;
+}
+
+.hotel-card .mdl-card__subtitle-text > span > span
+{
+    display: block;
+    float: right;
+    margin-top: -2px;
+    padding-top: 2px;
+}
+
+.hotel-card .mdl-card__supporting-text
+{
+    padding: 0px 24px 0px 24px;
+    margin-top: -12px;
+}
+
+pre
+{
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
+
+#loader-hotel, #loader-tour
+{
+    display: block;
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 26px;
+    height: 6px;
+}
+
+#tourMain > .app-block-header
+{
+    height: 48px;
+    padding-top: 4px;
+}
+
+#tourMain
+{
+    width: 100%;
+    margin: 0px;
+    padding: 24px 0px 14px 0px;
+}
+
+#tourMain > div:first-child
+{
+    margin: 0px;
+}
+
+#tourMain > .mdl-cell--12-col
+{
+    width: 100%;
+}
+
+#tourMain > .mdl-cell--4-col
+{
+    width: Calc(33% - 36px);
+    margin: 72px 12px 12px 24px;
+}
+
+#tourMain > .mdl-cell--8-col
+{
+    width: Calc(66% - 24px);
+    margin: 24px 24px 12px 12px;
+
+}
+
+#calculate-window
+{
+    margin: 0;
+}
+
+#calculate-window >div:first-child
+{
+    height: 132px;
+}
+
+#calculate-window .calculate-list
+{
+    display: block;
+    margin-left: 8px;
+}
+
+#calculate-window .calculate-list div
+{
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.87;
+
+    padding-top: 8px;
+}
+
+#calculate-window .calculate-list span
+{
+    font-size: 14px;
+    font-weight: 300;
+
+}
+
+#calculate-window .calculate-list div:last-child
+{
+    margin-top: 18px;
+    margin-bottom: 24px;
+}
+
+#calculate-window .calculate-list div:last-child > span
+{
+    display: block;
+    text-align: center;
+    margin-top: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+#calculate-window .calculate-list button
+{
+    display: block;
+    width: 66%;
+    margin: 0 auto;
+    height: 48px;
+    font-size: 24px;
+    text-transform: none; 
+}
+
+#tourMain .mdl-tabs__tab-bar
+{
+    display: block;
+}
+
+#tourMain .mdl-tabs__tab-bar a
+{
+    border-right: 1px solid rgba(0,0,0,0.14);
+}
+
+
+
+#tourMain .mdl-tabs__tab
+{
+    padding: 0 12px;
+}
+
+#tourMain .mdl-tabs__tab span
+{
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: -10px;
+    display: block;
+    float: right;
+    margin-top: 2px;
+}
+
+#tourMain .mdl-tabs__tab-bar i
+{
+    font-size: 48px;
+    float: left;
+    display: block;
+      
+}
+
+.customer-form
+{
+    padding: 0px 0px 0px 48px;
+}
+
+.customer-form > div:first-child
+{
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+
+.customer-form  .mdl-textfield
+{
+    padding-top: 18px !important;
+    padding-bottom: 18px;
+    margin-top: -8px;
+}
+
+.customer-form  .mdl-textfield > label
+{
+    display: block;
+    margin-top: -5px;
+    color: rgba(0,0,0,0.54)
+}
+
+.customer-form  .mdl-textfield > input
+{
+    margin-bottom: 3px;
+}
+
+.customer-form .mdl-textfield > textarea
+{
+    margin-bottom: 12px !important;
+}
+
+.customer-form  .mdl-textfield > select
+{
+    margin-bottom: 8px;
+}
+
+.customer-form-right  .mdl-textfield
+{
+    padding-top: 12px !important;
+    padding-bottom: 12px;
+    margin-top: -8px;
+}
+
+.customer-form-right  .mdl-textfield > input
+{
+    margin-bottom: 8px;
+}
+
+.customer-form-right label
+{
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    opacity: 0.87 !important;
+    color: rgba(0,0,0,0.87) !important;
+}
+
+.customer-form-right label > span
+{
+    font-weight: 400 !important;
 }

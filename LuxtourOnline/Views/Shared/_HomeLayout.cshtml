@@ -53,10 +53,10 @@
                 <!-- Navigation. We hide it in small screens. -->
                 <nav class="mdl-navigation mdl-cell--hide-phone app-hide-tablet">
 
-                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "mdl-navigation__link" })
-                    @Html.ActionLink("Tours", "Tours", "Home", null, new { @class = "mdl-navigation__link" })
-                    @Html.ActionLink("News", "News", "Home", null, new { @class = "mdl-navigation__link" })
-                    @Html.ActionLink("Contacts", "Contacts", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Home", "Index", "Home", new { language = ViewBag.Lang }, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Tours", "Tours", "Home", new { language = ViewBag.Lang }, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("News", "News", "Home", new { language = ViewBag.Lang }, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Contacts", "Contacts", "Home", new { language = ViewBag.Lang }, new { @class = "mdl-navigation__link" })
                     <a href="#" id="LayoutLanguage" class="mdl-navigation__link">
                         Language
                     </a>

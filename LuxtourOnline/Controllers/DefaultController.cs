@@ -27,12 +27,22 @@ namespace LuxtourOnline.Controllers
 
         protected AppSignInManager _signInManager { get { return HttpContext.GetOwinContext().Get<AppSignInManager>(); } }
 
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            if (_lang != null)
+                ViewBag.Lang = _lang;
+            else
+                ViewBag.Lang = "uk";
+
+            base.OnActionExecuted(filterContext);
+        }
 
         protected override void Initialize(RequestContext requestContext)
         {
             try
             {
                 string language = (string)requestContext.RouteData.Values["language"] ?? "";
+                string baseLang = language;
                 language = language.ToLower();
 
                 if (!AppConsts.Langs.Contains(language))
@@ -62,9 +72,17 @@ namespace LuxtourOnline.Controllers
                 }
                 else if (session["language"].ToString() != language)
                 {
-                    session["language"] = language;
-                    SetLangCookie(language, requestContext);
-                    _lang = language;
+                    if (baseLang == "")
+                    {
+                        _lang = session["language"].ToString();
+                        
+                    }
+                    else
+                    {
+                        session["language"] = language;
+                        SetLangCookie(language, requestContext);
+                        _lang = language;
+                    }
                 }
                 else
                 {

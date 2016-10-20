@@ -12,7 +12,13 @@
 }
 
 
-var app = angular.module("OrderApp", ['ngAnimate', 'ngTouch', 'angular-carousel']);
+var app = angular.module("OrderApp", ['ngAnimate', 'ngTouch', 'angular-carousel', 'ngSanitize', 'ng-file-input']);
+
+app.filter('to_trusted', ['$sce', function ($sce) {
+    return function (text) {
+        return $sce.trustAsHtml(text);
+    };
+}]);
 
 app.run(function () {
     var mdlUpgradeDom = false;
@@ -37,10 +43,30 @@ app.run(function () {
     */
 });
 
+app.directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                var reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = loadEvent.target.result;
+                    });
+                }
+                reader.readAsDataURL(changeEvent.target.files[0]);
+            });
+        }
+    }
+}]);
 
 app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
     $scope.TourData = null;
     $scope.TourId = null;
+    $scope.Lang = null;
+
 
     $scope.ActiveHotel = null;
     $scope.HotelList = [];
@@ -61,7 +87,8 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
         dateFrom: '',
 
 
-        customers: [{
+        customers: [
+            /*{
             id: '',
             isChild: false,
             fullName: '',
@@ -75,8 +102,104 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
             passportNumber: '',
             passportFullName: '',
             }
+            */
         ]
     };
+
+    $scope.IsValidSecond = function()
+    {
+        if ($scope.TourData === null)
+            return false;
+
+        if ($scope.ActiveHotel === null)
+            return false;
+
+        if ($scope.ActiveHotel.aa === null)
+            return false;
+
+        if ($scope.UploadData.dateFrom === '' || $scope.UploadData.fromCity === '' || $scope.UploadData.city === '' || $scope.UploadData.email === '' || $scope.UploadData.phone === '')
+            return false;
+
+        if ($scope.UploadData.customers !== null && $scope.UploadData.customers.length > 0) {
+            for (var i = 0; i < $scope.UploadData.customers.length; i++) {
+                var c = $scope.UploadData.customers[i];
+
+                if (c.fullName === '' || c.bithday === '')
+                    return false;
+
+                if (!c.isChild) {
+
+                    if (c.passportIsFiles) {
+                        if (c.passportFiles.length < 1)
+                            return false;
+                    }
+                    else {
+                        if (c.passportData === '' ||
+                             c.passportNumber === '' ||
+                             c.passportUntil === '' ||
+                             c.passportFrom === '' ||
+                            c.countryFrom === '' ||
+                             c.countryLive === '')
+                            return false;
+                    }
+                }
+            }
+        }
+        else {
+            return false;
+        }
+
+        return true;
+    }
+
+    $scope.IsValid = function () {
+
+        if ($scope.TourData === null)
+            return false;
+
+        if ($scope.ActiveHotel === null)
+            return false;
+
+        if ($scope.ActiveHotel.aa === null)
+            return false;
+
+        if ($scope.UploadData.dateFrom === '' || $scope.UploadData.fromCity === '' || $scope.UploadData.city === '' || $scope.UploadData.email === '' || $scope.UploadData.phone === '')
+            return false;
+
+        if ($scope.UploadData.customers !== null && $scope.UploadData.customers.length > 0) {
+            for (var i = 0; i < $scope.UploadData.customers.length; i++) {
+                var c = $scope.UploadData.customers[i];
+
+                if ( c.fullName === '' || c.bithday === '')
+                    return false;
+
+                if (!c.isChild) {
+
+                    if (c.passportIsFiles) {
+                        if (c.passportFiles.length < 1)
+                            return false;
+                    }
+                    else {
+                        if ( c.passportData === '' ||
+                             c.passportNumber === '' ||
+                             c.passportUntil === '' ||
+                             c.passportFrom === '' ||
+                            c.countryFrom === '' ||
+                             c.countryLive === '')
+                            return false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    };
+
+    $scope.IsLoadingHotel = false;
 
     $scope.SendData = function()
     {
@@ -85,7 +208,7 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
         data.TourId = $scope.TourId;
         data.ApartmentID = $scope.ActiveHotel.aa.id;
 
-        $http.post('/Home/CreateOrder', data)
+        $http.post('/'+$scope.Lang+'/Home/CreateOrder', data)
         .success(function (response) {
             if (response.result == "error")
             {
@@ -109,7 +232,17 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
         $scope.UploadData.customers.push({
             id: id,
             isChild: child,
-            passportFiles: [],});
+            fullName: '',
+            countryFrom: '',
+            countryLive: '',
+            passportFiles: '',
+            passportIsFiles: false,
+            bithday: '',
+            passportUntil: '',
+            passportFrom: '',
+            passportNumber: '',
+            passportFullName: '',
+        });
     }
 
     $scope.ClearCustomers = function()
@@ -200,16 +333,21 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
         }
         else 
         {
+            $scope.IsLoadingHotel = true;
             var newHotel = null;
+            var lang = $scope.Lang;
+
 
             $http({
                 method: 'GET',
-                url: '/Home/OrderHotelJson',
+                url: '/'+$scope.Lang+'/Home/OrderHotelJson',
                 params: {
                     id: hotel.id,
                 },
             })
             .success(function (response) {
+                $scope.IsLoadingHotel = false;
+
                 newHotel = response.data;
                 newHotel.aa = null;
                 $scope.HotelList.push(newHotel);
@@ -286,9 +424,10 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
 
     $scope.LoadTour = function () {
         if ($scope.TourId !== null) {
+
             $http({
                 method: 'GET',
-                url: '/Home/OrderTourJson',
+                url: '/'+$scope.Lang+'/Home/OrderTourJson',
                 params: {
                     id: $scope.TourId,
                 },
@@ -307,6 +446,5 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
             });
         }
     };
-
     
 }]);

@@ -21,6 +21,7 @@
     min-height: 253px;
     border-radius: 9px;
     display: inline-block;
+    max-height: 250px;
 }
 
     .app-tour-card:hover {
@@ -77,8 +78,11 @@
 }
 
 .tour-body {
-    padding: 24px 0px;
+    margin: 24px 0px;
     opacity: 0.87;
+    height: 120px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .tour-footer {
@@ -221,7 +225,7 @@
 {
     padding: 14px;
     padding-top: 8px;
-    overflow: hidden;
+    overflow-y: Auto;
     height: 70px;
     line-height: 18px;
      
@@ -366,3 +370,21 @@
     margin-left: calc(50% - 600px);
     position: absolute;
 }
+
+/*#region Progress Bar */
+
+.mdl-progress-main > .progressbar {
+    background-color: rgb(255, 193, 7);
+}
+
+.mdl-progress-main > .bufferbar {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255,255,255, 0.7)), linear-gradient(to right, rgb(255, 193, 7),rgb(255, 193, 7));
+}
+
+.mdl-progress-main > .auxbar {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255,255,255, 0.7)), linear-gradient(to right, rgb(255, 193, 7),rgb(255, 193, 7)) !important;
+    background-color: rgba(00,0,0,0) !important;
+    opacity: 0;
+}
+
+/*#endregion */

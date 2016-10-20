@@ -67,7 +67,7 @@
 
                     for (i = 0; i < response.length; i++)
                     {
-                        if (response[i].message.length > 10)
+                        if (response[i].message !== undefined && response[i].message.length > 10)
                             $scope.Data.push(response[i]);
                     }
 

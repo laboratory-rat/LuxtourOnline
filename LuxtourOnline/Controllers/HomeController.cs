@@ -108,6 +108,7 @@ namespace LuxtourOnline.Controllers
         public ActionResult Order(int id)
         {
             ViewBag.id = id;
+            ViewBag.lang = _lang;
 
             return View();
         }

@@ -190,22 +190,23 @@ namespace LuxtourOnline.Repos
 
             var hotels = _context.Hotels.OrderByDescending(h => h.CreatedTime).Where(x => !x.Deleted).ToList();
 
-            
-            
+
+
 
             foreach (var hotel in hotels)
             {
                 string Url = "";
                 if (hotel.Images.Count > 0 && hotel.Images[0] != null)
                     Url = hotel.Images[0].Url;
-
+                else
+                    Url = "~/Content/Resources/TmpHotel.jpg";
 
                 ManagerHotelList element = new ManagerHotelList()
                 {
                     Avaliable = hotel.Avaliable,
                     CreationDate = hotel.CreatedTime,
                     ModifyUser = hotel.ModifyUser,
-                    UserName = "tmp_user", //hotel.ModifyUser.FullName,
+                    UserName = "tmp_user",
                     ModifyDate = hotel.ModifyDate,
                     ImageUrl = Url,
                     Id = hotel.Id,
@@ -361,7 +362,12 @@ namespace LuxtourOnline.Repos
             else
                 description = "No description for this language";
 
-            string url = hotel.Images[0].Url;
+            string url;
+
+            if (hotel.Images.Count > 0 && hotel.Images[0] != null)
+                url = hotel.Images[0].Url;
+            else
+                url = "~/Content/Resources/TmpHotel.jpg";
 
             var aparts = EditApartment.List(apartments);
 

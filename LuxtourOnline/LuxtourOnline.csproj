@@ -517,6 +517,7 @@
     <Content Include="Content\Resources\photo.png" />
     <Content Include="Content\Resources\stars.png" />
     <Content Include="Content\Resources\tickets.png" />
+    <Content Include="Content\Resources\TmpHotel.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Site.Mobile.css" />
     <Content Include="Content\SystemImages\6PBEOSE3K5N2SBP.jpg" />
@@ -624,6 +625,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ng-droplet.min.js" />
+    <Content Include="Scripts\ng-file-input.min.js" />
     <Content Include="Scripts\ng-file-upload-all.js" />
     <Content Include="Scripts\ng-file-upload-all.min.js" />
     <Content Include="Scripts\ng-file-upload-shim.js" />

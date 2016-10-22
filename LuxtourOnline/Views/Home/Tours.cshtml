@@ -94,22 +94,22 @@
                         </div>
                     </div>
                     <div class="mdl-cell mdl-cell--12-col">
-                        <div class="mdl-grid mdl-grid--no-spacing" style="padding-top: 8px;">
-                            <div class="mdl-cell mdl-cell--12-col mdl-typography--text-center mdl-typography--headline mdl-typography--font-light text-main" style="padding-bottom: 24px;">
+                        <div class="mdl-grid mdl-grid--no-spacing" style="padding-top: 12px; padding-left: 12px;">
+                            <div class="mdl-cell mdl-cell--12-col mdl-typography--text-center mdl-typography--headline mdl-typography--font-light text-main" style="padding-bottom: 12px;">
                                 Опис туру
                             </div>
                             <div class="mdl-cell mdl-cell--12-col text-main">
-                                <img src="http://placehold.it/350x188" style="height: 188px;" align="right" />
+                                <img src="http://placehold.it/350x188" style="height: 188px;" align="right" class="map" />
                                 {{Active.description}}
 
                             </div>
                         </div>
                     </div>
-                    <div class="mdl-cell mdl-cell--12-col" style="padding: 0px 24px; position: absolute; bottom: 24px; margin: 0 auto;">
-                        <button class="mdl-button mdl-js-button mdl-js-ripple-effect empty-button" ng-click="Order(Active.id)"
+                    <div class="mdl-cell mdl-cell--12-col" style="padding: 24px 24px; bottom: 24px; margin: 0 auto;">
+                        <a class="mdl-button mdl-js-button mdl-js-ripple-effect empty-button" ng-click="Order(Active.id)"
                                 style="margin: 0 auto; display: block; float: none; border-color: #4caf50">
                             <div class="mdl-typography--title mdl-typography--font-regular mdl-color-text--green-500">Замовити зараз</div>
-                        </button>
+                        </a>
                     </div>
                 </div>
 

@@ -412,10 +412,10 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
     
     $scope.UntilDate = function(days)
     {
-        if ($scope.FromDate == null)
+        if ($scope.UploadData.dateFrom == null)
             return;
 
-        var until = new Date($scope.FromDate);
+        var until = new Date($scope.UploadData.dateFrom);
         until.setDate(until.getDate() + days);
         return until;
     }

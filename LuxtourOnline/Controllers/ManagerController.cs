@@ -13,6 +13,8 @@ using System.Web.Mvc;
 using NLog;
 using System.Net;
 using LuxtourOnline.Utilites;
+using System.IO;
+using System.ComponentModel.DataAnnotations;
 
 namespace LuxtourOnline.Controllers
 {
@@ -309,6 +311,441 @@ namespace LuxtourOnline.Controllers
         }
 
         [HttpGet]
+        public ActionResult EditHotelNew (int id)
+        {
+            ViewBag.HotelId = id;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> EditHotelNew (EditHotelModel model)
+        {
+            dynamic output = null;
+
+            if (!ModelState.IsValid)
+            {
+                output = new
+                {
+                    Result = "error",
+                    Data = "Some errors in the form",
+                };
+            }
+            else
+            {
+                try
+                {
+                    using (var c = _context)
+                    {
+                        var user = GetCurrentUser(c);
+
+                        if (model.Id >= 0 )
+                        {
+                            Hotel hotel = c.Hotels.Where(x => x.Id == model.Id).First();
+
+                            hotel.Title = model.Title;
+                            hotel.Avaliable = model.Avaliable;
+                            hotel.Rate = model.Rate;
+                            hotel.ModifyUser = GetCurrentUser(c);
+                            hotel.ModifyDate = DateTime.Now;
+                            hotel.Deleted = false;
+
+                            List<SiteImage> Images = new List<SiteImage>();
+
+                            List<SiteImage> ImagesToDelete = new List<SiteImage>();
+
+                            for (var i = 0; i < hotel.Images.Count; i++)
+                            {
+                                bool get = false;
+                                int index = -1;
+
+                                for(var j = 0; j < model.Images.Count; j++)
+                                {
+                                    if (hotel.Images[i].Title == model.Images[j].Title)
+                                    {
+                                        get = true;
+                                        index = j;
+                                        hotel.Images[i].Order = model.Images[j].Order;
+                                        break;
+                                    }
+                                }
+
+                                if (!get)
+                                {
+                                    ImagesToDelete.Add(hotel.Images[i]);
+                                }
+                                else
+                                {
+                                    model.Images.RemoveAt(index);
+                                }
+                            }
+
+                            while(ImagesToDelete.Count > 0)
+                            {
+                                hotel.Images.Remove(ImagesToDelete[0]);
+                            }
+
+                            foreach(var img in model.Images)
+                            {
+                                string title = img.Title;
+                                string path = img.Path;
+                                int order = img.Order;
+
+                                var NewImage = MoveTmpImage(path, title, order);
+
+                                if (NewImage != null)
+                                {
+                                    NewImage.Hotel = hotel;
+                                    hotel.Images.Add(NewImage);
+                                }
+                            }
+
+                            while(hotel.Descriptions.Count > 0)
+                            {
+                                c.HotelDescriptions.Remove(hotel.Descriptions[0]);
+                            }
+
+                            hotel.Descriptions.Clear();
+
+                            // Set descriptions
+
+                            List<HotelDescription> descriptions = new List<HotelDescription>();
+
+                            foreach (var descr in model.Descriptions)
+                            {
+                                string lang = descr.Language;
+                                string description = descr.Description;
+
+                                List<HotelFeature> Features = new List<HotelFeature>();
+
+                                HotelDescription Description = new HotelDescription()
+                                {
+                                    Description = description,
+                                    Lang = lang,
+                                    Hotel = hotel,
+                                    Features = Features,
+                                };
+
+                                if (descr.Features != null && descr.Features.Count > 0)
+                                {
+                                    foreach (var feature in descr.Features)
+                                    {
+                                        string title = feature.Title;
+                                        int order = feature.Order;
+                                        string featureDescription = feature.Description;
+                                        string featureIco = feature.Ico;
+
+                                        List<HotelElement> Free = new List<HotelElement>();
+                                        List<HotelElement> Paid = new List<HotelElement>();
+
+                                        HotelFeature NewFeature = new HotelFeature()
+                                        {
+                                            Title = title,
+                                            Description = featureDescription,
+                                            Order = order,
+                                            Glyph = featureIco,
+                                            HotelDescription = Description,
+                                        };
+
+                                        if (feature.Free != null && feature.Free.Count > 0)
+                                        {
+                                            foreach (var ff in feature.Free)
+                                            {
+                                                var n = new HotelElement()
+                                                {
+                                                    Title = ff.Title,
+                                                    Glyph = ff.Ico,
+                                                    Order = ff.Order,
+                                                    Feature = NewFeature,
+                                                };
+
+                                                Free.Add(n);
+                                            }
+                                        }
+
+                                        if (feature.Paid != null && feature.Paid.Count > 0)
+                                        {
+                                            foreach (var ff in feature.Paid)
+                                            {
+                                                var n = new HotelElement()
+                                                {
+                                                    Title = ff.Title,
+                                                    Glyph = ff.Ico,
+                                                    Order = ff.Order,
+                                                    Feature = NewFeature,
+                                                };
+
+                                                Paid.Add(n);
+                                            }
+                                        }
+
+                                        NewFeature.Free = Free;
+                                        NewFeature.Paid = Paid;
+
+                                        Features.Add(NewFeature);
+                                    }
+                                }
+
+                                hotel.Descriptions.Add(Description);
+                            }
+
+                            c.Hotels.Attach(hotel);
+                            c.Entry(hotel).State = System.Data.Entity.EntityState.Modified;
+                            await c.SaveChangesAsync();
+
+                            output = new
+                            {
+                                Result = "success",
+                            };
+                        }
+                        else
+                        {
+                            Hotel hotel = new Hotel()
+                            {
+                                Title = model.Title,
+                                Rate = model.Rate,
+                                Deleted = false,
+                                Apartmetns = new List<Apartment>(),
+                                Descriptions = new List<HotelDescription>(),
+                                Images = new List<SiteImage>(),
+                                ModifyDate = null,
+                                ModifyUser = user,
+                                Orders = new List<Models.Products.Order>(),
+                                Rewiews = new List<Review>(),
+                                Tags = new List<Tag>(),
+                                Avaliable = model.Avaliable,
+                                CreatedTime = DateTime.Now,
+                            };
+
+                            List<SiteImage> images = new List<SiteImage>();
+
+                            foreach(var img in model.Images)
+                            {
+                                string title = img.Title;
+                                string path = img.Path;
+                                int order = img.Order;
+
+                                var NewImage = MoveTmpImage(path, title, order);
+
+                                if (NewImage != null)
+                                {
+                                    NewImage.Hotel = hotel;
+                                    //c.SiteImages.Add(NewImage);
+                                    images.Add(NewImage);
+                                }
+                            }
+
+                            hotel.Images = images;
+
+                            List<HotelDescription> descriptions = new List<HotelDescription>();
+
+                            foreach(var descr in model.Descriptions)
+                            {
+                                string lang = descr.Language;
+                                string description = descr.Description;
+
+                                List<HotelFeature> Features = new List<HotelFeature>();
+
+                                HotelDescription Description = new HotelDescription()
+                                {
+                                    Description = description,
+                                    Lang = lang,
+                                    Hotel = hotel,
+                                    Features = Features,
+                                };
+
+                                if (descr.Features != null && descr.Features.Count > 0)
+                                {
+                                    foreach(var feature in descr.Features)
+                                    {
+                                        string title = feature.Title;
+                                        int order = feature.Order;
+                                        string featureDescription = feature.Description;
+                                        string featureIco = feature.Ico;
+                                        
+                                        List<HotelElement> Free = new List<HotelElement>();
+                                        List<HotelElement> Paid = new List<HotelElement>();
+
+                                        HotelFeature NewFeature = new HotelFeature()
+                                        {
+                                            Title = title,
+                                            Description = featureDescription,
+                                            Order = order,
+                                            Glyph = featureIco,
+                                            HotelDescription = Description,
+                                        };
+
+                                        if (feature.Free != null && feature.Free.Count > 0)
+                                        {
+                                            foreach (var ff in feature.Free)
+                                            {
+                                                var n = new HotelElement()
+                                                {
+                                                    Title = ff.Title,
+                                                    Glyph = ff.Ico,
+                                                    Order = ff.Order,
+                                                    Feature = NewFeature,
+                                                };
+
+                                                Free.Add(n);
+                                            }
+                                        }
+
+                                        if (feature.Paid != null && feature.Paid.Count > 0)
+                                        {
+                                            foreach (var ff in feature.Paid)
+                                            {
+                                                var n = new HotelElement()
+                                                {
+                                                    Title = ff.Title,
+                                                    Glyph = ff.Ico,
+                                                    Order = ff.Order,
+                                                    Feature = NewFeature,
+                                                };
+
+                                                Paid.Add(n);
+                                            }
+                                        }
+
+                                        NewFeature.Free = Free;
+                                        NewFeature.Paid = Paid;
+
+                                        Features.Add(NewFeature);
+                                    }
+                                }
+
+                                hotel.Descriptions.Add(Description);
+                            }
+
+                            c.Hotels.Add(hotel);
+
+                            await c.SaveChangesAsync();
+
+                            output = new
+                            {
+                                Result = "success",
+                            };
+
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex);
+                    output = null;
+                }
+            }
+
+            if (output == null)
+            {
+                output = new
+                {
+                    Result = "error",
+                    Data = "Unknow error",
+                };
+
+            }
+
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EditHotelApiGet(int id)
+        {
+            dynamic output = null;
+            if (id > 0)
+            {
+                try
+                {
+                    using (var c = _context)
+                    {
+                        var hotel = c.Hotels.Where(x => x.Id == id).First();
+
+                        List<SiteImage> images = new List<SiteImage>();
+                        if (hotel.Images != null && hotel.Images.Count > 0)
+                            images = hotel.Images.OrderBy(x => x.Order).ToList();
+
+                        List<dynamic> imagesJson = new List<dynamic>();
+
+                        foreach(var image in images)
+                            imagesJson.Add(new { Path = image.Path, Url = image.Url, IsNew = false, Title = image.Title});
+
+                        List<dynamic> descrptions = new List<dynamic>();
+
+                        foreach(var descr in hotel.Descriptions)
+                        {
+                            var Description = descr.Description;
+
+                            var featuresList = descr.Features.OrderBy(x => x.Order).ToList();
+
+                            List<dynamic> features = new List<dynamic>();
+
+                            foreach(var f in featuresList)
+                            {
+                                var title = f.Title;
+                                var description = f.Description;
+                                var ico = f.Glyph;
+                                int order = f.Order;
+
+                                var freeList = f.Free.OrderBy(x => x.Order).ToList();
+                                var paidList = f.Paid.OrderBy(x => x.Order).ToList();
+
+                                List<dynamic> free = new List<dynamic>();
+                                foreach (var ff in freeList)
+                                    free.Add(new { Title = ff.Title, Ico = ff.Glyph, Order = ff.Order });
+
+                                List<dynamic> paid = new List<dynamic>();
+                                foreach (var ff in paidList)
+                                    paid.Add(new { Title = ff.Title, Ico = ff.Glyph, Order = ff.Order });
+
+                                features.Add(
+                                    new{
+                                        Title = title,
+                                        Description = description,
+                                        Ico = ico,
+                                        Order = order,
+                                        Free = free,
+                                        Paid = paid,
+                                });
+                            }
+
+                            descrptions.Add(
+                                new {
+                                    Description = Description,
+                                    Features = features,
+                                    Language = descr.Lang,
+                                });
+                        }
+
+                        dynamic OutHotel = new
+                        {
+                            Images = imagesJson,
+                            Title = hotel.Title,
+                            Rate = hotel.Rate,
+                            Avaliable = hotel.Avaliable,
+                            Descriptions = descrptions,
+                        };
+
+                        output = new
+                        {
+                            Result = "success",
+                            Data = OutHotel,
+                        };
+
+                    }
+                }
+                catch(Exception ex)
+                {
+                    _logger.Error(ex);
+                    output = null;
+                }
+            }
+
+            if (output == null)
+                output = new { Result = "error", Data = $"Bad id: {id}" };//.result = "error";
+
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
         public ActionResult EditApartments(int id)
         {
             ManagerEditApartmentsModel model;
@@ -350,45 +787,234 @@ namespace LuxtourOnline.Controllers
         #endregion
 
         #region Utilites
-        [HttpPost]
-        public ActionResult UploadImage()
+
+        protected SiteImage MoveTmpImage(string path, string name, int order)
         {
-            var image = Request.Files[0];
-            HotelImage model;
+            string regularPath = "", regularUrl = "";
 
             try
             {
-                using (var repo = new ManagerRepo())
+                if (System.IO.File.Exists(path))
                 {
-                    model = repo.UploadImage(image);
+                    regularPath = Path.Combine(Constants.FullImageFolder, name);
+                    regularUrl = Constants.FullImageUrl + name;
+
+                    SiteImage image = new SiteImage()
+                    {
+                        Order = order,
+                        Path = regularPath,
+                        Url = regularUrl,
+                        Title = name,
+                    };
+
+                    if (!Directory.Exists(Constants.FullImageFolder))
+                    {
+                        Directory.CreateDirectory(Constants.FullImageFolder);
+                    }
+
+                    System.IO.File.Move(path, regularPath);
+
+                    return image;
                 }
+                
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+
+                if (regularPath != "" && System.IO.File.Exists(regularPath))
+                {
+                    System.IO.File.Delete(regularPath);
+                }
+            }
+
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult UploadSingleImage()
+        {
+            var image = Request.Files[0];
+
+            dynamic output = null;
+
+            string imagePath = "", imageUrl = "";
+            
+            if (!Directory.Exists(Constants.FullTmpImagePath))
+            {
+                Directory.CreateDirectory(Constants.FullTmpImagePath);
+            }
+
+            if (image != null && image.ContentLength > 0)
+            {
+                string ext = image.FileName.Split('.').LastOrDefault();
+                if (!string.IsNullOrEmpty(ext) && Constants.AvliableImageExt.Contains(ext))
+                {
+                    try
+                    {
+
+
+                        string imageName = $"{IdGenerator.GenerateId()}.{ext}";
+
+                        imagePath = Constants.FullTmpImagePath + imageName;
+                        imageUrl = Constants.FullTmpImageUrl + imageName;
+                        bool IsNew = true;
+
+                        if (System.IO.File.Exists(imagePath))
+                            System.IO.File.Delete(imagePath);
+
+                        image.SaveAs(imagePath);
+
+                        output = new
+                        {
+                            Result = "success",
+                            Data = new
+                            {
+                                Title = imageName,
+                                Url = imageUrl,
+                                Path = imagePath,
+                                IsNew = IsNew,
+                                Order = 0,
+                            }
+                        };
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex);
+                        output = null;
+
+                        if (imagePath != "" && System.IO.File.Exists(imagePath))
+                            System.IO.File.Delete(imagePath);
+                    }
+                }
+            }
+
+            if (output == null)
+            {
+                output = new
+                {
+                    Result = "error",
+                    Data = "No Image or internal error",
+                };
+            }
+
+            return Json(output, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> RemoveImage(string imagePath, bool isNew)
+        {
+            dynamic output = null;
+
+            try
+            {
+                if (isNew)
+                {
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+                }
+                else
+                {
+                    using (var c = _context)
+                    {
+                        var image = c.SiteImages.Where(x => x.Path == imagePath).First();
+                        
+                        if(image.Path != "" && System.IO.File.Exists(image.Path))
+                        {
+                            System.IO.File.Delete(image.Path);
+                        }
+
+                        c.SiteImages.Remove(image);
+                        await c.SaveChangesAsync();
+                    }
+                }
+
+                output = new { result = "success" };
 
             }
             catch (Exception ex)
             {
-                _logger.Error<Exception>(ex);
-                return Json(new { status = "error", message = "bad file" });
+                _logger.Error(ex);
+                output = null;
             }
 
-            return Json(new { status = "success", image = model });
-        }
-
-        [HttpPost]
-        public ActionResult RemoveTmpImage(HotelImage image)
-        {
-            if (image.New && System.IO.File.Exists(image.Path))
+            if (output == null)
             {
-                System.IO.File.Delete(image.Path);
+                output = new
+                {
+                    result = "error",
+                    data = "Internal server error",
+                };
             }
 
-            return Json("success");
+            return Json(output, JsonRequestBehavior.AllowGet);
         }
+
+       
 
         #endregion Utilites
 
 
 
 
+
+    }
+
+    public class EditHotelModel
+    {
+        [Required]
+        public int Id { get; set; }
+        [Required]
+        public string Title { get; set; }
+        [Required]
+        public int Rate { get; set; }
+        [Required]
+        public bool Avaliable { get; set; }
+
+        public List<EditHotelImageModel> Images { get; set; } = new List<EditHotelImageModel>();
+
+        [Required]
+        public List<EditHotelDescriptionModel> Descriptions { get; set; }
+    }
+
+    public class EditHotelImageModel
+    {
+        public string Title { get; set; }
+        public string Path { get; set; }
+        public int Order { get; set; }
+    }
+
+    public class EditHotelDescriptionModel
+    {
+        public string Description { get; set; }
+
+        [Required]
+        public string Language { get; set; }
+
+        public List<EditHotelFeatureModel> Features { get; set; }
+    }
+
+    public class EditHotelFeatureModel
+    {
+        public int Order { get; set; }
+        public string Description { get; set; }
+        public string Title { get; set; }
+        public string Ico { get; set; }
+        public List<EditHotelElementModel> Free { get; set; }
+        public List<EditHotelElementModel> Paid { get; set; }
+
+    }
+    public class EditHotelElementModel
+    {
+        [Required]
+        public int Order { get; set; }
+        [Required]
+        public string Title { get; set; }
+        [Required]
+        public string Ico { get; set; }
 
     }
 }

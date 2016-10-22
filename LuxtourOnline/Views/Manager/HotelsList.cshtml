@@ -31,7 +31,7 @@
                     @Html.DisplayFor(x => hotel.Description)
                 </div>
                 <div class="mdl-card__menu">
-                    <a href='@Url.Action("EditHotel", new { id = hotel.Id })' class="mdl-button mdl-js-button mdl-button--icon">
+                    <a href='@Url.Action("EditHotelNew", new { id = hotel.Id })' class="mdl-button mdl-js-button mdl-button--icon">
                         <i class="material-icons">edit</i>
                     </a>
                     <a href='@Url.Action("ShowHotel", new { id = hotel.Id})' class="mdl-button mdl-js-button mdl-button--icon">

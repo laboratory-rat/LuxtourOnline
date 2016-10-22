@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
-<div ng-app="OrderApp" ng-controller="OrderCtrl" data-ng-init="TourId = @ViewBag.id; Lang = '@ViewBag.lang'; LoadTour();" style="min-height: 1200px;">
+<div ng-app="OrderApp" ng-controller="OrderCtrl" data-ng-init="TourId = @ViewBag.id; Lang = '@ViewBag.lang'; LoadTour();" style="min-height: 800px;">
     <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--12-col" style="padding-top: 64px;">
             <a href="/Home">Головна</a> / <a href="/Home/Tours">Тури</a> / {{TourData.title}} lang -- {{Lang}}
@@ -29,7 +29,10 @@
 
                         <div class="mdl-cell mdl-cell--3-col mdl-typography--title mdl-typography--font-light mdl-color-text--light-blue-500">
                             Кількість <br> людей
-                            <div class="mdl-typography--headline mdl-typography--font-medium">{{TourData.adults + TourData.child}}</div>
+                            <div class="mdl-typography--headline mdl-typography--font-medium">
+                                <span ng-if="TourData.adults + TourData.child > 0">{{TourData.adults + TourData.child}}</span>
+                                <span ng-if="TourData.adults + TourData.child <= 0">Необмежена</span>
+                            </div>
                         </div>
 
                         <div class="mdl-cell mdl-cell--3-col mdl-typography--title mdl-typography--font-light mdl-color-text--teal-500">
@@ -85,12 +88,12 @@
         <!-- General hotels info -->
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col mdl-typography--text-center">
             <div class="mdl-typography--headline mdl-typography--font-medium text-main table-title">Вибір готелю</div>
-            <table class="mdl-data-table mdl-js-data-table" style="width: 100%;">
+            <table class="mdl-data-table mdl-js-data-table" style="width: 100%; table-layout: fixed;">
                 <col style="width:5%">
-                <col style="width:8%">
-                <col style="width:32%">
                 <col style="width:10%">
-                <col style="width:20%">
+                <col style="width:25%">
+                <col style="width:10%">
+                <col style="width:25%">
                 <col style="width:10%">
                 <col style="width:15%">
                 <thead>
@@ -107,7 +110,7 @@
                 <tbody>
                     <tr ng-repeat="hotel in TourData.hotels" class="table-animation" ng-class="{'strip': isStrip(hotel)}">
                         <td>
-                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="{{hotel.id}}" style="top: -16px;">
+                            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="{{hotel.id}}" style="top: -16px; left: -8px;">
                                 <input type="radio" id="{{hotel.id}}" class="mdl-radio__button" name="options" value="{{hotel.id}}" ng-click="SetHotel(hotel)">
                             </label>
                         </td>
@@ -140,7 +143,7 @@
         <div class="mdl-cell mdl-cell--12-col mdl-typography--text-center mdl-color--blue-500 mdl-typography--headline mdl-typography--font-medium mdl-color-text--white">
             Опис готелю {{ActiveHotel.title}}
         </div>
-        <div class="mdl-cell mdl-cell--6-col">
+        <div class="mdl-cell mdl-cell--6-col hotel-text">
             <div class="mdl-typography--text-center mdl-typography--title mdl-typography--font-medium">
                 Про готель {{ActiveHotel.title}}
             </div>
@@ -165,7 +168,7 @@
 
                         </div>
                     </div>
-                    <div class="mdl-card__subtitle-text mdl-card--border">
+                    <div class="mdl-card__subtitle-text mdl-card--border" style="padding-left: 7%; padding-right: 7%;">
                         <div ng-if="feature.free != undefined && feature.free.length > 0" class="mdl-typography--subhead mdl-typography--font-medium text-main">
                             Безкоштовно
                         </div>
@@ -196,7 +199,7 @@
         <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col" style="border-radius: 5px;">
             <div class="mdl-grid mdl-grid--no-spacing" id="calculate-window">
                 <div class="mdl-cell mdl-cell--6-col"
-                     style="background-size: cover; background-position: center center; background-image: url({{TourData.image}});">
+                     style="background-size: cover; background-position: 0 0; background-image: url({{TourData.image}});">
 
                 </div>
                 <div class="mdl-cell mdl-cell--6-col" style="padding: 8px">
@@ -220,7 +223,10 @@
                         <span ng-if="ActiveHotel.aa.child !== null && ActiveHotel.aa.child > 0"> та {{ActiveHotel.aa.child}} дітей</span>
                     </div>
                     <div>
-                        Дати тура: {{FromDate | date : 'shortDate'}} - {{UntilDate(10) | date : 'shortDate'}}
+                        Дати тура:
+                        <span>
+                            {{UploadData.dateFrom | date : 'shortDate'}} - {{UntilDate(10) | date : 'shortDate'}}
+                        </span>
                     </div>
                     <div>
                         Ціна за тур: <span>{{TourData.price | currency : '$' : 2}}</span>
@@ -252,7 +258,7 @@
                 <div class="mdl-grid" style="display: inline-block">
 
                     <div class="mdl-tabs__panel" ng-repeat="data in UploadData.customers" id="{{data.id}}">
-                        <div class="mdl-cell mdl-cell--6-col customer-form" style="float: left;">
+                        <div class="mdl-cell mdl-cell--6-col customer-form " style="float: left;">
                             <div class="mdl-typography--title mdl-typography--font-medium">Контактні дані</div>
                             <label class="mdl-checkbox mdl-js-checkbox" for="isChild{{data.id}}">
                                 <input type="checkbox" id="isChild{{data.id}}" class="mdl-checkbox__input" ng-model="data.isChild" ng-checked="data.isChild === true" disabled>
@@ -294,7 +300,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="mdl-cell mdl-cell--6-col customer-form customer-form-right" style="float: left;">
+                        <div class="mdl-cell mdl-cell--6-col customer-form customer-form-right customer-form-border" style="float: left;">
                             <div>Дані закордонного паспорта</div>
 
                             <label class="mdl-checkbox mdl-js-checkbox" for="loadPassport{{data.id}}" ng-if="!data.isChild">

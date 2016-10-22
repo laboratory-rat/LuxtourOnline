@@ -32,7 +32,7 @@ namespace LuxtourOnline.Controllers
             if (_lang != null)
                 ViewBag.Lang = _lang;
             else
-                ViewBag.Lang = "uk";
+                ViewBag.Lang = Constants.DefaultLanguage;
 
             base.OnActionExecuted(filterContext);
         }
@@ -159,6 +159,24 @@ namespace LuxtourOnline.Controllers
         protected override void Execute(RequestContext requestContext)
         {
             base.Execute(requestContext);
+        }
+
+        protected AppUser GetCurrentUser()
+        {
+            AppUser user = null;
+            using (var c = _context)
+            {
+                user = GetCurrentUser(c);
+            }
+
+            return user;
+        }
+
+        protected AppUser GetCurrentUser(SiteDbContext context)
+        {
+            string name = HttpContext.User.Identity.Name;
+            var user = context.Users.Where(u => u.UserName == name).FirstOrDefault();
+            return user;
         }
     }
 }

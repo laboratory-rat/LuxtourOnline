@@ -39,6 +39,8 @@
     background-color: rgba(34, 150, 243, 0.80);
     width: 100%;
     padding: 14px 0;
+    top: 77%;
+    position:relative;
 }
 
 .app-tour-card .img-block {
@@ -100,6 +102,20 @@
     .tour-footer button:last-child {
         float: right;
     }
+
+.map
+{
+    padding-left: 12px;
+}
+
+.active-tour-grid a
+{
+    display: block;
+    width: 30%;
+    padding-top: 10px;
+    height: 30px;
+    
+}
 
 #bfd {
     min-height: 700px;
@@ -224,9 +240,10 @@
 .app-slider-card .tour-body
 {
     padding: 14px;
-    padding-top: 8px;
+    margin-top: 10px;
+    display: block;
     overflow-y: Auto;
-    height: 70px;
+    height: 60px;
     line-height: 18px;
      
 }

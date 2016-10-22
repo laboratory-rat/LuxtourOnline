@@ -79,6 +79,8 @@ namespace LuxtourOnline.Models
         public string Description { get; set; }
         public string Glyph { get; set; }
 
+        public int Order { get; set; } = 0;
+
         public virtual List<HotelElement> Free { get; set; } = new List<HotelElement>();
         public virtual List<HotelElement> Paid { get; set; } = new List<HotelElement>();
 
@@ -96,6 +98,8 @@ namespace LuxtourOnline.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string Glyph { get; set; }
+
+        public int Order { get; set; } = 0;
 
         [Required]
         public virtual HotelFeature Feature { get; set; }

@@ -37,7 +37,7 @@ namespace LuxtourOnline.App_Start
                 ExpireTimeSpan = TimeSpan.FromDays(31),
             });
 
-            
         }
+
     }
 }

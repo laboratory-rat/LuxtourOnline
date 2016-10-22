@@ -1,0 +1,181 @@
+﻿.mdl-grid {
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.mdl-card {
+    padding: 24px;
+    min-height: 40px;
+}
+
+    .mdl-card table {
+        width: Calc(100% - 48px);
+        margin: 0 auto;
+    }
+
+.inline {
+    width: Calc(50% - 26px);
+    margin: 0px 12px;
+}
+
+.mdl-card .inline
+{
+    margin: 0 8px;
+}
+
+.mdl-card .hidden {
+    display: none;
+}
+
+.card-title {
+    width: 100%;
+}
+    .card-title > div:first-child
+    {
+        cursor: pointer;
+    }
+    .card-title > div:last-child 
+    {
+        float: right;
+        margin-top: -25px;
+    }
+
+.features-title {
+    width: Calc(100% - 48px);
+    margin: 8px 24px;
+}
+
+    .features-title button {
+        float: right;
+    }
+
+/*#region DropBox */
+
+#DropBox {
+    height: 250px;
+    background-color: white;
+    border: 4px dashed #ccc;
+    border-radius: 15px;
+
+    color: rgba(0,0,0,0.87);
+
+    -moz-transition: all ease-out 250ms;
+    -o-transition: all ease-out 250ms;
+    -webkit-transition: all ease-out 250ms;
+    transition: all ease-out 250ms;
+}
+
+#DropBox.dragover {
+
+    color: rgba(255,255,255,1);
+
+    background-color: gold;
+
+}
+
+#DropBox > div:first-child
+{
+    margin: 120px auto;
+    text-align: center;
+}
+
+#DropBox > #image-loader
+{
+    position: absolute;
+    bottom: 130px;
+    width: 50%;
+    margin-left: 20%;
+}
+
+.image-container
+{
+    display: inline-block;
+    float: left;
+    margin: 8px 12px;
+    width: 370px;
+    height: 200px;
+
+    -moz-transition: all ease-in 600ms;
+    -o-transition: all ease-in 600ms;
+    -webkit-transition: all ease-in 600ms;
+    transition: all ease-in 600ms;
+
+    opacity: 1;
+
+    background-color: white;
+}
+
+.image-container .button-block
+{
+    margin-top: -35px;
+
+    opacity: 0;
+
+    -moz-transition: all ease-out 250ms;
+    -o-transition: all ease-out 250ms;
+    -webkit-transition: all ease-out 250ms;
+    transition: all ease-out 250ms;
+}
+
+.image-container:hover .button-block
+{
+    opacity: 1;
+}
+
+.image-container .button-block button:last-child
+{
+    float: right;
+}
+
+.image-container img
+{
+    width: 100%;
+    height: 200px;
+}
+
+/*#endregion */
+
+/*#region Image Animation */
+
+.image-container.ng-enter {
+    opacity: 0;
+}
+.image-container.ng-enter-active {
+    opacity: 1;
+}
+
+.image-container.ng-leave {
+    opacity: 1;
+}
+.image-container.ng-leave-active {
+    opacity: 0;
+}
+
+
+/*#endregion */
+
+.RemoveButton
+{
+    margin-top: 25px;
+    width: 200px;
+}
+
+table tbody tr td:last-child > button:last-child, table thead tr th:last-child > button
+{
+    float: right;
+}
+
+.features-headline
+{
+    padding: 12px 0px 12px 0px;
+}
+
+.save-button
+{
+    width: 30%;
+    margin: 0 auto;
+    margin-top: 20px;
+
+}

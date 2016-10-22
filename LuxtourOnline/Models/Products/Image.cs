@@ -23,7 +23,7 @@ namespace LuxtourOnline.Models
 
         public string Path { get; set; } = "";
 
-        public int Order { get; set; } = 100;
+        public int Order { get; set; } = 0;
 
         public virtual Tour Tour { get; set; } = null;
         public virtual Hotel Hotel { get; set; } = null;

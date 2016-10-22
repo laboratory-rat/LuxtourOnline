@@ -520,6 +520,7 @@
     <Content Include="Content\Resources\TmpHotel.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Site.Mobile.css" />
+    <Content Include="Content\Styles\EditHotel.css" />
     <Content Include="Content\SystemImages\6PBEOSE3K5N2SBP.jpg" />
     <Content Include="Content\SystemImages\6YLCJMKDRCF1KPN.jpg" />
     <Content Include="Content\SystemImages\9F3YXPURK5HQ9VU.jpg" />
@@ -601,6 +602,7 @@
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
     <Content Include="Scripts\FileAPI.min.js" />
+    <Content Include="Scripts\Home\MdlDomUpdater.js" />
     <Content Include="Scripts\Home\OrderApp.js" />
     <Content Include="Scripts\Home\TourApp.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -646,8 +648,11 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AgentController.cs" />
+    <Compile Include="Controllers\Api\ApiController.cs" />
+    <Compile Include="Controllers\Api\TourShortController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
@@ -662,8 +667,13 @@
     <Compile Include="Migrations\201610181303190_init.Designer.cs">
       <DependentUpon>201610181303190_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610210927468_Order.cs" />
+    <Compile Include="Migrations\201610210927468_Order.Designer.cs">
+      <DependentUpon>201610210927468_Order.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
+    <Compile Include="Models\Api\Tours.cs" />
     <Compile Include="Models\DbContext.cs" />
     <Compile Include="Models\General\GeneralModels.cs" />
     <Compile Include="Models\Log.cs" />
@@ -752,6 +762,7 @@
     <Content Include="Views\Home\Order.cshtml" />
     <Content Include="Views\Shared\_ViewSwitcher.cshtml" />
     <Content Include="Views\Shared\_Layout.Mobile.cshtml" />
+    <Content Include="Views\Manager\EditHotelNew.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -775,6 +786,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610181303190_init.resx">
       <DependentUpon>201610181303190_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610210927468_Order.resx">
+      <DependentUpon>201610210927468_Order.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

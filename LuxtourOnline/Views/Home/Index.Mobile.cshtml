@@ -1,0 +1,178 @@
+﻿@{
+    ViewBag.Title = "LuxtourOnlne";
+    Layout = "~/Views/Shared/_HomeLayout.Mobile.cshtml";
+}
+<div ng-app="LandApp" ng-controller="LandCtrl" ng-init="Language = '@ViewBag.Lang'; LoadTours();" id="app">
+    <ul rn-carousel class="section-container" rn-carousel-index="sliderContainer">
+        <li>
+            <div class="section" id="section-1">
+                <div class="title mdl-typography--text-uppercase mdl-typography--subhead mdl-color-text--white mdl-typography--text-center mdl-typography--font-light">
+                    Перший в україні туроператор online продажів
+                </div>
+                <div class="image-block">
+                    <img src="/Content/Resources/Mobile/layer_5.png" />
+                </div>
+                <div class="body-text mdl-color-text--white mdl-typography--body-1 mdl-typography--font-light mdl-typography--text-center">
+                    Luxtour online - український туроператор створенний командою молодих професіоналів за
+                    підтримки англійських партнерів із Лондона.
+                    Ціль - стати "гуру" з відпочинку у Туреччині.
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="section" id="section-2">
+                <div class="title mdl-typography--text-uppercase mdl-typography--subhead mdl-color-text--white mdl-typography--text-center mdl-typography--font-light">
+                    Ми ті, хто упаковує для вас все тільк найкраще і робить це із великим задоволенням
+                </div>
+
+                <div class="image-block">
+                    <img src="~/Content/Resources/Mobile/land_group_2.png" />
+                </div>
+                <div class="body-text mdl-color-text--white mdl-typography--body-1 mdl-typography--font-light mdl-typography--text-center">
+                    У нас на сайті Ви маєте можливість ознайомитися із усіма пропозиціями та,
+                    перечитавши відгуки та описи, обрати найбільш цікавий тур для чудового відпочинку
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="section" id="section-3">
+                <div class="title mdl-typography--text-uppercase mdl-typography--subhead mdl-color-text--white mdl-typography--text-center mdl-typography--font-light">
+                    Чому варто обрати саме нас
+                </div>
+
+
+
+                <div class="images-container">
+
+
+                    <div class="block">
+                        <img src="~/content/resources/mobile/2.1.png" />
+                        <div class="text-block">
+                            <div class="title">
+                                комфортні перельоти
+                            </div>
+                            <div class="main-text">
+                                зручні перельоти доповнюють чудові враження
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block">
+                        <img src="~/content/resources/mobile/2.2.png" />
+                        <div class="text-block">
+                            <div class="title">
+                                все включено
+                            </div>
+                            <div class="main-text">
+                                максимум комфорту та відпочинок без обмежень
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block">
+                        <img src="~/content/resources/mobile/2.4.png" />
+                        <div class="text-block">
+                            <div class="title">
+                                романтичні подорожі
+                            </div>
+                            <div class="main-text">
+                                відпочинок для закоханих сердець (один від одного)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block">
+                        <img src="~/content/resources/mobile/2.3.png" />
+                        <div class="text-block">
+                            <div class="title">
+                                сімейний відпочинок
+                            </div>
+                            <div class="main-text">
+                                сімейний відпочинок із відмінним сервісом
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="section" id="section-4">
+                <div class="title mdl-typography--text-uppercase mdl-typography--subhead mdl-color-text--white mdl-typography--text-center mdl-typography--font-light">
+                    Почніть свій відпочинок зараз з Luxtour.Online
+                </div>
+                <div class="images-container">
+                    <div class="block">
+                        <img src="~/Content/Resources/Mobile/3.1.png" />
+                        <div class="text-box">
+                            Обираєте тур
+                        </div>
+                    </div>
+                    <div class="arrow">
+                        <img src="~/Content/Resources/Mobile/arrow_1.png" />
+                    </div>
+
+                    <div class="block" style="float:right;" >
+                        <img src="~/Content/Resources/Mobile/3.2.png" />
+                        <div class="text-box">
+                            Оформляєте тур online
+                        </div>
+                    </div>
+
+                    <div class="arrow">
+                        <img src="~/Content/Resources/Mobile/arrow_2.png" />
+                    </div>
+
+
+
+                    <div class="block">
+                        <img src="~/Content/Resources/Mobile/3.3.png" />
+                        <div class="text-box">
+                            Отримуєте документи по пошті
+                        </div>
+                    </div>
+
+                    <div class="arrow">
+                        <img src="~/Content/Resources/Mobile/arrow_1.png" />
+                    </div>
+
+                    <div class="block" style="float:right;" >
+                        <img src="~/Content/Resources/Mobile/3.4.png"/>
+                        <div class="text-box">
+                            Відправляєтесь у подорож
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div id="slider-indicators" rn-carousel-indicators slides="[0,1,2,3]" rn-carousel-index="sliderContainer"></div>
+</div>
+
+@section Style
+{
+    <link rel="stylesheet" type="text/css" href="~/Content/Mobile/LandMobile.css" />
+
+}
+
+@section Scripts
+{
+    <script src="~/bower_components/angular-carousel/dist/angular-carousel.min.js"></script>
+    <script src="~/bower_components/angular-touch/angular-touch.min.js"></script>
+    <script src="~/Scripts/Mobile/Home/Mobile.Landing.js"></script>
+
+    <script>
+       window.addEventListener("load", function(){
+           if(document.height <= window.outerHeight)
+           {
+               document.body.style.height = (window.outerHeight + 50) + 'px';
+               setTimeout( function(){ window.scrollTo(0, 50); }, 50 );
+           }
+           else
+           {
+               setTimeout( function(){ window.scrollTo(0, 50); }, 0 );
+           }
+       }
+       );
+    </script>
+}

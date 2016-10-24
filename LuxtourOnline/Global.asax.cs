@@ -24,8 +24,6 @@ namespace LuxtourOnline
 
             BundleMobileConfig.RegisterBundles(BundleTable.Bundles);
 
-            
-
             //JobScheduler.Start();
         }
     }

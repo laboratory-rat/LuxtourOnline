@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="Phaser App">
+    <meta name="viewport" content="initial-scale=1 maximum-scale=1 user-scalable=0 minimal-ui" />
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/mdl-v1.1.2/material.amber-light_blue.min.css" />
+
+    <script src="~/Content/mdl-v1.1.2/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="~/Content/mdl-v1.1.2/icon.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+
+    <link rel="stylesheet" type="text/css" href="~/Content/Mobile/SiteMobile.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/angular-carousel.css" />
+    @RenderSection("Style", false)
+
+    <script src="~/Scripts/jquery.mobile-1.4.5.min.js"></script>
+
+    <script type='text/javascript' charset='utf-8'>
+        function hideAddressBar() {
+            if (!window.location.hash) {
+                if (document.height < window.outerHeight) {
+                    document.body.style.height = (window.outerHeight + 50) + 'px';
+                }
+
+                setTimeout(function () { window.scrollTo(0, 1); }, 50);
+            }
+        }
+
+        window.addEventListener("load", function () { if (!window.pageYOffset) { hideAddressBar(); } });
+        window.addEventListener("orientationchange", hideAddressBar);
+    </script>
+
+    @*<script>
+        $(document).ready(function () {
+            $.mobile.ajaxenabled = false;
+        });
+    </script>*@
+</head>
+<body>
+    @Html.Partial("_Facebook")
+    <div data-role="page" data-theme="a">
+
+        <!-- Always shows a header, even in smaller screens. -->
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header id="head" class="mdl-layout__header">
+                <!-- <div class="mdl-layout-icon"></div> -->
+                <div class="mdl-layout__header-row">
+                    <!-- Title -->
+
+                    <div class="mdl-layout-title"><img src="~/Content/Resources/logo.png" /></div>
+                    <!-- Add spacer, to align navigation to the right -->
+                    <div class="mdl-layout-spacer"></div>
+                    <!-- Navigation. We hide it in small screens. -->
+                    <nav class="mdl-navigation">
+                    </nav>
+                </div>
+            </header>
+
+
+
+            <div class="mdl-layout__drawer">
+                <span class="mdl-layout-title">Menu</span>
+                <nav class="mdl-navigation">
+                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Tours", "Tours", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("News", "News", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Contacts", "Contacts", "Home", null, new { @class = "mdl-navigation__link" })
+
+                    @Html.Partial("_ViewSwitcher")
+                </nav>
+            </div>
+
+            <main id="content" class="mdl-layout__content">
+                @RenderBody()
+            </main>
+        </div>
+
+    </div>
+
+
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>

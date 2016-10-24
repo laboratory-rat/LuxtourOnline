@@ -1,0 +1,18 @@
+﻿body {
+    background-color: #fefefe;
+
+}
+
+#head img
+{
+    height: 56px;
+    margin-left: Calc(50% - 63px)
+}
+
+@media screen and (orientation:landscape) {
+  .mdl-layout {
+    max-width: 360px;
+    height: 600px;
+    margin: 0 auto;
+  }
+}

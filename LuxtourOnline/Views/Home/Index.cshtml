@@ -492,9 +492,8 @@
             ]
         });
 
-        $('#content').on('scroll', function () {
-
-            var height = $('#content').scrollTop();
+        window.onscroll = function () {
+            var height = window.pageYOffset || document.documentElement.scrollTop;
             var h = $('#head');
 
             if (height < 100) {
@@ -528,8 +527,7 @@
                 h.removeClass('app-white-3');
                 h.addClass('app-white-4')
             }
-
-        });
+        };
 
         var app = angular.module("LandApp", ['ngAnimate', 'ngTouch', 'angular-carousel']);
 
@@ -554,5 +552,5 @@
         }]);
 
     </script>
-    <script src="~/Scripts/Home/MdlDomUpdater"></script>
+    <script src="~/Scripts/Home/MdlDomUpdater.js"></script>
 }

@@ -12,7 +12,7 @@
 
         $scope.header = angular.element('#cover-image-tours');
         $scope.grid = angular.element('#up-block');
-        $scope.content = angular.element('#content');
+        $scope.content = angular.element('body');
 
         $scope.coverMargin = 0;
 
@@ -40,10 +40,11 @@
                 }
 
                 var e = angular.element('#cover-image-tours');
-                var offset = -424 + $scope.coverMargin;
+                var offset = -424 + $scope.coverMargin * 3.5;
+
                 var duration = 1000;
 
-                $scope.SaveOffset = $scope.coverMargin;
+                $scope.SaveOffset = offset;
 
                 $scope.content.scrollToElement(e, offset, duration);
             }
@@ -51,8 +52,12 @@
                 $scope.Active = null;
 
                 var e = angular.element('#cover-image-tours');
-                var offset = -$scope.SaveOffset;
+                var offset = -$scope.SaveOffset * 1.2;
                 var duration = 1000;
+
+                if (offset < 50)
+                    offset = 50;
+
 
                 $scope.content.scrollToElement(e, offset, duration);
             }
@@ -84,9 +89,9 @@
             $window.location = '/Home/Order?id='+id;
         }
 
-        angular.element('#content').on('scroll', function () {
+        angular.element($window).bind('scroll', function () {
             
-            var s = $scope.content.scrollTop();
+            var s = $window.pageYOffset;
 
             if (s < 600)
             {

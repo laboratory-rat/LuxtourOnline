@@ -1,0 +1,204 @@
+﻿ html,
+ body {
+    height: 100%;
+  }  
+
+#app {
+    width: 100%;
+    height: 100%;
+    background-color: deepskyblue;
+    position: absolute;
+}
+
+    #app > .section-container {
+        width: 100%;
+        height: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+
+.section {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+}
+
+#section-1 {
+    background-image: url('/Content/Resources/Mobile/mobile_land_screen_1.png');
+}
+
+    #section-1 > .title, #section-2 > .title, #section-3 > .title, #section-4 > .title {
+        padding-top: 5%;
+        width: 100%;
+    }
+
+    .image-block
+    {
+        background-size: cover;
+        background-position: center center;
+
+    }
+
+    #section-1 > .image-block {
+
+        width: 80%;
+        height: 30%;
+        margin: 0 auto;
+        margin-top: 20%;
+    }
+
+    #section-1 > .image-block > img
+    {
+        width: 100%;
+    }
+
+    #section-1 > .body-text {
+        margin-top: 27%;
+    }
+
+#section-2 {
+    background-image: url('/Content/Resources/Mobile/mobile_land_screen_2.png');
+}
+
+#section-2 > .image-block
+{
+    width: 57%;
+    height: 43%;
+
+    margin: 0 auto;
+    margin-top: 10%
+}
+
+#section-2 > .image-block > img
+{
+    width: 100%;
+}
+
+#section-2 > .body-text
+{
+    margin-top: 10%;
+}
+
+#section-3 {
+    background-image: url('/Content/Resources/Mobile/mobile_land_screen_3.png');
+}
+
+#section-3 > .images-container
+{
+    display: inline-block;
+    width: 100%;
+    height: 50%;
+
+    margin-left: 0%;
+    margin-top: 10%;
+
+
+    color: white;
+
+}
+
+#section-3 > .images-container > .block
+{
+    width: 50%;
+    margin: 3% 0%;
+
+    float: left;
+    display: block;
+
+    text-align: center;
+    padding: 0px;
+}
+
+#section-3 > .images-container > .block > img
+{
+    width: 70px;
+    height: 70px;
+    display: block;
+    margin: 0 auto;
+}
+
+#section-3 > .images-container > .block  .main-text
+{
+    opacity: 0.8;
+    font-size: 12px;
+}
+
+#section-3 > .images-container > .block .title
+{
+    opacity: 1;
+
+    font-size: 15px;
+    font-weight:200;
+}
+
+#section-4 {
+    background-image: url('/Content/Resources/Mobile/mobile_land_screen_4.png');
+}
+
+#section-4 > .images-container
+{
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 20%;
+}
+
+#section-4 > .images-container > .block
+{
+    float: left;
+    width: 51%;
+    height: 5%;
+
+    margin-top: -15%;
+}
+
+#section-4 > .images-container > .block > img
+{
+    height: 120px;
+    display: block;
+    margin: 0 auto;
+}
+
+#section-4 > .images-container > .block > .text-box
+{
+    color: white;
+    text-align: center;
+    font-size: 13px;
+}
+
+#section-4 > .images-container > .arrow
+{
+    position: absolute;
+}
+
+#slider-indicators {
+    height: 24px;
+    position: absolute;
+    bottom: 8px;
+    left: Calc(50% - 42px);
+}
+
+    #slider-indicators > div > span {
+        font-size: 26px;
+        display: inline-block;
+        -ms-flex: 1;
+        -webkit-flex: 1;
+        flex: 1;
+        margin: 2px;
+    }
+
+div.rn-carousel-indicator span {
+    color: white;
+    opacity: 0.3;
+
+    -moz-transition: all ease-in 100ms;
+    -o-transition: all ease-in 100ms;
+    -webkit-transition: all ease-in 100ms;
+    transition: all ease-in 100ms;
+}
+
+div.rn-carousel-indicator span.active
+{
+    opacity: 1;
+}

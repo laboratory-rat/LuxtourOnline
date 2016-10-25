@@ -32,7 +32,7 @@ namespace LuxtourOnline.Controllers.Api
                     Id = tour.Id,
                     Title = descr.Title,
                     Image = Constants.OutImageUrl(tour.Image.Url),
-                    Url = Constants.TourOutUrl(tour.Id),
+                    Url = Constants.TourOutUrl(tour.Id, language),
                 };
 
             }
@@ -80,7 +80,7 @@ namespace LuxtourOnline.Controllers.Api
                         Id = tours[i].Id,
                         Title = descr == null ? "" : descr.Title,
                         Image = tours[i].Image == null ? "" : Constants.OutImageUrl(tours[i].Image.Url),
-                        Url = Constants.TourOutUrl(tours[i].Id),
+                        Url = Constants.TourOutUrl(tours[i].Id, language),
                     });
                 }
 

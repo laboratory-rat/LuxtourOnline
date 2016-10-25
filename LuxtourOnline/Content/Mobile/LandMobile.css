@@ -1,7 +1,7 @@
-﻿ html,
- body {
+﻿html,
+body {
     height: 100%;
-  }  
+}
 
 #app {
     width: 100%;
@@ -34,149 +34,201 @@
         width: 100%;
     }
 
-    .image-block
+    #section-1 > .title, #section-2 > .title
     {
-        background-size: cover;
-        background-position: center center;
+        width: Calc(100% - 32px);
 
+        margin-left: 16px;
     }
 
-    #section-1 > .image-block {
+.image-block {
+    background-size: cover;
+    background-position: center center;
+}
 
-        width: 80%;
-        height: 30%;
-        margin: 0 auto;
-        margin-top: 20%;
-    }
+.body-text
+{
+        padding:0px 16px;
+}
 
-    #section-1 > .image-block > img
-    {
+#section-1 > .image-block {
+    width: 80%;
+    height: 30%;
+    margin: 0 auto;
+    margin-top: 20%;
+}
+
+    #section-1 > .image-block > img {
         width: 100%;
     }
 
-    #section-1 > .body-text {
-        margin-top: 27%;
-    }
+#section-1 > .body-text {
+    margin-top: 15%;
+
+}
 
 #section-2 {
     background-image: url('/Content/Resources/Mobile/mobile_land_screen_2.png');
 }
 
-#section-2 > .image-block
-{
-    width: 57%;
-    height: 43%;
+    #section-2 > .image-block {
+        width: 57%;
+        height: 43%;
+        margin: 0 auto;
+        margin-top: 10%;
+    }
 
-    margin: 0 auto;
-    margin-top: 10%
-}
+        #section-2 > .image-block > img {
+            width: 100%;
+        }
 
-#section-2 > .image-block > img
-{
-    width: 100%;
-}
-
-#section-2 > .body-text
-{
-    margin-top: 10%;
-}
+    #section-2 > .body-text {
+        margin-top: 10%;
+    }
 
 #section-3 {
     background-image: url('/Content/Resources/Mobile/mobile_land_screen_3.png');
 }
 
-#section-3 > .images-container
-{
-    display: inline-block;
-    width: 100%;
-    height: 50%;
+    #section-3 > .images-container {
+        display: inline-block;
+        width: 100%;
+        height: 50%;
+        margin-left: 0%;
+        margin-top: 10%;
+        color: white;
+    }
 
-    margin-left: 0%;
-    margin-top: 10%;
+        #section-3 > .images-container > .block {
+            width: 50%;
+            margin: 3% 0%;
+            float: left;
+            display: block;
+            text-align: center;
+            padding: 0px;
+        }
 
+            #section-3 > .images-container > .block > img {
+                width: 70px;
+                height: 70px;
+                display: block;
+                margin: 0 auto;
+            }
 
-    color: white;
+            #section-3 > .images-container > .block .main-text {
+                opacity: 0.8;
+                font-size: 12px;
+            }
 
-}
-
-#section-3 > .images-container > .block
-{
-    width: 50%;
-    margin: 3% 0%;
-
-    float: left;
-    display: block;
-
-    text-align: center;
-    padding: 0px;
-}
-
-#section-3 > .images-container > .block > img
-{
-    width: 70px;
-    height: 70px;
-    display: block;
-    margin: 0 auto;
-}
-
-#section-3 > .images-container > .block  .main-text
-{
-    opacity: 0.8;
-    font-size: 12px;
-}
-
-#section-3 > .images-container > .block .title
-{
-    opacity: 1;
-
-    font-size: 15px;
-    font-weight:200;
-}
+            #section-3 > .images-container > .block .title {
+                opacity: 1;
+                font-size: 15px;
+                font-weight: 200;
+            }
 
 #section-4 {
     background-image: url('/Content/Resources/Mobile/mobile_land_screen_4.png');
 }
 
-#section-4 > .images-container
-{
-    width: 100%;
-    margin: 0 auto;
-    padding-top: 20%;
-}
+    #section-4 > .images-container {
+        width: 100%;
+        margin: 0 auto;
+        padding-top: 10%;
+    }
 
-#section-4 > .images-container > .block
-{
-    float: left;
-    width: 51%;
-    height: 5%;
+        #section-4 > .images-container > .block {
+            float: left;
+            width: 51%;
+            height: 5%;
+            margin-top: -10%;
+        }
 
-    margin-top: -15%;
-}
+    #section-4 .block > .text-box {
+        margin-top: -10px;
+    }
 
-#section-4 > .images-container > .block > img
-{
-    height: 120px;
-    display: block;
-    margin: 0 auto;
-}
+    #section-4 > .images-container > .block:nth-child(5) {
+        margin-top: 0%;
+    }
 
-#section-4 > .images-container > .block > .text-box
-{
-    color: white;
-    text-align: center;
-    font-size: 13px;
-}
+    #section-4 > .images-container > .block:nth-child(7) {
+        margin-top: -15%;
+    }
 
-#section-4 > .images-container > .arrow
-{
-    position: absolute;
-}
+    #section-4 > .images-container > .block > img {
+        height: 90px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    #section-4 > .images-container > .block > .text-box {
+        color: white;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    #section-4 > .images-container > .arrow {
+        position: absolute;
+    }
+
+
+        #section-4 > .images-container > .arrow > img {
+            width: 100%;
+        }
+
+    #section-4 #first-arrow {
+        left: 32%;
+        top: 13%;
+        width: 40%;
+    }
+
+    #section-4 #second-arrow {
+        width: 37%;
+        right: 35%;
+        top: 30%;
+    }
+
+    #section-4 #third-arrow {
+        width: 40%;
+        top: 48%;
+        left: 33%;
+    }
+
+    #section-4 > .app-button {
+        position: absolute;
+        bottom: 16px;
+        left: 15%;
+        width: 100%;
+        z-index: 1000;
+    }
+
+        #section-4 > .app-button > a {
+            display: block;
+            width: 63%;
+        }
 
 #slider-indicators {
     height: 24px;
     position: absolute;
     bottom: 8px;
     left: Calc(50% - 42px);
+    opacity: 1;
+
+    z-index: 100;
+}
+
+#slider-indicators.ng-hide-add, #slider-indicators.ng-hide-remove
+{
+    -moz-transition: bottom ease-out 150ms;
+    -o-transition: bottom ease-out 150ms;
+    -webkit-transition: bottom ease-out 150ms;
+    transition: bottom ease-out 150ms;
+}
+ 
+
+#slider-indicators.ng-hide
+{
+    bottom: -50px;
 }
 
     #slider-indicators > div > span {
@@ -191,14 +243,12 @@
 div.rn-carousel-indicator span {
     color: white;
     opacity: 0.3;
-
     -moz-transition: all ease-in 100ms;
     -o-transition: all ease-in 100ms;
     -webkit-transition: all ease-in 100ms;
     transition: all ease-in 100ms;
 }
 
-div.rn-carousel-indicator span.active
-{
-    opacity: 1;
-}
+    div.rn-carousel-indicator span.active {
+        opacity: 1;
+    }

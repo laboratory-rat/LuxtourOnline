@@ -1,12 +1,18 @@
 ﻿body {
-    background-color: #fefefe;
+    background-color: #F5F5F5;
 
 }
 
 #head img
 {
     height: 56px;
-    margin-left: Calc(50% - 63px)
+    margin-left: Calc(50% - 72px);
+}
+
+.mdl-navigation > .menu-bottom
+{
+    position: relative;
+    margin-top: 100px;
 }
 
 @media screen and (orientation:landscape) {

@@ -17,5 +17,10 @@ namespace LuxtourOnline.Models.Api
     public class ApiTour : ApiTourShort
     {
         public string Description { get; set; }
+
+        public decimal Price { get; set; }
+        public int? DaysCount { get; set; }
+        public int? Adult { get; set; }
+        public int? Child { get; set; }
     }
 }

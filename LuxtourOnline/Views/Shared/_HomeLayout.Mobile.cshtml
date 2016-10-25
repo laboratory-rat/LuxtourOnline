@@ -70,12 +70,32 @@
             <div class="mdl-layout__drawer">
                 <span class="mdl-layout-title">Menu</span>
                 <nav class="mdl-navigation">
-                    @Html.ActionLink("Home", "Index", "Home", null, new { @class = "mdl-navigation__link" })
-                    @Html.ActionLink("Tours", "Tours", "Home", null, new { @class = "mdl-navigation__link" })
-                    @Html.ActionLink("News", "News", "Home", null, new { @class = "mdl-navigation__link" })
-                    @Html.ActionLink("Contacts", "Contacts", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Головна", "Index", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Тури", "Tours", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Новини", "News", "Home", null, new { @class = "mdl-navigation__link" })
+                    @Html.ActionLink("Контакти", "Contacts", "Home", null, new { @class = "mdl-navigation__link" })
 
                     @Html.Partial("_ViewSwitcher")
+
+                    <div class="menu-bottom">
+
+                        @if (ViewBag.Lang != "en")
+                        {
+                            @Html.ActionLink("English", "Index", "Home", new { language = "en" }, new { @class = "mdl-navigation__link" })
+                        }
+
+                        @if (ViewBag.Lang != "uk")
+                        {
+                            @Html.ActionLink("Українська", "Index", "Home", new { language = "uk" }, new { @class = "mdl-navigation__link" })
+
+                        }
+
+                        @if (ViewBag.Lang != "ru")
+                        {
+                            @Html.ActionLink("Русский", "Index", "Home", new { language = "ru" }, new { @class = "mdl-navigation__link" })
+                        }
+                    </div>
+                    
                 </nav>
             </div>
 

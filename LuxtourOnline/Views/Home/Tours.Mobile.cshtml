@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Tour";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div id="tour-holder" ng-app="TourApp" ng-controller="TourCtrl" ng-init="Lang = '@ViewBag.Lang'; LoadData();" >
+    <div class="mdl-grid" style="" id="grid">
+        <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp tour-card" ng-repeat="tour in Data">
+            <div class="left-block" style="background-image: url({{tour.image}});">
+                <div class="title-block">
+                    {{tour.title}}
+                </div>
+            </div>
+            <div class="right-block">
+                <div class="info-block">
+                    <div class="days">
+                        {{tour.daysCount}}
+                        <span>днів</span>
+                    </div>
+                    <div class="price">
+                        {{tour.price | currency : '$' : 2}}
+                    </div>
+                </div>
+                <div class="main-text">
+                    {{tour.description | limitTo : 140 : 0}}
+                    <span ng-if ="tour.description.length >= 100">...</span>
+                </div>
+                <div class="button">
+                    <button class="mdl-button mdl-js-button secondary-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect"  ng-click="ShowTour(tour)">Детально</button>
+                    <!-- <a href="{{tour.url}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">Замовити</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    {{Data}}
+</div>
+
+
+@section Style
+{
+    <link href="~/Content/Mobile/ToursMobile.css" rel="stylesheet" />
+}
+
+@section scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-scroll/1.0.0/angular-scroll.min.js"></script>
+    <script src="~/Scripts/Mobile/Home/TourApp.js"></script>
+    <script src="~/Scripts/Home/MdlDomUpdater.js"></script>
+
+}

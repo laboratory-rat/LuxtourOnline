@@ -107,7 +107,7 @@
                             Обираєте тур
                         </div>
                     </div>
-                    <div class="arrow">
+                    <div class="arrow" id="first-arrow">
                         <img src="~/Content/Resources/Mobile/arrow_1.png" />
                     </div>
 
@@ -118,7 +118,7 @@
                         </div>
                     </div>
 
-                    <div class="arrow">
+                    <div class="arrow" id="second-arrow">
                         <img src="~/Content/Resources/Mobile/arrow_2.png" />
                     </div>
 
@@ -131,7 +131,7 @@
                         </div>
                     </div>
 
-                    <div class="arrow">
+                    <div class="arrow" id="third-arrow">
                         <img src="~/Content/Resources/Mobile/arrow_1.png" />
                     </div>
 
@@ -143,10 +143,13 @@
                     </div>
 
                 </div>
+                <div class="app-button">
+                    <a href='@Url.Action("Tours", "Home")' class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">обрати найкращий тур</a>
+                </div>
             </div>
         </li>
     </ul>
-    <div id="slider-indicators" rn-carousel-indicators slides="[0,1,2,3]" rn-carousel-index="sliderContainer"></div>
+    <div id="slider-indicators" ng-show="sliderContainer != 3" rn-carousel-indicators slides="[0,1,2,3]" rn-carousel-index="sliderContainer"></div>
 </div>
 
 @section Style
@@ -174,5 +177,11 @@
            }
        }
        );
+    </script>
+
+    <script>
+        $("html, body, #app").css({
+            height: $(window).height()
+        });
     </script>
 }

@@ -468,6 +468,7 @@
     <Content Include="Content\mdl-v1.1.2\material.amber-light_blue.min.css" />
     <Content Include="Content\Mobile\LandMobile.css" />
     <Content Include="Content\Mobile\SiteMobile.css" />
+    <Content Include="Content\Mobile\ToursMobile.css" />
     <Content Include="Content\Order.css" />
     <Content Include="Content\Resources\3.1.png" />
     <Content Include="Content\Resources\3.2.png" />
@@ -498,6 +499,7 @@
     <Content Include="Content\Resources\back_8.png" />
     <Content Include="Content\Resources\back_9.png" />
     <Content Include="Content\Resources\coffee.png" />
+    <Content Include="Content\Resources\default_tour.jpg" />
     <Content Include="Content\Resources\footer.png" />
     <Content Include="Content\Resources\gift.png" />
     <Content Include="Content\Resources\grid-1-1.png" />
@@ -658,6 +660,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Mobile\Home\TourApp.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ng-droplet.min.js" />
     <Content Include="Scripts\ng-file-input.min.js" />
@@ -685,6 +688,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\Api\ApiController.cs" />
+    <Compile Include="Controllers\Api\TourController.cs" />
     <Compile Include="Controllers\Api\TourShortController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -798,6 +802,7 @@
     <Content Include="Views\Manager\EditHotelNew.cshtml" />
     <Content Include="Views\Home\Index.Mobile.cshtml" />
     <Content Include="Scripts\Mobile\Home\Mobile.Landing.js" />
+    <Content Include="Views\Home\Tours.Mobile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

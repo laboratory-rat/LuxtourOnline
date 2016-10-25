@@ -67,10 +67,17 @@ namespace LuxtourOnline
 
         #region Tours
 
+        public static string TourOutUrl(int id, string language)
+        {
+            return $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{language}/Home/Order/{id.ToString()}";
+        }
+
         public static string TourOutUrl(int id)
         {
-            return $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/Home/Order/{id.ToString()}";
+            return TourOutUrl(id, DefaultLanguage);
         }
+
+        public readonly static string DefaultTourImageUrl = "~/Content/Resources/default_tour.jpg";
 
         #endregion
 

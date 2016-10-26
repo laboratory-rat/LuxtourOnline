@@ -11,6 +11,10 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Collections.ObjectModel;
+using System.Web.Http.Controllers;
+using System.Web.Http.Results;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace LuxtourOnline.Controllers.Api
 {
@@ -35,6 +39,13 @@ namespace LuxtourOnline.Controllers.Api
         }
 
         #endregion
+
+        public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
+        {
+            //string ip = "";
+
+            return base.ExecuteAsync(controllerContext, cancellationToken);
+        }
 
 
         #region Dispose

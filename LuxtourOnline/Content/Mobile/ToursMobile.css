@@ -1,100 +1,226 @@
-﻿.tour-card
-{
-    background-color: #FFF;
-}
-
-#grid
-{
+﻿#grid {
     padding: 0px;
-}
-
-.left-block, .right-block
-{
-    width: Calc(50% - 8px);
-
-    height: 160px;
-}
-
-.left-block
-{
-    background-size: cover;
-    background-position: 0px 0px;
-
-    margin-right: 8px;
-
+    width: 100%;
+    margin-left: 0%;
     float: left;
 }
 
-.left-block > .title-block
+#grid.ng-hide-add
+{
+    -moz-transition: all ease-in 250ms;
+    -o-transition: all ease-in 250ms;
+    -webkit-transition: all ease-in 250ms;
+    transition: all ease-in 250ms;
+}
+
+#grid.ng-hide-remove
+{
+    -moz-transition: all ease-out 250ms;
+    -o-transition: all ease-out 250ms;
+    -webkit-transition: all ease-out 250ms;
+    transition: all ease-out 250ms;
+}
+
+#grid.ng-hide
+{
+    margin-left: -100%;
+}
+
+
+#info
 {
     width: 100%;
-    text-align: center;
-    position: relative;
-    height: 20px;
-    margin-top: 132px;
+    margin-left: 0%;
+    min-height: 500px;
 
-    color: white;
-    
-    font-size: 15px;
-    padding-top: 8px;
-
-    background-color: rgba(128, 128, 128, 0.5);
+    opacity: 1;
 }
 
-.right-block
+#info.ng-hide-add
 {
-    float: right;
-    margin-left: 4px;
+    -moz-transition: all ease-in 300ms;
+    -o-transition: all ease-in 300ms;
+    -webkit-transition: all ease-in 300ms;
+    transition: all ease-in 250ms;
 }
 
-.info-block
+#info.ng-hide-remove
 {
-    height: 32px;
-    padding-top: 8px;
-    padding-right: 8px;
+    -moz-transition: all ease-in 250ms; 
+    -o-transition: all ease-in 250ms;
+    -webkit-transition: all ease-in 250ms;
+    transition: all ease-in 250ms;
 }
 
-.info-block > .days
+
+#info.ng-hide
 {
-    width: Calc(50% - 4px);
-    padding-right: 4px;
+    opacity: 0;
+    margin-left: 100%;
+}
+
+.tour-card {
+    background-color: #FFF;
+    background-position: 0 0;
+    background-size: cover;
+    height: 150px;
+}
+
+.tour-card:first-child
+{
+    margin-top: 0px;
+}
+
+.tour-card > .left-block
+{
+    width: 50%;
     float: left;
+    height: 100%;
+
+    background-size: cover;
+    background-position: 0 0;
 }
 
-.info-block > .price
+.tour-card > .right-block
 {
-    width: Calc(50% - 4px);
-    padding-left: 4px;
     float: right;
+    width: 50%;
 }
 
-.right-block > .main-text
+.right-block > .title
 {
-    overflow-y: auto;
-    height: 88px;
+    width: 100%;
+    height: 32px;
+    padding: 4px 0;
 
-    padding-right: 8px;
-    font-size: 10px;
-    opacity: 0.87;
+    text-align: center;
+}
 
+.right-block > .info
+{
+    width: 100%;
+    height: 24px;
 
 }
 
+.right-block > .info > .days, .right-block > .info > .price
+{
+    width: Calc(50% - 1px); 
+    text-align: center;
+    float: left;
+
+    font-size: 16px;
+    opacity: 0.87;
+}
+
+.right-block > .info > .days
+{
+    border-right: 1px solid rgba(0,0,0,0.17);
+
+}
+
+.right-block > .info > .days > span:first-child
+{
+    font-size: 20px;
+}
 
 .right-block > .button
 {
-    height: 24px;
-    position: relative;
-    margin-top: 4px;
-    margin-right: 8px;
+    width: 100%;
+    margin-top: 46px;
 }
 
 .right-block > .button > button
 {
-    width: 100%;
-    height: 100%;
-    padding-top: 0px;
-    margin-top: 0px;
+    display: block;
+    margin: 0 auto;
 
-    line-height: 28px
+    width: 80%;
+    max-width: 200px;
+}
+
+#info  .big-image
+{
+    background-position: 0 0;
+    background-size: cover;
+
+    height: 300px;
+}
+
+#info .big-image > .title
+{
+    width: 100%;
+
+    height: 40px;
+    position: relative;
+    padding-top: 260px;
+
+    color: white;
+}
+
+#info .big-image > .title > .days
+{
+    width:30%;
+    height: Calc(100% - 8px);
+    float: left;
+
+    padding-top: 8px;
+
+
+
+    font-size: 16px; 
+    text-align: center;
+}
+
+#info .big-image > .title > .days > span:first-child
+{
+    font-size: 28px;
+    font-weight: 100;
+}
+
+#info .big-image > .title > .price
+{
+    width: 40%;
+    float: right;
+    height: Calc(100% - 8px);
+
+
+    padding-top: 8px;
+
+    font-size: 14px;
+    text-align: center;
+}
+
+#info .big-image > .title > .price > span:nth-child(2)
+{
+    font-size: 20px;
+    font-weight:100;
+}
+
+
+
+#info .body-text > .title
+{
+    padding: 8px;
+}
+
+#info  .body-text > .text-block
+{
+    padding: 0px 8px;
+}
+
+#info .button
+{
+
+    padding: 16px 8px;
+}
+
+#info .button > button
+{
+    width: 50%;
+    max-width: 250px;
+
+    display: block;
+
+    color: white;
 }

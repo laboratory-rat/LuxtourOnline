@@ -4,36 +4,78 @@
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 
-<div id="tour-holder" ng-app="TourApp" ng-controller="TourCtrl" ng-init="Lang = '@ViewBag.Lang'; LoadData();" >
-    <div class="mdl-grid" style="" id="grid">
+<div id="tour-holder" ng-app="TourApp" ng-controller="TourCtrl" ng-init="Lang = '@ViewBag.Lang'; LoadData();">
+    <div id="status-bar">
+        <span ng-show="ActiveTour == null">Тури</span>
+        <span ng-show="ActiveTour != null">{{ActiveTour.title}}</span>
+    </div>
+    <div class="mdl-grid" style="" id="grid" ng-show="ActiveTour == null">
         <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp tour-card" ng-repeat="tour in Data">
             <div class="left-block" style="background-image: url({{tour.image}});">
-                <div class="title-block">
-                    {{tour.title}}
-                </div>
+
             </div>
             <div class="right-block">
-                <div class="info-block">
-                    <div class="days">
-                        {{tour.daysCount}}
+                <div class="title">
+                    {{tour.title}}
+                </div>
+                <div class="info">
+                    <div class="days mdl-color-text--teal-500">
+                        <span>{{tour.daysCount}}</span>
                         <span>днів</span>
                     </div>
-                    <div class="price">
+                    <div class="mdl-color-text--orange-800 price">
                         {{tour.price | currency : '$' : 2}}
                     </div>
                 </div>
-                <div class="main-text">
-                    {{tour.description | limitTo : 140 : 0}}
-                    <span ng-if ="tour.description.length >= 100">...</span>
-                </div>
                 <div class="button">
-                    <button class="mdl-button mdl-js-button secondary-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect"  ng-click="ShowTour(tour)">Детально</button>
-                    <!-- <a href="{{tour.url}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">Замовити</a> -->
+                    <button ng-click="SetActiveTour(tour)" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--primary" >Детально</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    
+    <div id="info" ng-show="ActiveTour != null">
+        <!-- Tabs -->
+        <!-- Tour tab-->
+
+        <div class="big-image" style="background-image: url({{ActiveTour.image}});">
+            <div class="title">
+                <div class="mdl-color--teal-500 days ">
+                    <span>{{ActiveTour.daysCount}}</span>
+                    <span>днів</span>
+                </div>
+                <div class="price mdl-color--orange-800">
+                    <span>
+                        від
+                    </span>
+                    <span>
+                        {{ActiveTour.price | currency : '$' : 2}}
+                    </span>
                 </div>
             </div>
         </div>
+        <div class="body-text">
+            <div class="mdl-typography--text-center mdl-typography--title title">
+                Опис туру
+            </div>
+            <div class="text-block">
+                {{ActiveTour.description}}
+            </div>
+        </div>
+        <div class="button">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--primary">
+                Замовити
+            </button> 
+        </div>
+
+        <div class="fab">
+            <button ng-click="ActiveTour = null" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary">
+                <i class="material-icons">arrow_back</i>
+            </button>
+        </div>
     </div>
-    {{Data}}
 </div>
 
 

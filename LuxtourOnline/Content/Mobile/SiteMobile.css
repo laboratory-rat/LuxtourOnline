@@ -1,6 +1,8 @@
 ﻿body {
     background-color: #F5F5F5;
+    max-width: 100%;
 
+    overflow: hidden;
 }
 
 #head img
@@ -22,3 +24,22 @@
     margin: 0 auto;
   }
 }
+
+#status-bar
+{
+    height: 16px;
+    font-size: 16px;
+    padding: 8px 8px;
+}
+
+/*#region FAB general */
+
+
+.fab
+{
+    position: fixed;
+    bottom: 8px;
+    right: 24px;
+}
+
+/*#endregion */

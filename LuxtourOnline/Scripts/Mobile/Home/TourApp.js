@@ -11,6 +11,18 @@ app.controller('TourCtrl', ['$scope', '$http', function ($scope, $http) {
 
     $scope.IsLoading = false;
 
+    $scope.ActiveTour = null;
+
+    $scope.SetActiveTour = function (tour) {
+        console.log('Tour');
+        console.log(tour);
+
+        if (tour != undefined)
+        {
+            $scope.ActiveTour = tour;
+        }
+    };
+
     $scope.LoadData = function()
     {
         if($scope.Next)
@@ -38,12 +50,10 @@ app.controller('TourCtrl', ['$scope', '$http', function ($scope, $http) {
                 }
                 $scope.IsLoading = false;
 
-                angular.element('#grid').css('visibility', 'visible');
             })
             .error(function (response) {
                 $scope.Next = false;
                 $scope.IsLoading = false;
-                angular.element('#grid').css('visibility', 'visible');
             })
         }
     }

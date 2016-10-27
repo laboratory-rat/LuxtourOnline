@@ -28,8 +28,10 @@
 #status-bar
 {
     height: 16px;
-    font-size: 16px;
+    font-size: 20px;
     padding: 8px 8px;
+    margin-bottom: 8px;
+    opacity: 0.87;
 }
 
 /*#region FAB general */
@@ -38,8 +40,26 @@
 .fab
 {
     position: fixed;
-    bottom: 8px;
+    bottom: 24px;
     right: 24px;
+}
+
+/*#endregion */
+
+/*#region Progress Bar */
+
+.mdl-progress-main > .progressbar {
+    background-color: rgb(255, 193, 7);
+}
+
+.mdl-progress-main > .bufferbar {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255,255,255, 0.7)), linear-gradient(to right, rgb(255, 193, 7),rgb(255, 193, 7));
+}
+
+.mdl-progress-main > .auxbar {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255,255,255, 0.7)), linear-gradient(to right, rgb(255, 193, 7),rgb(255, 193, 7)) !important;
+    background-color: rgba(00,0,0,0) !important;
+    opacity: 0;
 }
 
 /*#endregion */

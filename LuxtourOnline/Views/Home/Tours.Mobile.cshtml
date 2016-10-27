@@ -5,6 +5,7 @@
 }
 
 <div id="tour-holder" ng-app="TourApp" ng-controller="TourCtrl" ng-init="Lang = '@ViewBag.Lang'; LoadData();">
+    <div id="loader-main" class="mdl-progress mdl-js-progress mdl-progress__indeterminate mdl-progress-main" ng-show="Data.length == 0 || Data == underfined"></div>
     <div id="status-bar">
         <span ng-show="ActiveTour == null">Тури</span>
         <span ng-show="ActiveTour != null">{{ActiveTour.title}}</span>
@@ -65,13 +66,13 @@
             </div>
         </div>
         <div class="button">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--primary">
+            <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-color--green-500" href="{{ActiveTour.url}}">
                 Замовити
-            </button> 
+            </a> 
         </div>
 
         <div class="fab">
-            <button ng-click="ActiveTour = null" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--primary">
+            <button ng-click="ActiveTour = null" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-color--orange-500 mdl-color-text--white mdl-shadow--16dp" >
                 <i class="material-icons">arrow_back</i>
             </button>
         </div>

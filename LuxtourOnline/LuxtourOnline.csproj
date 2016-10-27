@@ -467,6 +467,7 @@
     <Content Include="Content\mdl-v1.1.2\icon.css" />
     <Content Include="Content\mdl-v1.1.2\material.amber-light_blue.min.css" />
     <Content Include="Content\Mobile\LandMobile.css" />
+    <Content Include="Content\Mobile\Order.css" />
     <Content Include="Content\Mobile\SiteMobile.css" />
     <Content Include="Content\Mobile\ToursMobile.css" />
     <Content Include="Content\Order.css" />
@@ -527,6 +528,7 @@
     <Content Include="Content\Resources\Mobile\3.4.png" />
     <Content Include="Content\Resources\Mobile\arrow_1.png" />
     <Content Include="Content\Resources\Mobile\arrow_2.png" />
+    <Content Include="Content\Resources\Mobile\hotel_rate_star.png" />
     <Content Include="Content\Resources\Mobile\land_group_2.png" />
     <Content Include="Content\Resources\Mobile\layer_5.png" />
     <Content Include="Content\Resources\Mobile\luxtour mobile.png" />
@@ -660,6 +662,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Mobile\Home\OrderApp.js" />
     <Content Include="Scripts\Mobile\Home\TourApp.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\ng-droplet.min.js" />
@@ -803,6 +806,7 @@
     <Content Include="Views\Home\Index.Mobile.cshtml" />
     <Content Include="Scripts\Mobile\Home\Mobile.Landing.js" />
     <Content Include="Views\Home\Tours.Mobile.cshtml" />
+    <Content Include="Views\Home\Order.Mobile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

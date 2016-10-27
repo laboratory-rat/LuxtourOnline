@@ -131,10 +131,16 @@ namespace LuxtourOnline.Controllers
 
             var hotels = _c.Hotels.Where(x => x.Avaliable == true && x.Deleted == false).ToList();
 
+            
+
             List<dynamic> hots = new List<dynamic>();
 
             foreach (var h in hotels)
             {
+                string image = h.Images.Count == 0 ? Constants.DefaultTourImageUrl : h.Images[0].Url;
+                bool avaliableApartments = h.Apartmetns.Where(x => !x.Deleted && x.Enabled).FirstOrDefault() != null;
+
+
                 List<dynamic> apartments = new List<dynamic>();
 
                 foreach(var a in h.Apartmetns)
@@ -148,7 +154,7 @@ namespace LuxtourOnline.Controllers
                 }
 
 
-                hots.Add(new { id = h.Id, title = h.Title, rate = h.Rate, apartments = apartments, avaliable = h.Avaliable});
+                hots.Add(new { id = h.Id, title = h.Title, rate = h.Rate, apartments = apartments, avaliable = h.Avaliable, image = image, avaliableApartments = avaliableApartments});
             }
 
 
@@ -207,18 +213,33 @@ namespace LuxtourOnline.Controllers
 
             List<dynamic> images = new List<dynamic>();
 
-            foreach(var image in hotel.Images)
-                images.Add(new { image = image.Url });
+            if (hotel.Images != null)
+            {
+                foreach (var image in hotel.Images)
+                    images.Add(new { image = image.Url });
+            }
+
+            List<dynamic> apartments = new List<dynamic>();
+
+            if (hotel.Apartmetns != null)
+            {
+                foreach(var a in hotel.Apartmetns)
+                {
+                    if (!a.Deleted)
+                        apartments.Add(new { id = a.Id, title = a.Title, adult = a.Adult, child = a.Child, avaliable = a.Enabled });
+                }
+            }
 
             dynamic result = new
             {
                 id = id,
                 title = hotel.Title,
                 rate = hotel.Rate,
-                
+
                 description = desc.Description,
                 features = features,
                 images = images,
+                apartments = apartments,
             };
 
             return Json(new { result = "success", data = result }, JsonRequestBehavior.AllowGet);

@@ -211,16 +211,22 @@
 
 #info .button
 {
-
-    padding: 16px 8px;
+    height: 44px;
+    margin: 24px 0px 0px 24px;
 }
 
-#info .button > button
+#info .button > a
 {
     width: 50%;
     max-width: 250px;
-
+    height: 100%;
     display: block;
+
+    padding-top: 12px;
+
+    margin-bottom: 24px;
+
+    font-size: 20px;
 
     color: white;
 }

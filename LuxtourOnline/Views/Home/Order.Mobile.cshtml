@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<div ng-app="OrderApp" ng-controller="OrderCtrl" data-ng-init="TourId = @ViewBag.id; Lang = '@ViewBag.lang'; LoadData();">
+    <div id="loader-main" class="mdl-progress mdl-js-progress mdl-progress__indeterminate mdl-progress-main" ng-show="Data === null || HotelLoading === true"></div>
+
+    <div id="status-bar" ng-show="Data !== null">
+        {{Data.title}}
+    </div>
+
+
+    <div class="mdl-grid" id="grid" ng-show="ActiveHotel == null">
+        <div id="date-area" class="mdl-shadow--2dp">
+            <div class="mdl-textfield mdl-js-textfield">
+                <label for="date">Дата виїзду</label>
+                <input type="date" id="date" class="mdl-textfield__input" min="{{TodayDate | date:'yyyy-MM-dd'}}" ng-model="UploadData.dateFrom" />
+                <label for="date" class="mdl-textfield__label"></label>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield">
+                <label for="city">Виїзд з</label>
+                <select id="city" class="mdl-textfield__input" ng-model="UploadData.fromCity">
+                    <option value=""></option>
+                    <option value="lviv">Львів</option>
+                    <option value="hodoriv">Ходорів</option>
+                    <option value="kiev">Київ</option>
+                </select>
+                <label class="mdl-textfield__label" for="city"></label>
+            </div>
+        </div>
+
+        <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp card" ng-repeat="hotel in Data.hotels" ng-click="LoadHotel(hotel)">
+            <div class="left-block">
+                <div class="title">
+                    <span class="mdl-color-text--orange-500">{{hotel.title}}</span>
+                </div>
+                <div class="rate">
+                    <img src="~/Content/Resources/Mobile/hotel_rate_star.png" ng-repeat="start in GetArrayFromInt(hotel.rate) track by $index" class="mdl-color-text--green" />
+                </div>
+                <div class="free">
+                    <span ng-if="hotel.avaliableApartments" class="mdl-color-text--green">Є вільні номери</span>
+                    <span ng-if="!hotel.avaliableApartments" class="mdl-color-text--red">Немає номерів</span>
+                </div>
+            </div>
+            <div class="right-block" style="background-image: url('{{hotel.image}}');">
+
+            </div>
+        </div>
+    </div>
+    <div id="info" ng-show="ActiveHotel != null">
+        <div class="title">
+            <div>
+                {{ActiveHotel.title}}
+            </div>
+        </div>
+        <div class="big-image mdl-shadow--2dp">
+            <ul rn-carousel rn-carousel-auto-slide="20" rn-carousel-buffered rn-carousel-controls-allow-loop="true" class="image">
+                <li ng-repeat="image in ActiveHotel.images">
+                    <div class="layer" style="background-image: url('{{image.image}}')">
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="apartment-area mdl-shadow--2dp">
+            <div class="mdl-textfield mdl-js-textfield">
+                <label for="apartment-select">Номер: </label>
+                <select id="apartment-select" ng-model="ActiveHotel.ActiveApartment" class="mdl-textfield__input">
+                    <option value=""></option>
+                    <option ng-repeat="apartment in ActiveHotel.apartments" value="{{apartment}}">
+                        {{apartment.title}} ({{apartment.adult}} + {{apartment.child}})
+                    </option>
+                </select>
+                <label for="apartment-select" class="mdl-textfield__label"></label>
+            </div>
+        </div>
+
+        <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect" id="tabs">
+            <div class="mdl-tabs__tab-bar mdl-shadow--4dp" id="tabs-bar">
+                <a href="#hotel-info" class="mdl-tabs__tab is-active">Інформація</a>
+                <a href="#order" class="mdl-tabs__tab mdl-color-text--white mdl-color--green-500">Замовити</a>
+            </div>
+
+            <div class="mdl-tabs__panel is-active" id="hotel-info">
+                <div class="mdl-grid mdl-grid--no-spacing">
+                    <div class="mdl-shadow--2dp container">
+                        <div class="mdl-cell mdl-cell--4-col header general " ng-click="GeneralInfoShow = !GeneralInfoShow">
+                            <button class="mdl-button mdl-js-button mdl-button--icon  mdl-color-text--green-500">
+                                <i class="material-icons mdl-color-text--green-500">description</i>
+                            </button>
+                            <span>
+                                Інформація
+                            </span>
+                        </div>
+                        <div class="mdl-cell mdl-cell--4-col description general description-text" ng-show="GeneralInfoShow" ng-bind-html="ActiveHotel.description">
+                        </div>
+                    </div>
+                    <div ng-repeat="f in ActiveHotel.features" class="mdl-shadow--2dp container">
+                        <div class="mdl-cell mdl-cell--4-col  header" ng-click="TapList(f)">
+                            <button class="mdl-button mdl-js-button mdl-button--icon ">
+                                <i class="material-icons mdl-color-text--green-500">{{f.ico}}</i>
+                            </button>
+                            <span>
+                                {{f.title}}
+                            </span>
+                        </div>
+
+                        <div class="mdl-cell mdl-cell--4-col description" ng-show="IsListActive(f)">
+                            <div class="elements-holder">
+                                <div ng-if="f.free != undefined && f.free.length > 0" class="Elements">
+                                    <span><b>Безкоштовні</b></span>
+                                    <div class="element" ng-repeat="ff in f.free">
+                                        <i class="material-icons mdl-color-text--green-500">{{ff.ico}}</i>
+                                        <span ng-bind-html="ff.title"></span>
+
+                                    </div>
+                                </div>
+                                <div ng-if="f.paid != undefined && f.paid.length > 0" class="Elements">
+                                    <span><b>Платні</b></span>
+                                    <div class="element" ng-repeat="ff in f.paid">
+                                        <i class="material-icons mdl-color-text--green-500">{{ff.ico}}</i>
+                                        <span ng-bind-html="ff.title"></span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-bind-html="f.description" class="description-text"></div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fab">
+                    <button ng-click="ActiveHotel = null" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-color--orange-500 mdl-color-text--white mdl-shadow--16dp">
+                        <i class="material-icons">arrow_back</i>
+                    </button>
+                </div>
+
+                <div style="width: 100%; height: 48px;"></div>
+            </div>
+            <div class="mdl-tabs__panel" id="order">
+                <ul>
+                    <li>Tywin</li>
+                    <li>Cersei</li>
+                    <li>Jamie</li>
+                    <li>Tyrion</li>
+                </ul>
+
+                <div class="fab">
+                    <button disabled class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab-success mdl-shadow--16dp" >
+                        <i class="material-icons">check</i>
+                    </button>
+                </div>
+
+                <div style="width: 100%; height: 48px;"></div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- fab -->
+
+
+    </div>
+    <!-- loader first -->
+    <!-- DAta first -->
+
+</div>
+@section Scripts
+{
+    <script src="~/bower_components/angular-carousel/dist/angular-carousel.min.js"></script>
+    <script src="~/bower_components/angular-touch/angular-touch.min.js"></script>
+    <script src="//code.angularjs.org/1.2.20/angular-sanitize.min.js"></script>
+    <script src="~/Scripts/Mobile/Home/OrderApp.js"></script>
+    <script src="~/Scripts/Home/MdlDomUpdater.js"></script>
+
+}
+
+@section Style
+{
+    <link href="~/bower_components/angular-carousel/dist/angular-carousel.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/Mobile/Order.css" type="text/css" rel="stylesheet" />
+}

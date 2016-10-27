@@ -1,0 +1,357 @@
+﻿/*#region status-bar animation */
+
+#status-bar {
+    margin-top: 0px;
+    -moz-transition: all ease-out 400ms;
+    -o-transition: all ease-out 400ms;
+    -webkit-transition: all ease-out 400ms;
+    transition: all ease-out 400ms;
+}
+
+    #status-bar.ng-hide {
+        margin-top: -50px;
+    }
+
+/*#endregion */
+
+/*#region Animation */
+
+#grid {
+    margin-left: 0%;
+    padding: 0px;
+    float: left;
+    width: 100%;
+}
+
+    #grid.ng-hide-add {
+        -moz-transition: all ease-in 250ms;
+        -o-transition: all ease-in 250ms;
+        -webkit-transition: all ease-in 250ms;
+        transition: all ease-in 250ms;
+    }
+
+    #grid.ng-hide-remove {
+        -moz-transition: all ease-out 250ms;
+        -o-transition: all ease-out 250ms;
+        -webkit-transition: all ease-out 250ms;
+        transition: all ease-out 250ms;
+    }
+
+    #grid.ng-hide {
+        margin-left: -100%;
+    }
+
+
+#info {
+    width: 100%;
+    margin-left: 0%;
+    min-height: 500px;
+    opacity: 1;
+}
+
+    #info.ng-hide-add {
+        -moz-transition: all ease-in 250ms;
+        -o-transition: all ease-in 250ms;
+        -webkit-transition: all ease-in 250ms;
+        transition: all ease-in 250ms;
+    }
+
+    #info.ng-hide-remove {
+        -moz-transition: all ease-in 250ms;
+        -o-transition: all ease-in 250ms;
+        -webkit-transition: all ease-in 250ms;
+        transition: all ease-in 250ms;
+    }
+
+
+    #info.ng-hide {
+        opacity: 0;
+        margin-left: 100%;
+    }
+
+
+/*#endregion */
+
+#date-area {
+    width: Calc(100% - 32px);
+    background-color: white;
+    padding: 8px;
+    padding-bottom: 0px;
+    margin: 0px 8px;
+    border-radius: 4px;
+}
+
+    #date-area > div {
+        margin-top: -16px;
+    }
+
+        #date-area > div > label {
+            width: 30%;
+            float: left;
+            padding-top: 8px;
+        }
+
+        #date-area > div > input, #date-area > div > select {
+            width: 50%;
+            float: right;
+        }
+
+
+
+#grid > .card {
+    background-color: white;
+    margin-bottom: 0px;
+    height: 120px;
+    border-radius: 4px;
+    opacity: 1;
+    margin-top: 8px;
+}
+
+    #grid > .card.ng-enter {
+        -moz-transition: all linear 750ms;
+        -o-transition: all linear 750ms;
+        -webkit-transition: all linear 750ms;
+        transition: all linear 750ms;
+        opacity: 0;
+        margin-top: 80px;
+    }
+
+    #grid > .card.ng-enter-active {
+        opacity: 1;
+        margin-top: 8px;
+    }
+
+
+    #grid > .card:last-child {
+        margin-bottom: 8px;
+    }
+
+    #grid > .card > .left-block, #grid > .card > .right-block {
+        width: Calc(50% - 8px);
+        float: left;
+        height: 100%;
+    }
+
+    #grid > .card > .right-block {
+        background-size: cover;
+        background-position: center center;
+        border-radius: 0px 4px 4px 0px;
+    }
+
+
+    #grid > .card > .left-block {
+        padding-left: 16px;
+    }
+
+        #grid > .card > .left-block > .title {
+            font-size: 18px;
+            padding: 16px 0 0 0px;
+        }
+
+        #grid > .card > .left-block > .rate {
+            padding-top: 8px;
+        }
+
+            #grid > .card > .left-block > .rate > img:first-child {
+                margin-left: 0px;
+            }
+
+            #grid > .card > .left-block > .rate > img {
+                width: Calc(20% - 14px);
+                margin: 0px 4px;
+            }
+
+        #grid > .card > .left-block > .free {
+            font-size: 16px;
+            text-transform: uppercase;
+            padding-top: 26px;
+        }
+
+#info > .title
+{
+    font-size: 20px;
+    margin: 0px 8px;
+}
+
+#info > .big-image {
+    width: 100%;
+    height: 200px;
+    margin: 8px 0px;
+    border-radius: 4px;
+}
+
+    #info > .big-image > .image, #info > .big-image > .image .layer {
+        width: 100%;
+        height: 100%;
+    }
+
+        #info > .big-image > .image .layer {
+            background-position: center center;
+            background-size: cover;
+        }
+
+#info .apartment-area {
+    margin: 0px 8px;
+    padding: 0px 8px;
+    background-color: white;
+    height: 48px;
+    border-radius: 4px;
+    padding-bottom: 0px;
+}
+
+#info .apartment-area .mdl-textfield
+{
+    margin-top: -4px;
+}
+
+    #info .apartment-area label:first-child {
+        width: Calc(50% - 8px);
+        float: left;
+        display: block;
+
+        font-size: 20px;
+        font-weight:500;
+        opacity: 0.87;
+
+        padding-left: 8px;
+    }
+
+    #info .apartment-area select {
+        width: 50%;
+        float: left;
+        margin-top: -4px;
+
+        color: rgba(33,150,243, 0.87);
+        border-bottom-color: rgba(33,150,243, 0.7);
+    }
+
+#info > #hotel-description {
+    margin: 8px;
+}
+
+
+#info  #hotel-info {
+    margin: 8px;
+}
+
+#hotel-info > .mdl-grid > .container {
+    width: 100%;
+
+    background-color: white;
+    margin: 4px 0px;
+}
+
+#hotel-info .mdl-cell.ng-hide {
+    opacity: 0;
+}
+
+#hotel-info .description-text
+{
+    padding: 0px 8px;
+}
+
+#hotel-info .mdl-cell {
+    opacity: 1;
+    -moz-transition: all ease-out 250ms;
+    -o-transition: all ease-out 250ms;
+    -webkit-transition: all ease-out 250ms;
+    transition: all ease-out 250ms;
+}
+
+#hotel-info .header
+{
+    height: 32px;
+
+}
+
+#hotel-info .header button
+{
+    display: block;
+    float: left;
+}
+
+#hotel-info .header > span
+{
+    padding-left: 14px;
+    opacity: 0.87;
+
+    font-size: 20px;
+    display: block;
+    float: left;
+    margin-top: 8px;
+}
+
+
+#tabs > #tabs-bar
+{
+    position: fixed;
+    width: 100%;
+
+    bottom: 0px;
+    left: 0px;
+    background-color: white;
+
+    z-index: 1000;
+}
+
+#tabs a
+{
+    width: 50%;
+}
+
+
+.description .element span
+{
+    padding-left: 8px;
+}
+
+.description .elements-holder
+{
+    margin-bottom: 8px;
+}
+
+.description .elements-holder .Elements span:first-child
+{
+    font-weight: 600;
+
+}
+
+.description .elements-holder .element
+{
+    width: 100%;
+    display: flex;
+    padding: 4px 0px;
+    padding-left: 8px;
+}
+
+.description .elements-holder .element i
+{
+    display: block;
+    float: left;
+}
+
+.description .elements-holder .element span
+{
+    display: block;
+    float: left;
+    margin-top: -0px;
+    margin-left: 4px;
+} 
+
+.fab
+{
+    bottom: 72px;
+    color: white !important;
+    
+}
+
+.fab > button
+{
+}
+
+.fab-success
+{
+    color: white;
+    background-color: #4caf50;
+
+}

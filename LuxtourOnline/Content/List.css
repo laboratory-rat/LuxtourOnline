@@ -1,0 +1,43 @@
+﻿table th, table td
+{
+    text-align: center !important;
+}
+
+tr, td, th
+{
+    height: 28px !important;
+    padding: 5px !important;
+}
+
+.remove-button
+{
+    float: right;
+}
+
+.mdl-button
+{
+
+}
+
+label
+{
+    width: 20px !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+table
+{
+    table-layout: fixed;
+    width: 100%;
+}
+
+th:last-child, td:last-child
+{
+    width: 5%;
+}
+
+th.isActive
+{
+    width: 10%;
+}

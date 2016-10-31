@@ -12,7 +12,7 @@ using System.Web.Routing;
 
 namespace LuxtourOnline.Controllers
 {
-    public class BaseAppController : Controller
+    public class BaseAppController : Controller, IDisposable
     {
         protected string _lang = "";
 
@@ -23,7 +23,21 @@ namespace LuxtourOnline.Controllers
 
         protected AppUserManager _userManager { get { return HttpContext.GetOwinContext().Get<AppUserManager>(); } }
         protected RoleManager<AppUserRole> _roleManager { get { return HttpContext.GetOwinContext().Get<RoleManager<AppUserRole>>(); } }
-        protected SiteDbContext _context { get { return HttpContext.GetOwinContext().Get<SiteDbContext>(); } }
+        protected SiteDbContext _selfContext = null;
+        protected SiteDbContext _context {
+            get
+            {
+                if (_selfContext == null)
+                    _selfContext = HttpContext.GetOwinContext().Get<SiteDbContext>();
+                return _selfContext;
+            }
+            set
+            {
+                _selfContext = value;
+            }
+        }
+
+
 
         protected AppSignInManager _signInManager { get { return HttpContext.GetOwinContext().Get<AppSignInManager>(); } }
 
@@ -177,6 +191,19 @@ namespace LuxtourOnline.Controllers
             string name = HttpContext.User.Identity.Name;
             var user = context.Users.Where(u => u.UserName == name).FirstOrDefault();
             return user;
+        }
+
+        protected virtual string GetUrl()
+        {
+            return Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (_selfContext != null)
+                _selfContext.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

@@ -43,6 +43,11 @@ namespace LuxtourOnline.Utilites
             }
         }
 
+        public static void SendRegisterEmail(string to, string homeLink)
+        {
+
+        }
+
         public static void SendMail(string to, string heading, string subject, string body, string CCAddr = "")
         {
             if (string.IsNullOrEmpty(to))
@@ -61,6 +66,8 @@ namespace LuxtourOnline.Utilites
 
             mail.Subject = subject;
             mail.Body = body;
+
+            mail.IsBodyHtml = true;
 
             if (!string.IsNullOrEmpty(CCAddr))
                 mail.CC.Add(new MailAddress(CCAddr));

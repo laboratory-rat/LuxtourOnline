@@ -464,9 +464,12 @@
     <Content Include="Content\jquery.mobile.theme-1.4.5.css" />
     <Content Include="Content\jquery.mobile.theme-1.4.5.min.css" />
     <Content Include="Content\Landing.css" />
+    <Content Include="Content\List.css" />
     <Content Include="Content\mdl-v1.1.2\icon.css" />
     <Content Include="Content\mdl-v1.1.2\material.amber-light_blue.min.css" />
+    <Content Include="Content\Mobile\Contacts.css" />
     <Content Include="Content\Mobile\LandMobile.css" />
+    <Content Include="Content\Mobile\NewsMobile.css" />
     <Content Include="Content\Mobile\Order.css" />
     <Content Include="Content\Mobile\SiteMobile.css" />
     <Content Include="Content\Mobile\ToursMobile.css" />
@@ -662,6 +665,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Mobile\Home\ContactsApp.js" />
+    <Content Include="Scripts\Mobile\Home\NewsApp.js" />
     <Content Include="Scripts\Mobile\Home\OrderApp.js" />
     <Content Include="Scripts\Mobile\Home\TourApp.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -696,6 +701,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Controllers\SubscribeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ViewSwitcherController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
@@ -710,6 +716,14 @@
     <Compile Include="Migrations\201610210927468_Order.cs" />
     <Compile Include="Migrations\201610210927468_Order.Designer.cs">
       <DependentUpon>201610210927468_Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610311144434_turbo.cs" />
+    <Compile Include="Migrations\201610311144434_turbo.Designer.cs">
+      <DependentUpon>201610311144434_turbo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610311159321_turbo2.cs" />
+    <Compile Include="Migrations\201610311159321_turbo2.Designer.cs">
+      <DependentUpon>201610311159321_turbo2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
@@ -726,7 +740,9 @@
     <Compile Include="Models\Products\Image.cs" />
     <Compile Include="Models\Products\Orders.cs" />
     <Compile Include="Models\Products\Review.cs" />
+    <Compile Include="Models\Products\Subscribe.cs" />
     <Compile Include="Models\Products\tag.cs" />
+    <Compile Include="Models\Products\Top.cs" />
     <Compile Include="Models\Products\Tour.cs" />
     <Compile Include="Models\UserModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -807,6 +823,10 @@
     <Content Include="Scripts\Mobile\Home\Mobile.Landing.js" />
     <Content Include="Views\Home\Tours.Mobile.cshtml" />
     <Content Include="Views\Home\Order.Mobile.cshtml" />
+    <Content Include="Views\Subscribe\RemoveSubscription.cshtml" />
+    <Content Include="Views\Subscribe\List.cshtml" />
+    <Content Include="Views\Home\Contacts.Mobile.cshtml" />
+    <Content Include="Views\Home\News.Mobile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -833,6 +853,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610210927468_Order.resx">
       <DependentUpon>201610210927468_Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610311144434_turbo.resx">
+      <DependentUpon>201610311144434_turbo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610311159321_turbo2.resx">
+      <DependentUpon>201610311159321_turbo2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,5 +1,10 @@
 ﻿/*#region status-bar animation */
 
+span
+{
+    color: rgba(0,0,0,0.87);
+}
+
 #status-bar {
     margin-top: 0px;
     -moz-transition: all ease-out 400ms;
@@ -337,6 +342,53 @@
     margin-top: -0px;
     margin-left: 4px;
 } 
+
+.customer-data
+{
+    background-color: white;
+    padding: 8px;
+    margin: 8px 0px;
+    width: 100%;
+
+    
+
+}
+
+.customer-data > .header > span, .customer-data > .header > i
+{
+    display: block;
+    float: left;
+}
+
+.customer-data > .header > span
+{
+    padding-top: 12px;
+    padding-left: 16px;
+    font-size: 20px;
+}
+
+.customer-data .mdl-textfield__input
+{
+    width: Calc(100% - 16px);
+    margin: 0 auto;
+
+
+}
+
+.customer-data label
+{
+    margin-left: 8px;
+}
+
+.general-data > .header > span
+{
+    padding-left: 8px;
+}
+
+.customer-data > .header > i
+{
+    font-size: 36px;
+}
 
 .fab
 {

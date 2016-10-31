@@ -39,6 +39,8 @@ namespace LuxtourOnline.Models
         [Required]
         public bool Deleted { get; set; } = false;
 
+        public virtual TopHotel TopHotel { get; set; }
+
         public Hotel()
         {
 

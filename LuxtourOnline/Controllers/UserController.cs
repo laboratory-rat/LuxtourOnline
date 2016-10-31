@@ -406,7 +406,7 @@ namespace LuxtourOnline.Controllers
             if (!_roleManager.RoleExists(role))
                 ModelState.AddModelError("", "Bad role name");
 
-            if (User.IsInRole("manager") && role == "admin")
+            if ((User.IsInRole("manager") || User.IsInRole("content_manager")) && role == "admin")
                 ModelState.AddModelError("", "No access for action.");
 
             if (await manager.FindByEmailAsync(email) != null)
@@ -429,6 +429,8 @@ namespace LuxtourOnline.Controllers
 
                 ViewBag.Email = email;
                 ViewBag.Password = password;
+
+
 
                 return View("CreateUserSuccess");
             }

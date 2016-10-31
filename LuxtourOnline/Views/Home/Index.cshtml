@@ -199,6 +199,8 @@
                 </li>
             </ul>
             <div id="gallery-indicators" rn-carousel-indicators ng-if="Tours" slides="Tours" rn-carousel-index="carouselIndex2"></div>
+
+        <!-- New added --></div> <!-- End of new -->
     </section>
     <section style="background-image: url(/Content/Resources/back_6.png);">
         <div id="pen">
@@ -266,15 +268,16 @@
                 <form>
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
 
-                        <input type="text" class="mdl-textfield__input" id="secondFormName" name="CustomerName" />
+                        <input type="text" class="mdl-textfield__input" id="secondFormName" name="CustomerName" ng-model="SubscribeData.FullName" />
                         <label class="mdl-textfield__label" for="secondFormName"><i class="material-icons">person</i> Ім'я</label>
                     </div>
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
-                        <input type="email" class="mdl-textfield__input" id="secondFormEmail" name="CustomerEmail" />
-                        <label class="mdl-textfield__label" for="secondFormEmail"><i class="material-icons">local_post_office</i> Email</label>
+                        <input type="email" class="mdl-textfield__input" id="secondFormEmail" name="CustomerEmail" ng-model="SubscribeData.Email" />
+                        <label class="mdl-textfield__label" for="secondFormEmail" ><i class="material-icons">local_post_office</i> Email</label>
                     </div>
-                    <button type="button" class="mdl-js-button mdl-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect">
-                        ПІДПИСАТИСЯ
+                    <button type="button" class="mdl-js-button mdl-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect" ng-click="Subscribe()" ng-disabled="!SubscribeOn">
+                        <span ng-show="SubscribeOn">ПІДПИСАТИСЯ</span>
+                        <span ng-show="!SubscribeOn">Дякуємо за підписку</span>
                     </button>
                 </form>
             </div>
@@ -534,6 +537,37 @@
         app.controller("LandCtrl", ['$scope', '$http', function ($scope, $http) {
             $scope.Tours = null;
             $scope.Language;
+
+            $scope.SubscribeOn = true;
+
+            $scope.SubscribeData =
+                {
+                    Email: '',
+                    FullName: '',
+                    Tel: '',
+                };
+
+            $scope.Subscribe = function()
+            {
+                $scope.SubscribeData.Language = $scope.Language;
+
+                console.log($scope.SubscribeData);
+
+                if ($scope.SubscribeData.Email === '' || $scope.SubscribeData.FullName === '')
+                    return;
+
+                $http.post('/Subscribe/Add', $scope.SubscribeData)
+                .success(function (response) {
+                    if (response.result === 'success')
+                    {
+                        alert('Subscribe is success');
+                    }
+                })
+                .error(function (response) {
+                });
+
+                $scope.SubscribeOn = false;
+            }
 
             $scope.LoadTours = function()
             {

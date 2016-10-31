@@ -51,7 +51,12 @@
     <meta name="description" content="Luxtour online. First online tour operator" />
 
 
-
+    <script src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <!-- <script src="~/Scripts/bootstrap.min.js"></script> -->
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular-animate.js"></script>
+    @RenderSection("ScriptsTop", false)
 </head>
 <body>
 
@@ -108,7 +113,7 @@
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @Html.ActionLink("SignOut", "Login", "User", null, new { @class = "mdl-navigation__link" })
+                        @Html.ActionLink("Виход", "Login", "User", null, new { @class = "mdl-navigation__link" })
                     }
                 </nav>
             </div>
@@ -117,16 +122,18 @@
 
 
         <div class="mdl-layout__drawer">
-            <span class="mdl-layout-title">Quick actions</span>
+            <span class="mdl-layout-title">Швидкий доступ</span>
             <nav class="mdl-navigation">
-                @Html.ActionLink("Add tour", "EditTour", "Manager", null, new { @class = "mdl-navigation__link" })
-                @Html.ActionLink("Add hotel", "EditHotel", "Manager", null, new { @class = "mdl-navigation__link" })
-                @Html.ActionLink("Add user", "Create", "User", null, new { @class = "mdl-navigation__link" })
+                @Html.ActionLink("Додати тур tour", "EditTour", "Manager", null, new { @class = "mdl-navigation__link" })
+                @Html.ActionLink("Додати готель hotel", "EditHotel", "Manager", null, new { @class = "mdl-navigation__link" })
+                @Html.ActionLink("Додати користувача", "Create", "User", null, new { @class = "mdl-navigation__link" })
+                @Html.ActionLink("Підписки", "List", "Subscribe", null, new { @class = "mdl-navigation__link" })
             </nav>
-            <span class="mdl-layout-title">Account</span>
+            <span class="mdl-layout-title">Аккаунт</span>
             <div class="mdl-navigation">
                 @Html.ActionLink("My account", "Index", "User", null, new { @class = "mdl-navigation__link" })
             </div>
+
         </div>
 
         <main class="mdl-layout__content">
@@ -139,11 +146,7 @@
         </main>
     </div>
 
-    <script src="~/Scripts/jquery-3.1.0.min.js"></script>
-    <!-- <script src="~/Scripts/bootstrap.min.js"></script> -->
-    <script src="~/Scripts/angular.js"></script>
-    <script src="~/Scripts/angular-route.js"></script>
-    <script src="~/Scripts/angular-animate.js"></script>
+
     @RenderSection("Scripts", false)
 </body>
 </html>

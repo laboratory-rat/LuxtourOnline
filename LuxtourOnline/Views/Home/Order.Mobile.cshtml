@@ -68,9 +68,9 @@
         <div class="apartment-area mdl-shadow--2dp">
             <div class="mdl-textfield mdl-js-textfield">
                 <label for="apartment-select">Номер: </label>
-                <select id="apartment-select" ng-model="ActiveHotel.ActiveApartment" class="mdl-textfield__input">
+                <select id="apartment-select" ng-model="TmpAA" ng-change="SetAA(TmpAA)" class="mdl-textfield__input">
                     <option value=""></option>
-                    <option ng-repeat="apartment in ActiveHotel.apartments" value="{{apartment}}">
+                    <option ng-repeat="apartment in ActiveHotel.apartments" value="{{apartment.id}}">
                         {{apartment.title}} ({{apartment.adult}} + {{apartment.child}})
                     </option>
                 </select>
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
                             <div ng-bind-html="f.description" class="description-text"></div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -142,15 +142,83 @@
                 <div style="width: 100%; height: 48px;"></div>
             </div>
             <div class="mdl-tabs__panel" id="order">
-                <ul>
-                    <li>Tywin</li>
-                    <li>Cersei</li>
-                    <li>Jamie</li>
-                    <li>Tyrion</li>
-                </ul>
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp customer-data" ng-repeat="customer in UploadData.customers">
+                        <div class="header" ng-click="SwitchCustomer(customer)">
+                            <i ng-if="!customer.isChild" class="material-icons mdl-color-text--blue-500">person</i>
+                            <i ng-if="customer.isChild" class="material-icons mdl-color-text--blue-500">face</i>
+                            <span ng-if="customer.fullName !== ''">{{customer.fullName | limitTo : 20}}</span>
+                            <span ng-if="customer.fullName === ''">Гість</span>
+                        </div>
+                        <div ng-show="IsShowCustomer(customer)">
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input type="text" class="mdl-textfield__input" id="PIB{{customer.id}}" ng-model="customer.fullName"/>
+                                <label for="PIB{{customer.id}}" class="mdl-textfield__label" >П.І.Б.</label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <label for="birthday{{customer.id}}">Дата народження</label>
+                                <input type="date" class="mdl-textfield__input" id="birthday{{customer.id}}" />
+                                <label for="birthday{{customer.id}}" class="mdl-textfield__label"></label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input type="text" class="mdl-textfield__input" id="PassportNumber{{customer.id}}" />
+                                <label for="PassportNumber{{customer.id}}" class="mdl-textfield__label">Серія і номер паспорта</label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input type="text" class="mdl-textfield__input" id="passportUntil{{customer.id}}" />
+                                <label for="passportUntil{{customer.id}}" class="mdl-textfield__label">Дата видачі паспорта</label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input type="text" class="mdl-textfield__input" id="passportFrom{{customer.id}}" />
+                                <label for="passportFrom{{customer.id}}" class="mdl-textfield__label">Ким виданий</label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input type="text" class="mdl-textfield__input" id="countryFrom{{customer.id}}" />
+                                <label for="countryFrom{{customer.id}}" class="mdl-textfield__label">Країна народження</label>
+                            </div>
+
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input type="text" class="mdl-textfield__input" id="countryLive{{customer.id}}" />
+                                <label for="countryLive{{customer.id}}" class="mdl-textfield__label">Громадянство</label>
+                            </div>
+                        </div>
+                        {{customer}}
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--4-col mdl-shadow--2dp customer-data general-data">
+                        <div class="header">
+                            <span>
+                                Контактні дані
+                            </span>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input type="email" class="mdl-textfield__input" id="email" />
+                            <label for="email" class="mdl-textfield__label">Email</label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input type="number" class="mdl-textfield__input" id="tel" />
+                            <label for="tel" class="mdl-textfield__label">Мобільний номер</label>
+                        </div>
+
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <label for="PIB{{custmer.id}}"> Коментар до замовлення</label>
+                            <textarea type="text" class="mdl-textfield__input" id="PIB{{customer.id}}"></textarea>
+                            <label for="PIB{{custmer.id}}" class="mdl-textfield__label" Коментар до замовлення></label>
+                        </div>
+
+                    </div>
+                </div>
 
                 <div class="fab">
-                    <button disabled class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab-success mdl-shadow--16dp" >
+                    <button disabled class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect fab-success mdl-shadow--16dp">
                         <i class="material-icons">check</i>
                     </button>
                 </div>

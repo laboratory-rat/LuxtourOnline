@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "News";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<div class="mdl-grid mdl-grid--no-spacing" ng-app="NewsApp" ng-controller="NewsCtrl" ng-init="Count = @ViewBag.Count; Page = @ViewBag.Page; Load();" style="overflow:auto;">
+    <div class="mdl-cell mdl-cell--12-col mdl-shadow--2dp" ng-repeat="item in Data">
+        <div class="header">
+            <div class="mdl-color--primary time">
+                <span>{{item.created_time | date : 'dd'}}</span>
+                <span>{{item.created_time | date : 'MMM'}}</span>
+            </div>
+            <div class="likes" ng-if="ShowLike(item.likes.data)">
+                <i class="material-icons mdl-color-text--primary">thumb_up</i>
+                <span>{{item.likes.data.length}}</span>
+            </div>
+
+        </div>
+        <div class="title">
+            {{item.story | limitTo : 150}}
+        </div>
+        <div class="body">
+            {{item.message | limitTo : 150}}
+            <span ng-if="Dots(item.message)">...</span>
+        </div>
+
+        <div class="link">
+            <a href="{{item.link}}" target="_blank">Читати далі...</a>
+        </div>
+
+        <div class="bfp" style="background-image: url('{{item.full_picture}}')">
+
+        </div>
+    </div>
+
+    <!--
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col-phone" ng-repeat="item in Data"
+         ng-style="{'visibility:none;': Data == null}">
+        <div class="mdl-card__title" style="height: 250px; background-size:cover; background-image:url({{item.full_picture}});">
+            <div class="mdl-card__title-text mdl-typography--headline-color-contrast app-card__title-text">{{item.story}}</div>
+        </div>
+        <div class="mdl-card__supporting-text" style="min-height: 100px;">
+            {{item.message | limitTo : 150}}...
+        </div>
+        <div class="mdl-card__actions" style="position: absolute; bottom: 0px;">
+            <a href="{{item.link}}" target="_blank">Читати на Facebook</a>
+        </div>
+    </div>
+        -->
+</div>
+<div style='clear: both;'></div>
+
+@section Style
+{
+    <link href="~/Content/Mobile/NewsMobile.css" type="text/css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script src="~/Scripts/Mobile/Home/NewsApp.js"></script>
+}

@@ -1,0 +1,205 @@
+﻿@model LuxtourOnline.Models.Products.SubscribeList
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="mdl-grid" ng-app="ListApp" ng-controller="ListCtrl" ng-init="PerPage='@ViewBag.PerPage'; Page = '@ViewBag.Page'; LoadData();">
+    <div class="mdl-cell mdl-cell--12-col-desktop">
+        <table class="mdl-data-table">
+            <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        Id
+                    </th>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        Full Name
+                    </th>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        Email
+                    </th>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        Tel
+                    </th>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        IsActive
+                    </th>
+                    <th class="">
+                        Date
+                    </th>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        Language
+                    </th>
+                    <th class="mdl-data-table__cell--non-numeric">
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="s in Data.Subscribes">
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {{s.Id}}
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {{s.FullName}}
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {{s.Email}}
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {{s.Tel}}
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric isActive">
+                        <label class="mdl-checkbox mdl-js-checkbox" for="IsActive{{s.Id}}">
+                            <input type="checkbox" id="IsActive{{s.Id}}" class="mdl-checkbox__input" ng-model="s.IsActive" ng-change="ToggleSubscr(s.Id)">
+                        </label>
+                    </td>
+
+                    <td class="">
+                        {{s.SubscribeDate | ctime | date : 'medium'}}
+                    </td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        {{s.Language}}
+                    </td>
+                    <td>
+                        <button class="mdl-button mdl-js-button mdl-color-text--red mdl-button--icon remove-button" ng-click="Remove(s)"><i class="material-icons">delete</i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+    <div class="mdl-cell--12-col paging">
+        <button class="mdl-button mdl-js-button" ng-repeat="i in GetTotalPages()" ng-class="{'button-primary': IsPrime(i)}" ng-click="UpdataData(i + 1)">{{i}}</button>
+    </div>
+</div>
+
+@section Style
+{
+    <link href="~/Content/List.css" type="text/css" rel="stylesheet"/>
+}
+
+@section Scripts
+{
+    <script>
+        var app = angular.module('ListApp', ['ngAnimate']);
+
+        app.run(function () {
+            var mdlUpgradeDom = false;
+            setInterval(function () {
+                if (mdlUpgradeDom) {
+                    componentHandler.upgradeDom();
+                    mdlUpgradeDom = false;
+                }
+            }, 200);
+
+            var observer = new MutationObserver(function () {
+                mdlUpgradeDom = true;
+            });
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            /* support <= IE 10
+            angular.element(document).bind('DOMNodeInserted', function(e) {
+                mdlUpgradeDom = true;
+            });
+            */
+        });
+
+
+        app.filter('ctime', function () {
+
+            return function (jsonDate) {
+
+                var date = new Date(parseInt(jsonDate.substr(6)));
+                return date;
+            };
+
+        });
+
+        app.controller('ListCtrl', ['$scope', '$http', function ($scope, $http) {
+            $scope.Data;
+            $scope.PerPage = 25;
+            $scope.Page = 1;
+
+            $scope.UpdataData = function(page)
+            {
+                if (page != undefined)
+                {
+                    $scope.Page = page;
+                    $scope.LoadData();
+                }
+            }
+
+            $scope.ToggleSubscr = function (id) {
+                if (id !== undefined)
+                {
+                    $http.post('/Subscribe/Toggle', { id: id });
+                }
+            };
+
+            $scope.Remove = function(sub)
+            {
+                if (sub != undefined)
+                {
+                    $http.post('/Subscribe/Remove', { id: sub.Id });
+
+                    var i = $scope.Data.Subscribes.indexOf(sub);
+
+                    if (i > -1)
+                    {
+                        $scope.Data.Subscribes.splice(i, 1);
+                    }
+
+                }
+            }
+
+            $scope.LoadData = function () {
+                $http.get('/Subscribe/ListJson?page=' + $scope.Page + '&&PerPage=' + $scope.PerPage)
+                .success(function (response) {
+                    console.log(response);
+                    $scope.Data = response;
+                });
+
+            };
+
+            $scope.IsPrime = function (i) {
+                if ($scope.Data.Paging == undefined || $scope.Data.Page == null)
+                    return false;
+
+                if (i == $scope.Data.Paging.CurrentPange)
+                    return true;
+
+                return false;
+            };
+
+
+            $scope.ToDate = function (date) {
+                return new Date(date);
+            };
+
+            $scope.GetTotalPages = function () {
+                if ($scope.Data == null)
+                    return new Array();
+
+                var arr = new Array();
+
+                while (arr.length < $scope.Data.Paging.TotalPages) {
+                    var i = arr.length + 1;
+                    arr.push(i);
+                }
+
+                console.log(arr);
+
+                return arr;
+            };
+        }]);
+    </script>
+}
+

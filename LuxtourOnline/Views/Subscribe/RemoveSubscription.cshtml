@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "RemoveSubscription";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+@if (!ViewBag.success)
+{
+    <div class="mdl-grid">
+        <form method="get">
+            <div class="mdl-cell mdl-cell--6-col mdl-cell--3-offset">
+                @if (ViewBag.badKey)
+                {
+                    <div class="mdl-color-text--red">Такого ключа неіснує</div>
+                }
+                <div class="mdl-textfield mdl-js-textfield">
+                    <input type="text" name="key" id="key" class="mdl-textfield__input" />
+                    <label for="key" class="mdl-textfield__label">Ключ для відписки</label>
+                </div>
+                <input class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect" value="Відписатися" type="submit" />
+            </div>
+        </form>
+
+    </div>
+}
+else
+{
+    <div class="mdl-typography--headline mdl-typography--text-center">
+        Ви успішно відписалися від новин
+    </div>
+    <div>
+        <a href="@Url.Action("Home")">На головну</a>
+    </div>
+}

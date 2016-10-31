@@ -25,7 +25,7 @@ namespace LuxtourOnline.Controllers
 
         protected string _fbToken = "access_token=1592303977741978|idYp70kTD_eA9FeofzGN6LrLkmo";
         protected string _fbHttps = "https://graph.facebook.com/v2.8";
-        protected string _fbGroup = "luxtour.online/feed?fields=message,story,picture,link,likes,full_picture,actions";
+        protected string _fbGroup = "luxtour.online/feed?fields=message,story,picture,link,likes,full_picture,actions,created_time";
 
         public HomeController(SiteDbContext newContext)
         {
@@ -44,6 +44,8 @@ namespace LuxtourOnline.Controllers
         {
             return View();
         }
+
+
 
         [HttpGet]
         public ActionResult Tours()
@@ -112,8 +114,6 @@ namespace LuxtourOnline.Controllers
 
             return View();
         }
-
-        int _moreTours = 2;
 
         [HttpGet]
         public ActionResult OrderTourJson(int id)
@@ -357,6 +357,11 @@ namespace LuxtourOnline.Controllers
             ViewBag.Page = (int)page;
             ViewBag.Count = (int)count;
 
+            return View();
+        }
+
+        public ActionResult Contacts()
+        {
             return View();
         }
 

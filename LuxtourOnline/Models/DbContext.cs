@@ -33,6 +33,10 @@ namespace LuxtourOnline.Models
         public DbSet<CustomerData> CustomerData { get; set; }
         public DbSet<PassportImage>  PassportImages { get; set; }
 
+        public DbSet<Subscribe> Subscriptions { get; set; }
+        public DbSet<TopTour> TopTours { get; set; }
+        public DbSet<TopHotel> TopHotels { get; set; }
+
     }
 
     

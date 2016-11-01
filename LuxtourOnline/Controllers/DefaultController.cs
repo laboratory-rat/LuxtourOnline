@@ -1,6 +1,7 @@
 ﻿using LuxtourOnline.Models;
 using LuxtourOnline.Utilites;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using NLog;
 using System;
@@ -188,9 +189,9 @@ namespace LuxtourOnline.Controllers
 
         protected AppUser GetCurrentUser(SiteDbContext context)
         {
-            string name = HttpContext.User.Identity.Name;
-            var user = context.Users.Where(u => u.UserName == name).FirstOrDefault();
-            return user;
+            var store = new UserStore<AppUser>(context);
+            var userManager = new UserManager<AppUser>(store);
+            return userManager.FindByEmail(User.Identity.Name);
         }
 
         protected virtual string GetUrl()

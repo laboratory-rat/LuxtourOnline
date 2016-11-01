@@ -128,7 +128,8 @@ namespace LuxtourOnline.Repos
 
                 var roles = string.Join(" / ", await manager.GetRolesAsync(user.Id));
 
-                model.Users.Add(new DisplayUserModel() { CreatedDate = user.RegDate, Email = user.Email, FullName = user.FullName, PhoneNumber = user.PhoneNumber,Id = user.Id, Roles = string.Join(" / ", roles) });
+                model.Users.Add(new DisplayUserModel() { CreatedDate = user.RegDate, Email = user.Email, FullName = user.FullName,
+                    AllowTelGrub = user.AllowTelGrub, PhoneNumber = user.PhoneNumber,Id = user.Id, Roles = string.Join(" / ", roles) });
             }
 
             return model;
@@ -216,6 +217,7 @@ namespace LuxtourOnline.Repos
             user.Email = model.Email;
             user.PhoneNumber = model.PhoneNumber;
             user.UserName = model.Email;
+            user.AllowTelGrub = model.AllowTelGrub;
 
             if (model.NewRole != null)
             {

@@ -48,6 +48,43 @@ namespace LuxtourOnline.Utilites
 
         }
 
+        public async static Task SendMailAsync(List<string> to, string heading, string subject, string body)
+        {
+            foreach(string s in to)
+            {
+                await SendMailAsync(s, heading, subject, body);
+                await Task.Delay(100);
+            }
+        }
+
+        public static async Task SendMailAsync(string to, string heading, string subject, string body, string CCAddr = "")
+        {
+            if (string.IsNullOrEmpty(to))
+                throw new ArgumentNullException("argument 'to' is empty");
+
+            var client = Client;
+
+            if (string.IsNullOrEmpty(heading))
+                heading = DefaultHeading;
+
+            MailMessage mail = new MailMessage();
+
+            //Setting From , To and CC
+            mail.From = new MailAddress(User, heading);
+            mail.To.Add(new MailAddress(to));
+
+            mail.Subject = subject;
+            mail.Body = body;
+
+            mail.IsBodyHtml = true;
+
+            if (!string.IsNullOrEmpty(CCAddr))
+                mail.CC.Add(new MailAddress(CCAddr));
+
+            await new Task(() => client.SendAsync(mail, null));
+        }
+
+
         public static void SendMail(string to, string heading, string subject, string body, string CCAddr = "")
         {
             if (string.IsNullOrEmpty(to))

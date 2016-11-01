@@ -1,4 +1,5 @@
 ﻿using LuxtourOnline.Models.Products;
+using LuxtourOnline.Models.TelGrub;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -37,6 +38,8 @@ namespace LuxtourOnline.Models
         public DbSet<TopTour> TopTours { get; set; }
         public DbSet<TopHotel> TopHotels { get; set; }
 
+        public DbSet<TelGrubModel> TelGrubs { get; set; }
+        public DbSet<TelGrubOperators> TelOperators { get; set; }
     }
 
     

@@ -1,0 +1,142 @@
+﻿
+@{
+    ViewBag.Title = "OperatorsList";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="mdl-grid" ng-app="OperatorsApp" ng-controller="OperatorsCtrl" ng-init="CurrentPage = 1; PerPage = 50; LoadData();">
+    <div class="mdl-cell--12-col">
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="email" id="Email" ng-model="Email" />
+            <label for="Email" class="mdl-textfield__label">Email</label>
+        </div>
+
+        <div class="mdl-textfield mdl-js-textfield">
+            <input class="mdl-textfield__input" type="text" id="FullName" ng-model="FullName" />
+            <label for="FullName" class="mdl-textfield__label">Full Name</label>
+        </div>
+
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary" ng-click="AddNew()">Add new</button>
+    </div>
+    <div class="mdl-cell--12-col">
+        <table class="mdl-data-table">
+            <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">Id</th>
+                    <th class="mdl-data-table__cell--non-numeric">FullName</th>
+                    <th class="mdl-data-table__cell--non-numeric">Email</th>
+                    <th class="mdl-data-table__cell--non-numeric"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="o in Data.Operators">
+                    <th class="mdl-data-table__cell--non-numeric">{{o.Id}}</th>
+                    <th class="mdl-data-table__cell--non-numeric">{{o.OperatorName}}</th>
+                    <th class="mdl-data-table__cell--non-numeric">{{o.OperatorEmail}}</th>
+                    <th class="mdl-data-table__cell--non-numeric">
+                        <button class="mdl-button mdl-js-button mdl-button--icon mdl-color-text--red" ng-click="RemoveOperator(o)"><i class="material-icons">delete</i></button>
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mdl-cell--12-col">
+        <button class="mdl-button mdl-js-button" ng-repeat="i in GetPages()" ng-click="LoadPage(i + 1)" ng-class="{'ng-button--raised ng-button--primary': IsCurrentPage(i + 1)}">{{i + 1}}</button>
+    </div>
+</div>
+
+@section Style
+{
+<style>
+    body .mdl-grid:first-child
+    {
+        margin-top: 60px;
+    }
+    </style>    
+}
+
+@section Scripts
+{
+
+<script>
+
+    var app = angular.module("OperatorsApp", ['ngAnimate']);
+
+    app.controller("OperatorsCtrl", ['$scope', '$http', function ($scope, $http) {
+        $scope.Data = null;
+
+        $scope.CurrentPage = 1;
+        $scope.PerPage = 50;
+        $scope.LastNull = false;
+
+        $scope.Email = '';
+        $scope.FullName = '';
+
+        $scope.AddNew = function () {
+            if ($scope.Email != '' && $scope.FullName != '') {
+                $http.post('/TelGrub/AddOperator', { email: $scope.Email, fullName: $scope.FullName })
+                .success(function (response) {
+                    $scope.Data.Operators.push({ Id: response, FullName: $scope.FullName, Email: $scope.Email });
+                    $scope.Email = '';
+                    $scope.FullName = '';
+                })
+            }
+        };
+
+        $scope.LoadData = function () {
+            if (!$scope.LastNull) {
+                console.log($scope.PerPage);
+
+                var page = $scope.CurrentPage;
+                var perPage = $scope.PerPage;
+
+                $http.get('/TelGrub/OperatorsListJson?page='+page+'&perPage=' + perPage)
+                .success(function (response) {
+                    if (response == null)
+                        $scope.LastNull = true;
+                    else
+                        $scope.Data = response;
+                })
+                .error(function (response) {
+                    $scope.LastNull = true;
+                });
+            }
+        };
+
+        $scope.LoadPage = function (newPage) {
+            $scope.CurrentPage = newPage;
+            $scope.LoadData();
+        };
+        
+        $scope.RemoveOperator = function (oper) {
+            if (oper != undefined) {
+                $http.post('/TelGrub/RemoveOperator', { id: oper.Id })
+                .success(function (respnse) {
+                    var i = $scope.Data.Operators.indexOf(oper);
+                    $scope.Data.Operators.splice(i, 1);
+                });
+            }
+        };
+
+        $scope.IsCurrentPage = function(i)
+        {
+            if (i === undefined)
+                return false;
+
+            if (i == $scope.Data.Paging.CurrentPage)
+                return true;
+            return false;
+        }
+
+        $scope.GetPages = function () {
+            if ($scope.Data != null) {
+                return new Array($scope.Data.Paging.TotalItems);
+            }
+
+            return new Array(0);
+        };
+    }]);
+
+</script>
+    
+}

@@ -17,22 +17,25 @@
         </div>
     </div>
     <div class="mdl-cell mdl-cell--12-col app-seach-box" ng-show="SearchVisible">
-        @using (Html.BeginForm("UserList", "User", FormMethod.Get, new { @style="float: right;" }))
+        @using (Html.BeginForm("UserList", "User", FormMethod.Get, new { @style = "float: right;" }))
         {
             <div class="mdl-textfield mdl-js-textfield" style="width:200px;">
-                <input type = "text" name="fullname" class="mdl-textfield__input" id="fullname">
+                <input type="text" name="fullname" class="mdl-textfield__input" id="fullname">
                 <label for="fullname" class="mdl-textfield__label">Name</label>
             </div>
             <div class="mdl-textfield mdl-js-textfield" style="width:200px;">
-                <input type = "text" name="email" class="mdl-textfield__input" id="email">
+                <input type="text" name="email" class="mdl-textfield__input" id="email">
                 <label for="email" class="mdl-textfield__label">Email</label>
             </div>
             <div class="mdl-textfield mdl-js-textfield" style="width:200px;">
-                <input type = "number" name="phone" class="mdl-textfield__input" id="phone">
+                <input type="number" name="phone" class="mdl-textfield__input" id="phone">
                 <label for="phone" class="mdl-textfield__label">Phone</label>
             </div>
+
+
+
             <div class="mdl-textfield mdl-js-textfield" style="width:200px;">
-                <select class="mdl-textfield__input" name="role" id="role" >
+                <select class="mdl-textfield__input" name="role" id="role">
                     <option value=""></option>
                     <option value="user">User</option>
                     <option value="agent"> Agent </option>
@@ -44,7 +47,7 @@
             </div>
 
 
-             <input type="submit" name="Search" value= "Search" class="mdl-button mdl-js-button">
+            <input type="submit" name="Search" value="Search" class="mdl-button mdl-js-button">
         }
 
     </div>
@@ -57,6 +60,7 @@
                     <th class="mdl-data-table__cell--non-numeric">Phone Number</th>
                     <th class="mdl-data-table__cell--non-numeric">Roles</th>
                     <th class="mdl-data-table__cell--non-numeric">Registered</th>
+                    <th class="mdl-data-table__cell--non-numeric">Allow tel grub</th>
                     <th></th>
                 </tr>
             </thead>
@@ -69,13 +73,23 @@
                         <td class="mdl-data-table__cell--non-numeric">@Html.DisplayFor(x => user.PhoneNumber)</td>
                         <td class="mdl-data-table__cell--non-numeric">@Html.DisplayFor(x => user.Roles)</td>
                         <td class="mdl-data-table__cell--non-numeric">@Html.DisplayFor(x => user.CreatedDate)</td>
+                        <td class="mdl-data-table__cell--non-numeric">@user.AllowTelGrub</td>
                         <td class="mdl-data-table__cell--non-numeric">
-                            @Html.ActionLink("Update", "Update", new { id = user.Id }, new { @class = "mdl-button mdl-js-button" })
-                            @Html.ActionLink("Display", "Display", new { id = user.Id }, new { @class = "mdl-button mdl-js-button" })
-                            @Html.ActionLink("Remove", "Remove", new { id = user.Id }, new { @class = "mdl-button mdl-js-button mdl-color--red" })
+
+                            <a href="@Url.Action("Update", new { id = user.Id })" class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons mdl-color-text--orange-500">update</i>
+                            </a>
+
+                            <a href="@Url.Action("ToggleAllowTelGrub", new { userId = user.Id })" class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons mdl-color-text--green-500">call</i>
+                            </a>
+
+                            <a href="@Url.Action("Remove", new { id = user.Id})" class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons mdl-color-text--red">delete</i>
+                            </a>
                         </td>
                     </tr>
-                    }
+                }
             </tbody>
         </table>
     </div>

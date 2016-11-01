@@ -11,6 +11,7 @@ using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Owin.Security;
 using LuxtourOnline.WebUI;
+using LuxtourOnline.Models.TelGrub;
 
 namespace LuxtourOnline.Models
 {
@@ -38,6 +39,11 @@ namespace LuxtourOnline.Models
         public string RegIp { get; set; }
         public bool Active { get; set; } = true;
         public string RegDate { get; set; } = DateTime.Now.Date.ToShortDateString();
+
+        public bool AllowTelGrub { get; set; } = false;
+
+        [Required]
+        public virtual List<TelGrubModel> TelGrubs { get; set; } = new List<TelGrubModel>();
     }
 
     public class AppUserRole : IdentityRole
@@ -244,6 +250,8 @@ namespace LuxtourOnline.Models
 
         public string NewRole { get; set; }
 
+        public bool AllowTelGrub { get; set; }
+
         public UpdateUserModel()
         {
 
@@ -256,6 +264,7 @@ namespace LuxtourOnline.Models
             Email = user.Email;
             PhoneNumber = user.PhoneNumber;
             Role = role;
+            AllowTelGrub = user.AllowTelGrub;
         }
 
     }
@@ -274,7 +283,7 @@ namespace LuxtourOnline.Models
         public string PhoneNumber { get; set; }
         public string Roles { get; set; }
         public string CreatedDate { get; set; }
-
+        public bool AllowTelGrub { get; set; }
     }
 
     public class CreateUserModel

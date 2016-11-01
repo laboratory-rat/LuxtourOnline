@@ -301,6 +301,30 @@ namespace LuxtourOnline.Controllers
 
         [HttpGet]
         [Authorize(Roles = "manager, admin")]
+        public async Task<ActionResult> ToggleAllowTelGrub(string userId)
+        {
+            try
+            {
+                var user = _context.Users.Where(x => x.Id == userId).FirstOrDefault();
+
+                if (user != null)
+                {
+                    user.AllowTelGrub = !user.AllowTelGrub;
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+            }
+
+            var url = Request.UrlReferrer.ToString();
+
+            return Redirect(url);
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "manager, admin")]
         public async Task<ActionResult> UserList(int page = 1, string email = "", string fullname = "", string role = "", string phone = "")
         {
             if (page < 1)

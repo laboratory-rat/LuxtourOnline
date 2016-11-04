@@ -6,11 +6,13 @@ using System.Linq;
 using System.Web;
 using LuxtourOnline.Utilites;
 using System.Web.Mvc;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LuxtourOnline.Models
 {
     public class SiteImage
     {
+        
         public int Id { get; set; }
 
         public string Title { get; set; } = "";

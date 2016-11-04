@@ -1,0 +1,118 @@
+﻿@model LuxtourOnline.Models.HotelDisplayList
+
+@{
+    string cl = "";
+
+    ViewBag.Title = "Hotels list";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col paging-container">
+        @for (int i = 1; i <= Model.Paging.TotalPages; i++)
+        {
+            cl = "mdl-button mdl-js-button ";
+
+            if (Model.Paging.CurrentPange == i)
+            {
+                cl += " mdl-button--primary mdl-button--raised";
+            }
+
+            <a href="@Url.Action("Index", new { page = i})" class="@cl">@i</a>
+        }
+    </div>
+    <div class="mdl-cell mdl-cell--12-col">
+        <div class="mdl-grid">
+            @foreach (var hotel in Model.Hotels)
+            {
+                <div class="hotel-card mdl-shadow--6dp mdl-cell mdl-cell--3-col">
+                    <div class="picture" style="background-image: url('@hotel.Image.Url')">
+                        <div class="controll">
+                            <a href="@Url.Action("Modify", new { id = hotel.Id})" class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons">edit</i>
+                            </a>
+                            <a href="@Url.Action("Display", new { id = hotel.Id})" class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons">visibility</i>
+                            </a>
+                            <a href="@Url.Action("Apartments", new { id = hotel.Id})" class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons">hotel</i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="data">
+                        <div>
+                            <span>
+                                Title:
+                            </span>
+                            <span>
+                                @hotel.Title
+                            </span>
+                        </div>
+
+                        <div>
+                            <span>
+                                Rate:
+                            </span>
+                            <span>
+                                @hotel.Rate
+                            </span>
+                        </div>
+
+                        <div>
+                            <span>
+                                Is avaliable:
+                            </span>
+                            <span>
+                                @hotel.Avaliable
+                            </span>
+                        </div>
+
+                        <div>
+                            <span>
+                                Created:
+                            </span>
+                            <span>
+                                @hotel.CreatedTime
+                            </span>
+                        </div>
+                        @if (hotel.ModifyBy != null)
+                        {
+                            <div>
+                                <span>
+                                    Modify by:
+                                </span>
+                                <span>
+                                    @hotel.ModifyBy
+                                </span>
+                            </div>
+                        }
+
+                        @if (hotel.ModifyDate != null)
+                        {
+                            <div>
+                                <span>
+                                    Modify date:
+                                </span>
+                                <span>
+                                    @hotel.ModifyDate
+                                </span>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="remove-button">
+                        <a href="@Url.Action("Remove", new { id = hotel.Id})" class="mdl-button ml-js-button mdl-button--icon">
+                            <i class="material-icons mdl-color-text--red">delete</i> 
+                        </a>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section Style
+{
+    <link href="~/Content/Hotel/Index.css" rel="stylesheet" />
+}

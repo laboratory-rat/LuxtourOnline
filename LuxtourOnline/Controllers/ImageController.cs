@@ -14,7 +14,7 @@ namespace LuxtourOnline.Controllers
     public class ImageController : BaseAppController, IDisposable
     {
         // GET: Image
-        public async Task<ActionResult> SaveImageJson()
+        public ActionResult SaveImageJson()
         {
             if (Request.Files == null || Request.Files.Count == 0 || Request.Files[0] == null || Request.Files[0].ContentLength < 1)
                 return null;
@@ -37,7 +37,11 @@ namespace LuxtourOnline.Controllers
             {
                 try
                 {
-                    string imageName = $"{IdGenerator.GenerateId()}.{ext}";
+
+                    string name = IdGenerator.GenerateId();
+                    string imageName = $"{name}.{ext}";
+                    
+
 
                     imagePath = Constants.FullTmpImagePath + imageName;
                     imageUrl = Constants.FullTmpImageUrl + imageName;
@@ -47,25 +51,36 @@ namespace LuxtourOnline.Controllers
 
                     image.SaveAs(imagePath);
 
-                    SiteImage siteImage = new SiteImage()
+                    var i = new ImageEditModel()
                     {
-                        Alt = "",
+                        Extension = ext,
                         IsTmp = true,
-                        Description = "",
-                        Path = imagePath,
-                        Title = "",
-                        Url = imageUrl,
                         Name = imageName,
-                        Extension = ext.ToLower(),
+                        Order = 0,
+                        Path = imagePath,
+                        Url = imageUrl,
                     };
 
-                    _context.SiteImages.Add(siteImage);
-                    await _context.SaveChangesAsync();
+
+                    //SiteImage siteImage = new SiteImage()
+                    //{
+                    //    Alt = "",
+                    //    IsTmp = true,
+                    //    Description = "",
+                    //    Path = imagePath,
+                    //    Title = "",
+                    //    Url = imageUrl,
+                    //    Name = imageName,
+                    //    Extension = ext.ToLower(),
+                    //};
+
+                    //_context.SiteImages.Add(siteImage);
+                    //await _context.SaveChangesAsync();
 
                     output = new
                     {
                         Result = "success",
-                        Data = new ImageEditModel(siteImage),
+                        Data = i,
                     };
 
                 }
@@ -116,6 +131,14 @@ namespace LuxtourOnline.Controllers
                 return null;
             }
 
+        }
+
+        [HttpPost]
+        public ActionResult RemoveImageJson(ImageEditModel image)
+        {
+            ImageMaster.RemoveImage(image);
+
+            return Json("success", JsonRequestBehavior.AllowGet);
         }
 
 

@@ -58,9 +58,9 @@
                 <a href="@Url.Action("EditTourNew", new { id = tour.Id})" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-color--accent">
                     <i class="material-icons">edit</i>
                 </a>
-                <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-color--accent">
+                <a href="@Url.Action("DisplayTour", new {id = tour.Id, language = ViewBag.Lang})" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-color--accent">
                     <i class="material-icons">visibility</i>
-                </button>
+                </a>
             </div>
             <div class="mdl-card__actions mdl-card--border">
                 @Html.ActionLink("Remove", "RemoveTour", new { id = tour.Id }, new { @class= "mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--colored mdl-color--red mdl-color-text--white" })

@@ -22,11 +22,11 @@ namespace LuxtourOnline.Models.Products
         public OrderStatus Status { get; set; } = OrderStatus.Сonsideration;
 
         [Required]
-        public virtual Tour Tour { get; set; }
+        public virtual Tour Tour { get; set; } = null;
         [Required]
-        public virtual Hotel Hotel { get; set; }
+        public virtual Hotel Hotel { get; set; } = null;
         [Required]
-        public virtual Apartment Apartment { get; set; }
+        public virtual Apartment Apartment { get; set; } = null;
 
         public decimal Cost
         {

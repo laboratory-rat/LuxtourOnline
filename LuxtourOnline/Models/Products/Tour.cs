@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -27,9 +28,9 @@ namespace LuxtourOnline.Models
         public int? Adults { get; set; } = null;
         public int? Child { get; set; } = null;
 
-        public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<Tag> Tags { get; set; }
-        public virtual ICollection<TourDescription> Descritions { get; set; }
+        public virtual List<Review> Reviews { get; set; }
+        public virtual List<Tag> Tags { get; set; }
+        public virtual List<TourDescription> Descritions { get; set; }
 
         [Required]
         [Display(Name = "Created at ")]
@@ -51,6 +52,7 @@ namespace LuxtourOnline.Models
 
         [Required]
         public virtual List<Order> Orders { get; set; } = new List<Order>();
+
 
         public Tour()
         {
@@ -122,6 +124,7 @@ namespace LuxtourOnline.Models
 
         }
 
+
     }
 
     public class TourDescription
@@ -143,6 +146,7 @@ namespace LuxtourOnline.Models
         [AllowHtml]
         public string Description { get; set; }
 
+        [Required]
         public virtual Tour ConnectedTour { get; set; }
 
         public TourDescription(Tour tour)
@@ -277,6 +281,75 @@ namespace LuxtourOnline.Models
 
             Name = image.Name;
             Extension = image.Extension;
+        }
+    }
+
+    public class TourDisplayModel
+    {
+        public int Id { get; set; }
+        public decimal Price { get; set; }
+        public int Adult { get; set; } = 0;
+        public int Child { get; set; } = 0;
+        public int Days { get; set; } = 0;
+
+        public bool Enable { get; set; }
+        public bool TravelAndFood { get; set; }
+
+        public ImageEditModel Image { get; set; } = null;
+
+        public DateTime CreatedTime { get; set; }
+        public AppUser ModifyBy { get; set; }
+
+        public TourModifyDescriptionModel Description { get; set; } = null;
+
+        public string Lang
+        {
+            get
+            {
+                if (Description == null)
+                    return Constants.DefaultLanguage;
+
+                return Description.Lang;
+            }
+        }
+
+        public TourDisplayModel()
+        {
+
+        }
+
+        public TourDisplayModel(Tour tour, string language) : this()
+        {
+            if (!Constants.AvaliableLangs.Contains(language))
+                language = Constants.DefaultLanguage;
+
+            Id = tour.Id;
+            Price = tour.Price;
+
+            if (tour.Adults != null)
+                Adult = (int)tour.Adults;
+
+            if (tour.Child != null)
+                Child = (int)tour.Child;
+
+            if (tour.DaysCount != null)
+                Days = (int)tour.DaysCount;
+
+            Enable = tour.Enable;
+            TravelAndFood = tour.TravelAndFood;
+
+            CreatedTime = tour.CreateTime;
+            ModifyBy = tour.ModifiedBy;
+
+            var desc = tour.Descritions.Where(x => x.Lang == language).FirstOrDefault();
+
+            if (desc != null)
+                Description = new TourModifyDescriptionModel (desc);
+
+            if(tour.Image != null)
+            {
+                Image = new ImageEditModel(tour.Image);
+            }
         }
     }
 }

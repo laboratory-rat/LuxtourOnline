@@ -1,9 +1,8 @@
 ﻿@model LuxtourOnline.Models.TourDisplayModel
 
 @{
-    ViewBag.Title = "RemoveTour";
+    ViewBag.Title = "DisplayTour";
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
-
     string url;
     string title;
     string description;
@@ -29,11 +28,10 @@
         description = Model.Description.Description;
     }
 }
-
 <div class="mdl-shadow--2dp mdl-grid mdl-grid--no-spacing container">
     <div class="mdl-cell mdl-cell--8-col padding--16">
-        <div class="mdl-typography--headline mdl-color-text--red">
-            Видалати @title (@ViewBag.language language)
+        <div class="mdl-typography--headline mdl-color-text--primary">
+            Опис @title (@ViewBag.language language)
         </div>
         <br />
         <div>
@@ -91,9 +89,7 @@
     </div>
 
     <div class="mdl-cell mdl-cell--12-col padding--16 button-container ">
-        <a href="@Url.Action("RemoveTourConfirm", new { id = Model.Id})" class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="material-icons mdl-color-text--red">delete</i>
-        </a>
+
         <a href="@Url.Action("TourList")" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">
             Return to list
         </a>

@@ -1,0 +1,448 @@
+﻿@model LuxtourOnline.Models.HotelDisplayModel
+
+@{
+    ViewBag.Title = "Modify";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div ng-app="HotelApp" ng-controller="HotelCtrl" ng-init="Init(@Newtonsoft.Json.JsonConvert.SerializeObject(Model))" style="padding-top: 60px;">
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col">
+            <div>
+                <div class="mdl-textfield mdl-js-textfield inline">
+                    <strong>Hotel title:</strong>
+                    <input type="text" class="mdl-textfield__input" ng-model="Data.Title" id="HotelTitle" />
+                    <label for="HotelTitle" class="mdl-textfield__label"></label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield inline">
+                    <strong>Hotel Rate (1 - 5):</strong>
+                    <input type="number" min="1" max="5" class="mdl-textfield__input" ng-model="Data.Rate" id="HotelRate" />
+                    <label for="HotelRate" class="mdl-textfield__label"></label>
+                </div>
+            </div>
+            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="Avaliable">
+                <input type="checkbox" id="Avaliable" class="mdl-checkbox__input" ng-model="Data.Avaliable" ng-checked="Data.Avaliable">
+                <span class="mdl-checkbox__label">Is avaliable (for customers)</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- Images -->
+
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col" id="DropBox"
+             style=""
+             ngf-drop="UploadImages($files)"
+             ngf-drag-over-class="'dragover'" ngf-multiple="true"
+             ngf-pattern="'image/*'">
+            <div class="mdl-typography--body-2">
+                Drop images here
+            </div>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col">
+            <div class="image-container mdl-shadow--2dp" ng-repeat="image in Data.Images" ng-animate="'animate'">
+                <img src='@Url.Content("{{image.Url}}")' />
+                <div class="button-block">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-color-text--white" ng-click="MoveImage(image, true)">
+                        Up
+                    </button>
+
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-color-text--white" ng-click="MoveImage(image, false)">
+                        Down
+                    </button>
+
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-color--red-500 mdl-color-text--white" ng-click="RemoveImage(image)">
+                        Remove
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main cards -->
+
+    <div class="mdl-grid" ng-repeat="Description in Data.Descriptions">
+        <div class="mdl-cell mdl-cell--12-col">
+            <div class="mdl-typography--headline mdl-typography--text-center">Language: {{Description.Language}}</div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                <textarea class="mdl-textfield__input" id="Description{{Description.Id}}" ng-model="Description.Description"></textarea>
+                <label class="mdl-textfield__label" for="Description{{Description.Id}}">Description</label>
+            </div>
+        </div>
+
+        <div class="mdl-cell mdl-cell--12-col">
+            <div class="features-title">
+                <span class="mdl-typography--title">Features:</span>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary" ng-click="AddFeature(Description)">
+                    Add
+                </button>
+            </div>
+        </div>
+
+        <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col" ng-repeat="Feature in Description.Features">
+
+            <div class="card-title">
+                <div ng-click="Feature.Collapse = !Feature.Collapse" class="mdl-typography--body-2">
+                    Feature:
+                    <span>{{Feature.Title == '' ? Feature.Id + 1 : Feature.Title}}</span>
+                    <i class="material-icons">{{Feature.Ico}}</i>
+                </div>
+                <div>
+                    <button class="mdl-button mdl-js-button" ng-click="MoveElement(Description.Features, Feature, true)">Up</button>
+                    <button class="mdl-button" ng-click="MoveElement(Description.Features, Feature, false)">Down</button>
+                </div>
+            </div>
+
+            <div ng-class="{'hidden': Feature.Collapse === true}">
+
+                <div class="mdl-textfield mdl-js-textfield inline">
+                    <input class="mdl-textfield__input" id="Ico{{Description.Language}}-{{Feature.Id}}-{{Description.Id}}" ng-model="Feature.Ico">
+                    <label class="mdl-textfield__label" for="Ico{{Description.Language}}-{{Feature.Id}}-{{Description.Id}}">Ico</label>
+                </div>
+
+                <div class="mdl-textfield mdl-js-textfield inline">
+                    <input class="mdl-textfield__input" id="Title{{Description.Language}}-{{Feature.Id}}-{{Description.Id}}" ng-model="Feature.Title">
+                    <label class="mdl-textfield__label" for="Title{{Description.Language}}-{{Feature.Id}}-{{Description.Id}}">Title</label>
+                </div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                    <textarea class="mdl-textfield__input" id="Description{{Description.Language}}-{{Feature.Id}}-{{Description.Id}}" ng-model="Feature.Description"></textarea>
+                    <label class="mdl-textfield__label" for="Description{{Description.Language}}-{{Feature.Id}}-{{Description.Id}}">Description</label>
+                </div>
+
+
+
+                <!-- Free features -->
+
+                <div class="mdl-typography--text-center mdl-typography--title features-headline">Free features</div>
+
+                <table class="mdl-data-table" style="table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric" style="width: 5%;"></th>
+                            <th class="mdl-data-table__cell--non-numeric" style="width: 30%;">Title</th>
+                            <th class="mdl-data-table__cell--non-numeric" style="width: 30%;">Ico</th>
+                            <th class="mdl-data-table__cell--non-numeric" style="width: 35%;">
+                                <button class="mdl-button mdl-js-button mdl-button--primary" ng-click="AddElement(Feature.Free)">
+                                    Add
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ff in Feature.Free">
+                            <td class="mdl-data-table__cell--non-numeric" style="width: 5%;">
+                                <i class="material-icons">{{ff.Ico}}</i>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric" style="width: 30%;">
+                                <div class="mdl-textfield mdl-js-textfield ">
+                                    <input class="mdl-textfield__input" id="Title{{ff.Id}}-{{Feature.Id}}" type="text" ng-model="ff.Title" />
+                                    <label for="Title{{ff.Id}}-{{Feature.Id}}" class="mdl-textfield__label">Title</label>
+                                </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric" style="width: 30%;">
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input class="mdl-textfield__input" id="Ico{{ff.Id}}-{{Feature.Id}}" type="text" ng-model="ff.Ico" />
+                                    <label for="Ico{{ff.Id}}-{{Feature.Id}}" class="mdl-textfield__label">Ico</label>
+                                </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric" style="width: 35%;">
+                                <button class="mdl-button mdl-js-button" ng-click="MoveElement(Feature.Free, ff, true)">Up</button>
+                                <button class="mdl-button mdl-js-button" ng-click="MoveElement(Feature.Free, ff, false)">Down</button>
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-color--red-500 mdl-color-text--white" ng-click="RemoveElement(Feature.Free, ff)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Paid Features -->
+
+                <div class="mdl-typography--text-center mdl-typography--title features-headline">Paid features</div>
+
+                <table class="mdl-data-table" style="table-layout:fixed;">
+                    <thead>
+                        <tr>
+                            <th class="mdl-data-table__cell--non-numeric" style="width: 5%;"></th>
+                            <th class="mdl-data-table__cell--non-numeric" style="width: 30%;">Title</th>
+                            <th class="mdl-data-table__cell--non-numeric" style="width: 30%;">Ico</th>
+                            <th class="mdl-data-table__cell--non-numeric" style="width: 35%;">
+                                <button class="mdl-button mdl-js-button mdl-button--primary" ng-click="AddElement(Feature.Paid)">
+                                    Add
+                                </button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="ff in Feature.Paid">
+                            <td class="mdl-data-table__cell--non-numeric" style="width: 5%;">
+                                <i class="material-icons">{{ff.Ico}}</i>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric" style="width: 30%;">
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input class="mdl-textfield__input" id="TitlePaid{{ff.Id}}-{{Feature.Id}}" type="text" ng-model="ff.Title" />
+                                    <label for="TitlePaid{{ff.Id}}-{{Feature.Id}}" class="mdl-textfield__label">Title</label>
+                                </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric" style="width: 30%;">
+                                <div class="mdl-textfield mdl-js-textfield">
+                                    <input class="mdl-textfield__input" id="IcoPaid{{ff.Id}}-{{Feature.Id}}" type="text" ng-model="ff.Ico" />
+                                    <label for="IcoPaid{{ff.Id}}-{{Feature.Id}}" class="mdl-textfield__label">Ico</label>
+                                </div>
+                            </td>
+                            <td class="mdl-data-table__cell--non-numeric" style="width: 35%;">
+                                <button class="mdl-button mdl-js-button" ng-click="MoveElement(Feature.Paid, ff, true)">Up</button>
+                                <button class="mdl-button mdl-js-button" ng-click="MoveElement(Feature.Paid, ff, false)">Down</button>
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-color--red-500 mdl-color-text--white" ng-click="RemoveElement(Feature.Paid, ff)">Remove</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-color--red-500 mdl-color-text--white RemoveButton" ng-click="RemoveFeature(Description, Feature)">Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-grid">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-color-text--white save-button" ng-click="UploadData()">
+            Save
+        </button>
+    </div>
+    <div class="mdl-grid">
+        {{Data}}
+    </div>
+</div>
+
+@section Style
+{
+    <link type="text/css" rel="stylesheet" href="~/Content/Styles/EditHotel.css" />
+}
+
+@section Scripts
+
+{
+    <script src="~/Scripts/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+    <script src="~/Scripts/ng-file-upload.min.js"></script>
+
+    <script>
+        window.onbeforeunload = function (evt) {
+            var message = "Document is not saved. You will lost the changes if you leave the page.";
+            if (typeof evt == "undefined") {
+                evt = window.event;
+            }
+            if (evt) {
+                evt.returnValue = message;
+            }
+            return message;
+        };
+
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        };
+
+
+        var app = angular.module("HotelApp", ['ngFileUpload', 'ngAnimate']);
+
+        app.controller('HotelCtrl', ['$scope', '$http', 'Upload', '$window', function ($scope, $http, Upload, $window) {
+            $scope.HotelId = '';
+            $scope.Data = null;
+
+            
+
+            $scope.MoveElement = function (array, element, isUp) {
+                var index = array.indexOf(element);
+
+                if (index > -1) {
+                    if (isUp && index > 0) {
+                        array[index].Order -= 1;
+                        array[index - 1].Order += 1;
+
+                        array.move(index, index - 1);
+                    }
+                    else if (index < array.length - 1) {
+                        array[index].Order += 1;
+                        array[index + 1].Order -= 1;
+
+                        array.move(index, index + 1);
+                    }
+                }
+            }
+
+            $scope.MoveImage = function (image, isUp) {
+                var index = $scope.Data.Images.indexOf(image);
+
+                if (index > -1) {
+                    if (isUp && index > 0) {
+                        $scope.Data.Images[index].Order -= 1;
+                        $scope.Data.Images[index - 1].Order += 1;
+
+                        $scope.Data.Images.move(index, index - 1);
+                    }
+                    else if (index < $scope.Data.Images.length - 1) {
+                        $scope.Data.Images[index].Order += 1;
+                        $scope.Data.Images[index + 1].Order -= 1;
+
+                        $scope.Data.Images.move(index, index + 1);
+                    }
+                }
+            }
+
+            $scope.RemoveImage = function (image) {
+                $http({
+                    url: '/Image/RemoveImageJson',
+                    method: "POST",
+                    params: {
+                        image: image,
+                    }
+                })
+                .success(function (resp) {
+
+                    if (resp === 'success') {
+                        var index = $scope.Data.Images.indexOf(image);
+
+                        if (index + 1 < $scope.Data.Images.length) {
+                            for (var i = index + 1; i < $scope.Data.Images.length; i++) {
+                                $scope.Data.Images[i].Order -= 1;
+                            }
+                        }
+
+                        $scope.Data.Images.splice(index, 1);
+                    }
+                    else {
+                        alert('Unknown error');
+                    }
+                });
+            };
+
+            $scope.UploadImages = function (files) {
+                $scope.loadingImages = true;
+
+
+                if (files && files.length) {
+                    for (var i = 0; i < files.length; i++) {
+
+                        var file = files[i];
+
+                        Upload.upload({
+                            url: '/Image/SaveImageJson',
+                            data:
+                                {
+                                    file: file,
+                                }
+                        })
+                        .then(function (resp) {
+                            var r = resp.data;
+
+                            if (r.Result === "success") {
+                                var image = r.Data;
+                                image.Order = $scope.GetId($scope.Data.Images);
+                                $scope.Data.Images.push(image);
+                            }
+                            else if (r.Result === "error") {
+                                alert(r.Data);
+                            }
+                            else {
+                                alert("Unknow error.");
+                            }
+                        },
+                        function (resp) {
+                            alert("Error. Can't load image");
+                        }, function (evt) {
+
+                        });
+                    }
+
+                }
+
+                $scope.loadingImages = false;
+
+            };
+
+            $scope.RemoveElement = function (elements, element) {
+                var index = elements.indexOf(element);
+
+                elements.splice(index, 1);
+            };
+
+            $scope.RemoveFeature = function (description, feature) {
+                var index = description.Features.indexOf(feature);
+                description.Features.splice(index, 1);
+            };
+
+            $scope.AddElement = function (elements) {
+                var index = $scope.GetId(elements);
+
+                var element =
+                    {
+                        Id: index,
+                        Title: '',
+                        Ico: '',
+                        Order: index,
+                    };
+
+                elements.push(element);
+            };
+
+            $scope.AddFeature = function (description) {
+                var index = $scope.GetId(description.Features);
+                var feature =
+                    {
+                        Id: index,
+                        Title: '',
+                        Description: '',
+                        Collapse: true,
+                        Order: index,
+                        Ico: '',
+                        Free: [{ Id: 0, Title: '', Ico: '', Order: 0 }, ],
+                        Paid: [{ Id: 0, Title: '', Ico: '', Order: 0 }, ],
+                    };
+
+                description.Features.push(feature);
+            };
+
+            $scope.UploadData = function () {
+                $http.post('/Hotel/SaveChangesAsync/', $scope.Data)
+                .success(function (resp) {
+                    if(resp === 'success')
+                    {
+                        window.onbeforeunload = null;
+                        $window.location.href = "/Hotel/Index";
+                    }
+                    else if (resp === 'error')
+                    {
+                        alert(resp.Data);
+                    }
+                    else
+                    {
+                        alert('Unknow error');
+                    }
+                })
+                .error(function (resp) {
+                    alert(resp);
+                });
+            };
+
+            $scope.Init = function(data)
+            {
+                $scope.Data = data;
+            }
+
+            $scope.GetId = function (array) {
+                return array.length;
+            }
+
+        }])
+    </script>
+    <script src="~/Scripts/Home/MdlDomUpdater.js"></script>
+}
+
+
+
+

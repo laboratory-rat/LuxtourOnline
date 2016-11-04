@@ -195,47 +195,88 @@ namespace LuxtourOnline.Controllers
             return RedirectToAction("TourList");
         }
 
-        public ActionResult RemoveTour(int id, string lang = "")
+        [HttpGet]
+        public ActionResult RemoveTour(int id, string language = "")
         {
-            RemoveTourModel model;
 
-            if (string.IsNullOrEmpty(lang) || !AppConsts.Langs.Contains(lang))
-                lang = _lang;
+            Tour tour = _context.Tours.Where(x => x.Id == id).FirstOrDefault();
 
-            try
+            if (tour != null)
             {
-                using (var repo = _repository)
-                {
-                    model = repo.GetRemoveTourModel(id, lang);
-                }
-            }
-            catch(Exception ex)
-            {
-                _logger.Error(ex);
-                return RedirectToAction("TourList");
-            }
+                if (string.IsNullOrEmpty(language))
+                    language = _lang;
 
-            return View(model);
+                TourDisplayModel model = new TourDisplayModel(tour, language);
+
+                ViewBag.language = language;
+
+                return View(model);
+            }
+            else
+                return new HttpStatusCodeResult(HttpStatusCode.NotFound);
         }
 
-        [HttpPost]
-        public async Task<ActionResult> RemoveTour(RemoveTourModel model)
+        [HttpGet]
+        public async Task<ActionResult> RemoveTourConfirm(int id)
         {
             try
             {
-                using (var repo = _repository)
+                Tour tour = _context.Tours.Where(x => x.Id == id && !x.Deleted).FirstOrDefault();
+
+                if (tour == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+                if(tour.Orders != null && tour.Orders.Count > 0)
                 {
-                    repo.RemoveTour(model);
-                    await repo.SaveAsync();
+                    tour.Enable = false;
+                    tour.Deleted = true;
                 }
+                else
+                {
+                    if (tour.Image != null)
+                    {
+                        ImageMaster.RemoveImage(tour.Image);
+
+                        _context.SiteImages.Remove(tour.Image);
+                    }
+
+                    _context.Tours.Remove(tour);
+                }
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("TourList");
             }
             catch(Exception ex)
             {
                 _logger.Error(ex);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
+        }
 
-            return RedirectToAction("TourList");
+        public ActionResult DisplayTour(int id, string language = "")
+        {
+            if (string.IsNullOrEmpty(language))
+            {
+                language = Constants.DefaultLanguage;
+            }
+
+            try
+            {
+                Tour tour;
+
+                if ((tour = _context.Tours.Where(x => x.Id == id && !x.Deleted).FirstOrDefault()) == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+
+                TourDisplayModel model = new TourDisplayModel(tour, language);
+                ViewBag.language = language;
+
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
         }
 
         #endregion

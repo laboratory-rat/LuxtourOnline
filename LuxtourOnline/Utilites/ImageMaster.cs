@@ -43,5 +43,11 @@ namespace LuxtourOnline.Utilites
                 File.Delete(image.Path);
             }
         }
+
+        public static void RemoveImage(ImageEditModel image)
+        {
+            if (image != null && File.Exists(image.Path))
+                File.Delete(image.Path);
+        }
     }
 }

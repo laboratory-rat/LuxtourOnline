@@ -220,6 +220,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Hotel\Index.css" />
+    <Content Include="Content\Manager\TourRemove.css" />
     <Content Include="Content\Resources\logo-email-small.png" />
     <Content Include="bower_components\angular-carousel\dist\angular-carousel.css" />
     <Content Include="bower_components\angular-carousel\dist\angular-carousel.js" />
@@ -709,6 +711,7 @@
     <Compile Include="Controllers\Api\TourShortController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HotelController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\SubscribeController.cs" />
@@ -779,6 +782,22 @@
     <Compile Include="Migrations\201611031625489_top_tour_3.cs" />
     <Compile Include="Migrations\201611031625489_top_tour_3.Designer.cs">
       <DependentUpon>201611031625489_top_tour_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611041144019_image_problem.cs" />
+    <Compile Include="Migrations\201611041144019_image_problem.Designer.cs">
+      <DependentUpon>201611041144019_image_problem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611041215379_image_problem2.cs" />
+    <Compile Include="Migrations\201611041215379_image_problem2.Designer.cs">
+      <DependentUpon>201611041215379_image_problem2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611041222325_image_problem3.cs" />
+    <Compile Include="Migrations\201611041222325_image_problem3.Designer.cs">
+      <DependentUpon>201611041222325_image_problem3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611041242492_image_problem4.cs" />
+    <Compile Include="Migrations\201611041242492_image_problem4.Designer.cs">
+      <DependentUpon>201611041242492_image_problem4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
@@ -890,6 +909,9 @@
     <Content Include="Views\TelGrub\Take.cshtml" />
     <Content Include="Views\TelGrub\Take_failed.cshtml" />
     <Content Include="Views\Manager\EditTourNew.cshtml" />
+    <Content Include="Views\Manager\DisplayTour.cshtml" />
+    <Content Include="Views\Hotel\Modify.cshtml" />
+    <Content Include="Views\Hotel\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -957,6 +979,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611031625489_top_tour_3.resx">
       <DependentUpon>201611031625489_top_tour_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611041144019_image_problem.resx">
+      <DependentUpon>201611041144019_image_problem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611041215379_image_problem2.resx">
+      <DependentUpon>201611041215379_image_problem2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611041222325_image_problem3.resx">
+      <DependentUpon>201611041222325_image_problem3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611041242492_image_problem4.resx">
+      <DependentUpon>201611041242492_image_problem4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

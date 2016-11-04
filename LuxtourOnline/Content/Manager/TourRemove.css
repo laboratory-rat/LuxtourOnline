@@ -1,0 +1,39 @@
+﻿.container
+{
+    width: 800px;
+    margin: 0 auto;
+
+    background-color: white;
+
+    margin-top: 16px;
+}
+
+.padding--16
+{
+    padding: 16px;
+}
+
+.container > .button-container
+{
+    border-top: 1px solid rgba(0,0,0,0.17);
+}
+
+
+
+.container > .button-container > .mdl-button--primary
+{
+    float: right;
+    display: block;
+}
+
+.button-container-lang
+{
+
+    position: relative;
+    margin-top: 48px;
+}
+
+.mdl-cell > div > span:first-child
+{
+    font-weight:700;
+}

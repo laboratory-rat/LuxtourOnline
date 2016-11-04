@@ -44,8 +44,6 @@
 
 .mdl-card .app-card__hide-element
 {
-
-    
     opacity: 0;
 
     -moz-transition: all 500ms ease-out 10ms;
@@ -57,6 +55,18 @@
 .mdl-card:hover .app-card__hide-element
 {
     opacity: 1;
+}
+
+/*#endregion */
+
+
+/*#region Paging */
+
+.paging-container > a
+{
+    float: right;
+
+    min-width: 10px;
 }
 
 /*#endregion */

@@ -1,0 +1,59 @@
+﻿#DropBox, #image-display
+{
+    height: 400px;
+}
+
+#DropBox
+{
+    background-color: white;
+    color: rgba(0,0,0,0.87);
+    transition: all ease-in 250ms;
+}
+
+#DropBox.dragover
+{
+    background-color: rgb(255, 216, 0);
+    color: white;
+}
+
+#DropBox > div
+{
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 180px;
+
+    
+}
+
+#image-display
+{
+    background-position: center center;
+    background-size: cover;
+}
+
+.container
+{
+    width: 800px;
+    margin: 0 auto;
+}
+
+.full-width
+{
+    width: 100%;
+}
+
+.app-card
+{
+    background-color: white;
+}
+
+button
+{
+    display: block !important;
+    width: 40%;
+
+    margin: 0 auto !important;
+
+    margin-top: 24px !important;
+
+}

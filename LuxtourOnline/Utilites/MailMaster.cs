@@ -81,7 +81,7 @@ namespace LuxtourOnline.Utilites
             if (!string.IsNullOrEmpty(CCAddr))
                 mail.CC.Add(new MailAddress(CCAddr));
 
-            await new Task(() => client.SendAsync(mail, null));
+            await client.SendMailAsync(mail);
         }
 
 

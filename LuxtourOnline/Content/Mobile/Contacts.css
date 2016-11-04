@@ -1,2 +1,61 @@
-﻿body {
+﻿.element
+{
+    width: 80%;
+    margin: 0 auto;
+
+    text-align: center;
+
+    color: rgba(0,0,0,0.87);
+}
+
+.first-block
+{
+    margin-top: 5%;
+
+}
+
+.social-container
+{
+    width: 150px;
+    margin-top: 8px;
+    display: inline-block;
+    margin-left: Calc(50% - 75px);
+   
+}
+
+.social-container > a {
+    margin: 0 8px;
+    width: 32px;
+    display: block;
+    float: left;
+}
+
+.social-container:after
+{
+    clear: both;
+    float: none;
+    content:"";
+}
+
+.social-container > a > img
+{
+    width: 100%;
+}
+
+.second-block
+{
+    margin-top: 5%;
+}
+
+.partners, .footer
+{
+    margin-top: 7%;
+}
+
+.partners > a, .footer > a
+{
+    display: block;
+    line-height: 25px;
+    text-decoration: none;
+    font-size: 16px;
 }

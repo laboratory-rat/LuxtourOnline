@@ -1,0 +1,44 @@
+﻿@model LuxtourOnline.Models.TelGrub.TelGrubModelDisplay
+
+@{
+    ViewBag.Title = "Take";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col mdl-typography--text-center">Замовлення ваше</div>
+    <div class="mdl-cell mdl-cell--6-col">
+        Ім'я: @Model.FullName <br>
+        Телефон: @Model.TelNumber <br>
+        Замовлення прийшло @Model.MinutesFrom хвилин тому<br>
+        @if (Model.Location != null)
+        {
+            <div>Додоткова інформація</div>
+            <div>
+                Country code: @Model.Location.CountryCode <br>
+                Country name: @Model.Location.CountryName <br>
+                Region code: @Model.Location.RegionCode <br>
+                Region name: @Model.Location.RegionName <br>
+                City: @Model.Location.City <br>
+                Time zone: @Model.Location.TimeZone <br>
+            </div>
+        }
+    </div>
+    <div class="mdl-cell mdl-cell--6-col">
+        <form method="get" action="@Url.Action("TakeResult")">
+            @Html.HiddenFor(x => x.Id)
+            <label class="mdl-checkbox mdl-js-checkbox" for="success">
+                <input type="checkbox" id="success" class="mdl-checkbox__input" name="Success" checked>
+                <span class="mdl-checkbox__label">Чи вдалося додзвонитися?</span>
+            </label>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--full-width">
+                <textarea id="comment" name="comment" class="mdl-textfield__input"></textarea>
+                <label for="comment" class="mdl-textfield__label">Коментар про користувача</label>
+            </div>
+            <br />
+            <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary" value="Відправити" />
+        </form>
+    </div>
+
+</div>
+

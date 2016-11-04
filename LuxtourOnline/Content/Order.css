@@ -219,11 +219,13 @@
 {
     background-color: #f5f5f5;
     border-radius: 9px;
-    flex: none;
     display: block;
-    float: left;
-    width: Calc(33% - 24px);
-    margin: 8px 12px 8px 12px;
+}
+
+.hotel-card::after{
+    clear: both;
+    content: "";
+    float: none;
 }
 
 .hotel-card i

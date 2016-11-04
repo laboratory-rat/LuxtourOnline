@@ -220,6 +220,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Resources\logo-email-small.png" />
     <Content Include="bower_components\angular-carousel\dist\angular-carousel.css" />
     <Content Include="bower_components\angular-carousel\dist\angular-carousel.js" />
     <Content Include="bower_components\angular-carousel\dist\angular-carousel.min.css" />
@@ -247,6 +248,7 @@
     <Content Include="bower_components\angular\angular.min.js" />
     <Content Include="bower_components\angular\index.js" />
     <Content Include="Content\angular-carousel.css" />
+    <Content Include="Content\Contacts.css" />
     <Content Include="Content\Home.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\icons-png\action-black.png" />
@@ -465,6 +467,7 @@
     <Content Include="Content\jquery.mobile.theme-1.4.5.min.css" />
     <Content Include="Content\Landing.css" />
     <Content Include="Content\List.css" />
+    <Content Include="Content\Manager\TourModify.css" />
     <Content Include="Content\mdl-v1.1.2\icon.css" />
     <Content Include="Content\mdl-v1.1.2\material.amber-light_blue.min.css" />
     <Content Include="Content\Mobile\Contacts.css" />
@@ -504,6 +507,7 @@
     <Content Include="Content\Resources\back_9.png" />
     <Content Include="Content\Resources\coffee.png" />
     <Content Include="Content\Resources\default_tour.jpg" />
+    <Content Include="Content\Resources\fb_logo.png" />
     <Content Include="Content\Resources\footer.png" />
     <Content Include="Content\Resources\gift.png" />
     <Content Include="Content\Resources\grid-1-1.png" />
@@ -518,6 +522,8 @@
     <Content Include="Content\Resources\grid-2-4.png" />
     <Content Include="Content\Resources\head.png" />
     <Content Include="Content\Resources\in_out.png" />
+    <Content Include="Content\Resources\logo-email-small.jpg" />
+    <Content Include="Content\Resources\logo-email.jpg" />
     <Content Include="Content\Resources\logo.png" />
     <Content Include="Content\Resources\land_card.png" />
     <Content Include="Content\Resources\map.png" />
@@ -545,6 +551,8 @@
     <Content Include="Content\Resources\stars.png" />
     <Content Include="Content\Resources\tickets.png" />
     <Content Include="Content\Resources\TmpHotel.jpg" />
+    <Content Include="Content\Resources\tw_logo.png" />
+    <Content Include="Content\Resources\vk_logo.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Site.Mobile.css" />
     <Content Include="Content\Styles\EditHotel.css" />
@@ -665,6 +673,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Manager\ModifyTour.js" />
     <Content Include="Scripts\Mobile\Home\ContactsApp.js" />
     <Content Include="Scripts\Mobile\Home\NewsApp.js" />
     <Content Include="Scripts\Mobile\Home\OrderApp.js" />
@@ -700,6 +709,7 @@
     <Compile Include="Controllers\Api\TourShortController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\SubscribeController.cs" />
     <Compile Include="Controllers\TelGrubController.cs" />
@@ -746,6 +756,30 @@
     <Compile Include="Migrations\201611012052121_operator-100.Designer.cs">
       <DependentUpon>201611012052121_operator-100.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611021229079_debug.cs" />
+    <Compile Include="Migrations\201611021229079_debug.Designer.cs">
+      <DependentUpon>201611021229079_debug.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611021448417_grub_status.cs" />
+    <Compile Include="Migrations\201611021448417_grub_status.Designer.cs">
+      <DependentUpon>201611021448417_grub_status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611031212492_newTours.cs" />
+    <Compile Include="Migrations\201611031212492_newTours.Designer.cs">
+      <DependentUpon>201611031212492_newTours.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611031549459_test-11.cs" />
+    <Compile Include="Migrations\201611031549459_test-11.Designer.cs">
+      <DependentUpon>201611031549459_test-11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611031558254_top_tour_2.cs" />
+    <Compile Include="Migrations\201611031558254_top_tour_2.Designer.cs">
+      <DependentUpon>201611031558254_top_tour_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611031625489_top_tour_3.cs" />
+    <Compile Include="Migrations\201611031625489_top_tour_3.Designer.cs">
+      <DependentUpon>201611031625489_top_tour_3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
     <Compile Include="Models\Api\Tours.cs" />
@@ -783,7 +817,9 @@
     <Compile Include="Utilites\Constants.cs" />
     <Compile Include="Utilites\HandleErrorExtension.cs" />
     <Compile Include="Utilites\IdGenerator.cs" />
+    <Compile Include="Utilites\ImageMaster.cs" />
     <Compile Include="Utilites\MailMaster.cs" />
+    <Compile Include="Utilites\PositionLocator.cs" />
     <Compile Include="WebUI\PagingHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -850,6 +886,10 @@
     <Content Include="Views\Home\Contacts.Mobile.cshtml" />
     <Content Include="Views\Home\News.Mobile.cshtml" />
     <Content Include="Views\TelGrub\OperatorsList.cshtml" />
+    <Content Include="Views\Home\Contacts.cshtml" />
+    <Content Include="Views\TelGrub\Take.cshtml" />
+    <Content Include="Views\TelGrub\Take_failed.cshtml" />
+    <Content Include="Views\Manager\EditTourNew.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -859,10 +899,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Images\" />
+    <Folder Include="bin\" />
     <Folder Include="Content\TmpImages\" />
     <Folder Include="Logs\" />
     <Folder Include="Models\User\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\Image\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -897,6 +939,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611012052121_operator-100.resx">
       <DependentUpon>201611012052121_operator-100.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611021229079_debug.resx">
+      <DependentUpon>201611021229079_debug.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611021448417_grub_status.resx">
+      <DependentUpon>201611021448417_grub_status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611031212492_newTours.resx">
+      <DependentUpon>201611031212492_newTours.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611031549459_test-11.resx">
+      <DependentUpon>201611031549459_test-11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611031558254_top_tour_2.resx">
+      <DependentUpon>201611031558254_top_tour_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611031625489_top_tour_3.resx">
+      <DependentUpon>201611031625489_top_tour_3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

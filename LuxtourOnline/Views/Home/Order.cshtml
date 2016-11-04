@@ -158,8 +158,8 @@
             <!-- <div rn-carousel-indicators ng-if="ActiveHotel.images.length > 1" slides="ActiveHotel.images" rn-carousel-index="0"></div> -->
         </div>
         <div class="mdl-cell mdl-cell--12-col">
-            <div class="">
-                <div class="mdl-card mdl-shadow--4dp hotel-card" ng-repeat="feature in ActiveHotel.features">
+            <div class="mdl-grid">
+                <div class="mdl-card mdl-cell mdl-cell--4-col mdl-shadow--4dp hotel-card" ng-repeat="feature in ActiveHotel.features | orderBy:GetLength(feature.description):true">
                     <div class="mdl-card__title">
                         <div class="mdl-card__title-text">
                             <i class="material-icons">

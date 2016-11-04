@@ -1,0 +1,138 @@
+﻿@model LuxtourOnline.Models.TourModifyModel
+@{
+    ViewBag.Title = "EditTourNew";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="mdl-grid" ng-app="TourApp" ng-controller="TourCtrl" ng-init="init(@Newtonsoft.Json.JsonConvert.SerializeObject(Model)); Lang = '@ViewBag.Lang'">
+
+    <div class="mdl-cell mdl-cell--8-col mdl-cell--2-offset">
+        <div class="mdl-grid">
+
+            <div class="mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+                <div class="mdl-grid app-card">
+                    <div class="mdl-cell mdl-cell--6-col app-card">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="Allow">
+                                <input type="checkbox" id="Allow" class="mdl-checkbox__input" ng-model="Data.Enable">
+                                <span class="mdl-checkbox__label">Is hotel enable for customers</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--6-col app-card">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="faf">
+                                <input type="checkbox" id="faf" class="mdl-checkbox__input" ng-model="Data.TravelAndFood">
+                                <span class="mdl-checkbox__label">Food & flight included in the price</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--6-col">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="number" id="price" ng-model="Data.Price" />
+                            <label class="mdl-textfield__label" for="price">Price</label>
+                        </div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--6-col">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="number" id="days" ng-model="Data.Days" />
+                            <label class="mdl-textfield__label" for="days">Days count</label>
+                        </div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--6-col">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="number" id="adult" ng-model="Data.Adult" />
+                            <label class="mdl-textfield__label" for="adult">Adults count</label>
+                        </div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--6-col">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="number" id="child" ng-model="Data.Child" />
+                            <label class="mdl-textfield__label" for="child">Child count</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+
+
+
+            <div class="mdl-shadow--2dp mdl-cell mdl-cell--6-col" id="DropBox"
+                 style=""
+                 ngf-drop="LoadImage($files)"
+                 ngf-drag-over-class="'dragover'" ngf-multiple="false"
+                 ngf-pattern="'image/*'">
+                <div class="mdl-typography--body-2">
+                    Drop image here
+                </div>
+            </div>
+            <div class="mdl-shadow--2dp mdl-cell mdl-cell--6-col">
+                <div id="image-display" style="background-image: url('{{DisplayImage()}}')">
+
+                </div>
+            </div>
+
+            
+
+        </div>
+        <div class="mdl-shadow--2dp mdl-grid app-card" ng-repeat="data in Data.Descriptions" style="margin-top: 16px;">
+            <div class="mdl-cell mdl-cell--12-col">
+                <div class="mdl-typography--headline">{{data.Lang}}</div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-width">
+                    <input type="text" class="mdl-textfield__input" id="TitleLang-{{data.Lang}}" ng-model="data.Title" />
+                    <label class="mdl-textfield__label" for="TitleLang-{{data.Lang}}">Title in {{data.Lang}}</label>
+                </div>
+
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label full-width">
+                    <textarea class="mdl-textfield__input" id="DescLang-{{data.Lang}}" ng-model="data.Description"></textarea>
+                    <label class="mdl-textfield__label" for="DescLang-{{data.Lang}}">Description in {{data.Lang}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mdl-cell mdl-cell--12-col">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary" ng-click="SaveChanges()">Save</button>
+        </div>
+    </div>
+
+    {{Data}}
+</div>
+
+@section Style
+{
+
+    <link href="~/Content/Manager/TourModify.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script src="~/Scripts/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+    <script src="~/Scripts/ng-file-upload.min.js"></script>
+
+    <script>
+        window.onbeforeunload = function (evt) {
+            var message = "Document is not saved. You will lost the changes if you leave the page.";
+            if (typeof evt == "undefined") {
+                evt = window.event;
+            }
+            if (evt) {
+                evt.returnValue = message;
+            }
+            return message;
+        };
+    </script>
+
+    <script src="~/Scripts/Manager/ModifyTour.js"></script>
+
+
+}
+
+

@@ -61,7 +61,7 @@
                             <div class="mdl-grid">
                                 <div class="mdl-cell mdl-cell--6-col">
                                     <div class="mdl-textfield mdl-js-textfield">
-                                        <input type="text" class="mdl-textfield__input" id="CallInputName" name="CallInputName" />
+                                        <input type="text" class="mdl-textfield__input" id="CallInputName" name="CallInputName" ng-model="TelData.FullName" />
                                         <label for="CallInputName" class="mdl-textfield__label">
                                             <i class="material-icons">
                                                 person
@@ -71,7 +71,7 @@
 
                                     <div class="mdl-textfield mdl-js-textfield">
 
-                                        <input type="text" class="mdl-textfield__input" id="CallInputPhone" name="CallInputPhone" />
+                                        <input type="text" class="mdl-textfield__input" id="CallInputPhone" name="CallInputPhone" ng-model="TelData.Tel" />
                                         <label for="CallInputPhone" class="mdl-textfield__label">
                                             <i class="material-icons">
                                                 call
@@ -80,8 +80,10 @@
                                     </div>
                                 </div>
                                 <div class="mdl-cell mdl-cell--6-col">
-                                    <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored mdl-button--primary">
-                                        Подзвоніть мені
+                                    <button type="button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored mdl-button--primary" 
+                                            ng-disabled="TelOn" ng-click="TelGrub()">
+                                        <span ng-show="!TelOn">Подзвоніть мені</span>
+                                        <span ng-show="TelOn">Дякуємо, ми зараз Вам передзвонимо</span>
                                     </button>
                                 </div>
                             </div>
@@ -537,6 +539,29 @@
         app.controller("LandCtrl", ['$scope', '$http', function ($scope, $http) {
             $scope.Tours = null;
             $scope.Language;
+
+            $scope.TelOn = false;
+
+            $scope.TelData =
+                {
+                    FullName: '',
+                    Tel: '',
+                };
+
+            $scope.TelGrub = function()
+            {
+                if ($scope.TelData.FullName != '' && $scope.TelData.Tel != '')
+                {
+                    $scope.TelOn = true;
+
+                    $http.post('/TelGrub/AddTel', { FullName: $scope.TelData.FullName, TelNumber: $scope.TelData.Tel })
+                    .success(function (response) {
+                       
+                    });
+
+                }
+            }
+
 
             $scope.SubscribeOn = true;
 

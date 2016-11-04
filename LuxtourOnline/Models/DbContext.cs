@@ -39,7 +39,6 @@ namespace LuxtourOnline.Models
         public DbSet<TopHotel> TopHotels { get; set; }
 
         public DbSet<TelGrubModel> TelGrubs { get; set; }
-        public DbSet<TelGrubOperators> TelOperators { get; set; }
     }
 
     

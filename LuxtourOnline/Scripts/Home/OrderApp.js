@@ -82,6 +82,12 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
             */
         ]
     };
+    $scope.GetLength = function (element)
+    {
+        if (element == undefined || element == null)
+            return 0;
+        return element.length;
+    }
 
     $scope.IsValidSecond = function()
     {

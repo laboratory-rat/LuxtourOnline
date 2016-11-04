@@ -19,14 +19,14 @@ namespace LuxtourOnline.Controllers
         {
             try
             {
-                var grub = TelGrubModel.Create(model);
+                var grub = TelGrubModel.Create(model, _lang);
 
                 if (grub != null)
                 {
                     _context.TelGrubs.Add(grub);
                     await _context.SaveChangesAsync();
 
-                    var operators = _context.TelOperators.ToList();
+                    var operators = _context.Users.Where(x => x.AllowTelGrub).ToList();//_context.TelOperators.ToList();
 
                     if (operators.Count > 0)
                     {
@@ -35,13 +35,25 @@ namespace LuxtourOnline.Controllers
 
                         string link = $"{GetUrl()}{Url.Action("Take", new { key = grub.GrubKey})}";
 
-                        string mail = $"Замовлений дзвінок від користувача: '{name}'<br> Номер: {tel} <br><br> <a href='{link}'>Прийняти дзвінок</a>";
+                        var position = LocationMaster.GetLocation(grub.Ip);
 
+                        //string mail = $"Замовлений дзвінок від користувача: '{name}'<br> Номер: {tel} <br> Мова: {_lang}<br><br> <a href='{link}'>Прийняти дзвінок</a><br><br>{link}";
 
+                        string mail = "";
 
-                        var operList = (from o in operators select o.OperatorEmail).ToList();
+                        mail += "Замовлений дзвінок від користувача <br><br>";
+                        mail += $"Ім'я: {name}<br> Tel: {tel}<br><br>";
 
-                        await MailMaster.SendMailAsync(operList, "Запрос дзвінка", "Class from site", mail);
+                        if (position != null)
+                        {
+                            mail += $"Country code: {position.CountryCode} <br> Country name: {position.CountryName} <br> City: {position.City} <br> Region name: {position.RegionName} <br> Time zone: {position.TimeZone}";
+                        }
+
+                        mail += $"<br><br> <a href='{link}'>Прийняти замовлення</a>";
+
+                        var operList = (from o in operators select o.Email).ToList();
+
+                        await MailMaster.SendMailAsync(operList, "Запрос дзвінка", "Luxtour bot", mail);
                     }
                 }
             }
@@ -57,17 +69,16 @@ namespace LuxtourOnline.Controllers
         [HttpGet]
         public async Task<ActionResult> Take(string key, string Email)
         {
-            TelGrubNewModel model = new TelGrubNewModel();
+            TelGrubModelDisplay model = null;
 
             try
             {
                 TelGrubModel data = null;
-                var user = GetCurrentUser();
+                var user = GetCurrentUser(_context);
 
                 if ((data = _context.TelGrubs.Where(x => x.GrubKey == key && x.Status == TelGrubStatus.New).FirstOrDefault()) != null && user.AllowTelGrub)
                 {
-                    model.TelNumber = data.TelNumber;
-                    model.FullName = data.FullName;
+                    model = new TelGrubModelDisplay(data);
 
                     data.Grub(user);
 
@@ -82,6 +93,31 @@ namespace LuxtourOnline.Controllers
             }
 
             return View("Take_failed");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> TakeResult (int id, string success = "", string comment = "")
+        {
+            try
+            {
+                bool res = (success == "on");
+
+                var user = GetCurrentUser(_context);
+
+                var model = _context.TelGrubs.Where(x => x.Id == id && x.Operator.Id == user.Id).FirstOrDefault();
+
+                if (model != null)
+                {
+                    model.Result(res, comment);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+            }
+
+            return RedirectToAction("index", "Manager");
         }
 
         [HttpGet]
@@ -113,70 +149,7 @@ namespace LuxtourOnline.Controllers
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult OperatorsList()
-        {
-            return View();
-        }
 
-        public ActionResult OperatorsListJson(int page, int perPage)
-        {
-            if (page < 1)
-                page = 1;
-
-            if (perPage < 1)
-                perPage = 25;
-
-            try
-            {
-                var list = _context.TelOperators.OrderByDescending(x => x.Id).Skip(((int)page - 1) * (int)perPage).Take((int)perPage).ToList();
-                if (list.Count > 0)
-                {
-                    var res = new TelGrubOperatorsList(list, page, perPage);
-
-                    return Json(res, JsonRequestBehavior.AllowGet);
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex);
-                return null;
-            }
-
-
-            return null;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> AddOperator(string email, string fullName)
-        {
-            TelGrubOperators oper = null;
-
-            if ((oper = _context.TelOperators.Where(x => x.OperatorEmail == email).FirstOrDefault()) == null)
-            {
-                oper = new TelGrubOperators(fullName, email);
-                _context.TelOperators.Add(oper);
-
-                await _context.SaveChangesAsync();
-
-                return Json("success", JsonRequestBehavior.AllowGet);
-            }
-
-            return null;
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> RemoveOperator(int id)
-        {
-            TelGrubOperators oper = null;
-
-            if((oper = _context.TelOperators.Where(x => x.Id == id).FirstOrDefault()) != null)
-            {
-                _context.TelOperators.Remove(oper);
-                await _context.SaveChangesAsync();
-            }
-
-            return Json("success", JsonRequestBehavior.AllowGet);
-        }
         
     }
 }

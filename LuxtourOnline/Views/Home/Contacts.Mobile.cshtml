@@ -3,6 +3,43 @@
     ViewBag.Title = "Контакти";
     Layout = "~/Views/Shared/_HomeLayout.Mobile.cshtml";
 }
+<div id="container">
+    <div class="element mdl-typography--text-uppercase  mdl-typography--title mdl-typography--font-medium first-block">
+        Контакти
+    </div>
+
+    <div class="element  mdl-typography--title mdl-typography--font-medium second-block">
+        Luxtour.Online
+    </div>
+    <div class="element">
+        city Lviv, Oprishkivska street, 3
+    </div>
+    <div class="element tel">
+        +380988234343
+    </div> 
+
+    <div class="element social-container">
+        <a href=""><img src="@Url.Content("~/Content/Resources/vk_logo.png")" /></a>
+        <a href=""><img src="@Url.Content("~/Content/Resources/fb_logo.png")" /></a>
+        <a href=""><img src="@Url.Content("~/Content/Resources/tw_logo.png")" /></a>
+    </div>
+
+    <div class="element partners">
+        <div class="title mdl-typography--title mdl-typography--font-medium">Партнерам</div>
+        <a href="">Для турфірм</a>
+        <a href="">Для агентів</a>
+        <a href="">Франшиза</a>
+    </div>
+
+    <div class="element footer">
+        <div class="title  mdl-typography--title mdl-typography--font-medium">Ваш відпочинок</div>
+        <a href="@Url.Action("Tours")">Тури</a>
+        <a href="@Url.Action("News")">Новини</a>
+    </div>
+</div>
+
+
+
 
 @section Style
 {

@@ -196,7 +196,7 @@ namespace LuxtourOnline.Controllers
 
         protected virtual string GetUrl()
         {
-            return Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/') + "/";
+            return Request.Url.Scheme + "://" + Request.Url.Authority + Request.ApplicationPath.TrimEnd('/');
         }
 
         protected override void Dispose(bool disposing)

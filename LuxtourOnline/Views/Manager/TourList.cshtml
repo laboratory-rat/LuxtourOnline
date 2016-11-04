@@ -17,7 +17,7 @@
                     ng-click="SearchShow = !SearchShow">
                 Search
             </button>
-            @Html.ActionLink("Create New", "EditTour", new { id = -1 }, new
+            @Html.ActionLink("Create New", "EditTourNew", null , new
        {
            @class = "mdl-button" +
            " mdl-js-button mdl-button--raised mdl-button--primary"
@@ -55,9 +55,9 @@
                 <strong>@Html.DisplayNameFor(model => tour.ModifyUser)</strong>: @Html.DisplayFor(x => tour.ModifyUser.FullName)<br />
             </div>
             <div class="mdl-card__menu">
-                <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-color--accent">
+                <a href="@Url.Action("EditTourNew", new { id = tour.Id})" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-color--accent">
                     <i class="material-icons">edit</i>
-                </button>
+                </a>
                 <button class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-color--accent">
                     <i class="material-icons">visibility</i>
                 </button>

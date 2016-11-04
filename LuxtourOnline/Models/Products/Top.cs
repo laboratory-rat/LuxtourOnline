@@ -33,7 +33,7 @@ namespace LuxtourOnline.Models.Products
         [Required]
         public virtual Tour Tour { get; set; }
         public decimal Factor { get; set; }
-        public DateTime SetDate { get; set; }
+        public DateTime? SetDate { get; set; }
 
         public TopTour()
         {

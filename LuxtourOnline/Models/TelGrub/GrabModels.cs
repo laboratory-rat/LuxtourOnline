@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace LuxtourOnline.Models.TelGrub
 {
 
-    public enum TelGrubStatus { Null = 0, New, Grab}
+    public enum TelGrubStatus { Null = 0, New, Grab, Success, Fail}
     public class TelGrubModel
     {
         public int Id { get; set; }
@@ -20,9 +20,14 @@ namespace LuxtourOnline.Models.TelGrub
         public TelGrubStatus Status { get; set; } = TelGrubStatus.New;
         public string GrubKey { get; set; }
 
-        [Required]
+        public string Language { get; set; } = "uk";
+
+        public string Ip { get; set; } = "";
+
         public virtual AppUser Operator { get; set; } = null;
         public DateTime? GrubTime { get; set; }
+
+        public string Comment { get; set; } = "";
 
         protected static int KeyLength = 15;
 
@@ -31,13 +36,17 @@ namespace LuxtourOnline.Models.TelGrub
 
         }
 
-        public static TelGrubModel Create(TelGrubNewModel model)
+
+        public static TelGrubModel Create(TelGrubNewModel model, string language)
         {
             if (string.IsNullOrEmpty(model.FullName) || string.IsNullOrEmpty(model.TelNumber))
                 return null;
 
             string key = IdGenerator.GenerateId().Substring(0, KeyLength);
             TelGrubStatus status = TelGrubStatus.New;
+            string ip = HttpContext.Current.Request.UserHostAddress;
+
+
             return new TelGrubModel()
             {
                 CreatedTime = DateTime.Now,
@@ -46,6 +55,8 @@ namespace LuxtourOnline.Models.TelGrub
                 FullName = model.FullName,
                 TelNumber = model.TelNumber,
                 GrubTime = null,
+                Ip = ip,
+                Language = language,
             };
         }
 
@@ -55,6 +66,16 @@ namespace LuxtourOnline.Models.TelGrub
             Operator = oper;
 
             Status = TelGrubStatus.Grab;
+        }
+        
+        public void Result(bool success, string comment)
+        {
+            if (success)
+                Status = TelGrubStatus.Success;
+            else
+                Status = TelGrubStatus.Fail;
+
+            Comment = comment;
         }
     }
 
@@ -83,47 +104,38 @@ namespace LuxtourOnline.Models.TelGrub
         }
     }
 
-    public class TelGrubOperators
+    public class TelGrubModelDisplay
     {
         public int Id { get; set; }
+        public string FullName { get; set; }
+        public string TelNumber { get; set; }
+        public DateTime CreateTime { get; set; }
+        public TelGrubStatus Status { get; set; }
 
-        public string OperatorName { get; set; }
-        public string OperatorEmail { get; set; }
-
-        public virtual List<TelGrubModel> Grubs { get; set; } = new List<TelGrubModel>();
-
-        public TelGrubOperators()
-        {
-            Grubs = new List<TelGrubModel>();
+        public int MinutesFrom {
+            get { return DateTime.Now.Subtract(CreateTime).Minutes; }
         }
 
-        public TelGrubOperators(string fullName, string Email) : this()
+        public LocationModel Location { get; set; }
+
+        public TelGrubModelDisplay()
         {
-            OperatorName = fullName;
-            OperatorEmail = Email;
+
         }
 
-        public TelGrubOperators(AppUser user) : this()
+        public TelGrubModelDisplay(TelGrubModel model)
         {
-            OperatorName = user.FullName;
-            OperatorEmail = user.Email;
+            Id = model.Id;
+            FullName = model.FullName;
+            TelNumber = model.TelNumber;
+            CreateTime = model.CreatedTime;
+            Status = model.Status;
 
-            
-        }
-    }
 
-    public class TelGrubOperatorsList
-    {
-        public List<TelGrubOperators> Operators { get; set; }
-        public PagingInfo Paging { get; set; }
-
-        public TelGrubOperatorsList(List<TelGrubOperators> models, int currentPage = 1, int perPage = 15)
-        {
-            Operators = models;
-
-            PagingInfo info = new PagingInfo() { CurrentPange = currentPage, ItemsPerPage = perPage, TotalItems = models.Count };
-            Paging = info;
+            if (model.Ip != "")
+                Location = LocationMaster.GetLocation(model.Ip);
         }
     }
+
 
 }

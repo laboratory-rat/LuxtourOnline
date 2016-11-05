@@ -12,7 +12,7 @@ app.controller('TourCtrl', ['$scope', '$http', 'Upload', '$window', function ($s
 
         if ($scope.Data != undefined && $scope.Data != null)
         {
-            $http.post('/Manager/SaveTourJson', $scope.Data)
+            $http.post('/Tour/SaveChangesJson', $scope.Data)
             .success(function (response) {
                 if (response == null | response == undefined)
                 {
@@ -27,7 +27,7 @@ app.controller('TourCtrl', ['$scope', '$http', 'Upload', '$window', function ($s
                     alert("Success");
 
                     window.onbeforeunload = null;
-                    $window.location.href = "/Manager/TourList";
+                    $window.location.href = "/Tour";
                 }
 
             })
@@ -99,15 +99,13 @@ app.controller('TourCtrl', ['$scope', '$http', 'Upload', '$window', function ($s
         }
 
         if (title = "")
-            return "New Hotel";
+            return "New Tour";
 
         return title;
     }
 
     $scope.init = function(data)
     {
-        console.log(data);
-
         $scope.Data = data;
     }
     

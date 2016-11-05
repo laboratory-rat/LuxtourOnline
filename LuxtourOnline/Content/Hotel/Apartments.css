@@ -1,0 +1,63 @@
+﻿.container
+{
+    width: 1000px;
+    background-color: white;
+    margin-top: 16px;
+}
+
+.image-block
+{
+    height: 200px;
+}
+
+.info-block
+{
+    margin-top: 16px;
+}
+
+.info-block > div > span:first-child
+{
+    font-weight: 700;
+}
+
+table
+{
+    width: 100%;
+    table-layout: fixed;
+}
+
+table tr td button
+{
+    float: left;
+}
+
+table tr td button.remove-button
+{
+    float: right;
+}
+
+table tr td, table tr th
+{
+    height:24px !important;
+    min-height: 24px !important;
+    padding: 5px !important;
+    margin: 0px !important;
+}
+
+table tr td > div
+{
+    padding: 2px !important;
+}
+
+.button-block
+{
+    margin-top: 8px;
+    border-top: 1px solid rgba(0,0,0,0.17);
+}
+
+.table-fab
+{
+    float: right;
+    margin-right: 70px;
+    margin-top: -20px;
+}

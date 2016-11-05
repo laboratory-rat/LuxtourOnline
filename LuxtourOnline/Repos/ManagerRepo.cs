@@ -324,9 +324,9 @@ namespace LuxtourOnline.Repos
 
             if (hotel != null)
             {
-                while(hotel.Apartmetns.Count > 0)
+                while(hotel.Apartments.Count > 0)
                 {
-                    _context.Apartents.Remove(hotel.Apartmetns[0]);
+                    _context.Apartents.Remove(hotel.Apartments[0]);
                 }
 
                 if (model.Apartments != null)
@@ -337,7 +337,7 @@ namespace LuxtourOnline.Repos
 
                         Apartment apart = new Apartment() { Adult = a.Adults, Child = a.Child, Enabled = a.Enabled, Hotel = hotel, Deleted = false, Title = a.Title };
 
-                        hotel.Apartmetns.Add(apart);
+                        hotel.Apartments.Add(apart);
                     }
                 }
             }
@@ -350,7 +350,7 @@ namespace LuxtourOnline.Repos
             if (string.IsNullOrEmpty(lang))
                 lang = AppConsts.DefaultLanguage;
 
-            List<Apartment> apartments = hotel.Apartmetns.ToList();
+            List<Apartment> apartments = hotel.Apartments.ToList();
 
             var descr = hotel.Descriptions.Where(x => x.Lang == lang).FirstOrDefault();
 

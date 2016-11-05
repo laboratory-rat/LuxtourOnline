@@ -1,0 +1,264 @@
+﻿@model LuxtourOnline.Models.ApartmentEditModel
+
+@{
+    ViewBag.Title = "Apartments";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+
+    string url = Model.Hotel.Image == null ? "http://placehold.it/400x400" : Model.Hotel.Image.Url;
+}
+
+<div class="mdl-grid mdl-shadow--2dp container" ng-app="ApartApp" ng-controller="ApartCtrl" ng-init="Init(@Newtonsoft.Json.JsonConvert.SerializeObject(Model))">
+    <div class="mdl-cell mdl-cell--4-col">
+        <div class="image-block" style="background-image: url('@url')">
+
+        </div>
+        <div class="info-block">
+            <div>
+                <span>Title: </span>
+                <span>@Model.Hotel.Title</span>
+            </div>
+            <div>
+                <span>Rate: </span>
+                <span>@Model.Hotel.Rate</span>
+            </div>
+            <div>
+                <span>Avaliable: </span>
+                <span>@Model.Hotel.Avaliable</span>
+            </div>
+            <div>
+                <span>Created time: </span>
+                <span>@Model.Hotel.CreatedTime</span>
+            </div>
+
+        </div>
+        <div class="button-block">
+            <a href="@Url.Action("Index")" class="mdl-button mdl-js-button mdl-button--icon">
+                <i class="material-icons">keyboard_backspace</i>
+            </a>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--8-col">
+        <table class="mdl-data-table">
+            <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 25%">
+                        Title
+                    </th>
+
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 15%">
+                        Adult  
+                    </th>
+
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 15%">
+                        Child
+                    </th>
+
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 15%">
+                        Enable
+                    </th>
+
+                    <th class="mdl-data-table__cell--non-numeric" style="width: 30%">
+
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="apart in Data.Apartments">
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input type="text" class="mdl-textfield__input" id="Title{{apart.Id}}{{apart.Title}}" ng-model="apart.Title" maxlength="40" />
+                            <label class="mdl-textfield__label" for="Title{{apart.Id}}{{apart.Title}}"></label>
+                        </div>
+                    </td>
+
+                    <td class="">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input type="number" class="mdl-textfield__input" id="Adult{{apart.Id}}{{apart.Title}}" ng-model="apart.Adult" max="10" min="0" />
+                            <label class="mdl-textfield__label" for="Adult{{apart.Id}}{{apart.Title}}"></label>
+                        </div>
+                    </td>
+
+                    <td class="">
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input type="number" class="mdl-textfield__input" id="Child{{apart.Id}}{{apart.Title}}" ng-model="apart.Child" max="10" min="0" />
+                            <label class="mdl-textfield__label" for="Child{{apart.Id}}{{apart.Title}}"></label>
+                        </div>
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <label class="mdl-checkbox mdl-js-checkbox" for="Enable{{apart.Id}}{{apart.Title}}">
+                            <input type="checkbox" id="Enable{{apart.Id}}{{apart.Title}}" class="mdl-checkbox__input" ng-model="apart.Enabled">
+                            <span class="mdl-checkbox__label"></span>
+                        </label>
+                    </td>
+
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <button class="mdl-button mdl-js-button mdl-button--icon" ng-click="MoveApartment(apart, true)">
+                            <i class="material-icons">keyboard_arrow_up</i>
+                        </button>
+                        <button class="mdl-button mdl-js-button mdl-button--icon" ng-click="MoveApartment(apart, false)">
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+
+                        <button class="mdl-button mdl-js-button mdl-button--icon remove-button" ng-click="RemoveApartment(apart)">
+                            <i class="material-icons mdl-color-text--red">delete</i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-color--green mdl-shadow--4dp table-fab" ng-click="AddApartment()">
+            <i class="material-icons mdl-color-text--white">add</i>
+        </button>
+    </div>
+    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-color--primary mdl-shadow--16dp" ng-click="SaveChanges()"
+            style="position: fixed;
+                    bottom: 48px;
+                    right: 48px;
+                    z-index: 10000;">
+        <i class="material-icons mdl-color-text--white">save</i>
+    </button>
+</div>
+
+@section Style
+{
+    <link href="~/Content/Hotel/Apartments.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script>
+        Array.prototype.move = function (old_index, new_index) {
+            if (new_index >= this.length) {
+                var k = new_index - this.length;
+                while ((k--) + 1) {
+                    this.push(undefined);
+                }
+            }
+            this.splice(new_index, 0, this.splice(old_index, 1)[0]);
+            return this; // for testing purposes
+        };
+
+
+        var app = angular.module("ApartApp", []);
+
+
+
+
+        app.controller('ApartCtrl', ['$scope', '$http', '$window', function ($scope, $http, $window) {
+            $scope.Data = null;
+            $scope.Uploading = false;
+
+
+            $scope.Init = function (data) {
+                console.log(data);
+                $scope.Data = data;
+
+                $scope.$apply();
+            };
+
+            $scope.SaveChanges = function () {
+                if ($scope.Data != undefined && $scope.Data != null) {
+                    $scope.Uploading = true;
+
+                    for (var i = 0; i < $scope.Data.Apartments.length; i++)
+                    {
+                        $scope.Data.Apartments[i].Order = i;
+                    }
+
+                    $http.post('/Hotel/SaveApartmentsChanges', $scope.Data)
+                    .success(function (r) {
+                        $scope.Uploading = false;
+
+                        if (r == "success") {
+                            alert("success");
+                            $window.location = "/Hotel/";
+                        }
+                    })
+                    .error(function (e) {
+                        $scope.Uploading = false;
+                        alert(e);
+                    });
+                }
+            };
+
+            $scope.AddApartment = function () {
+                if ($scope.Data.Apartments == null)
+                {
+                    $scope.Data.Apartments = [];
+                }
+
+                var index = $scope.Data.Apartments.length;
+
+                var apartment = {
+                    id: -1,
+                    Order: index,
+                    Title: '',
+                    Child: 0,
+                    Adult: 0,
+                    Enabled: true,
+                    Deleted: false,
+                }
+
+                $scope.Data.Apartments.push(apartment);
+                $scope.$apply();
+                
+            };
+
+            $scope.RemoveApartment = function (apart) {
+                if ($scope.Data.Apartments != undefined) {
+                    var index = $scope.Data.Apartments.indexOf(apart);
+
+                    if (index >= 0) {
+                        $scope.Data.Apartments.splice(index, 1);
+                    }
+                }
+
+                $scope.$apply();
+            };
+
+            $scope.MoveApartment = function (apart, up) {
+                var index = $scope.Data.Apartments.indexOf(apart);
+
+                if(up && index > 0)
+                {
+                    $scope.Data.Apartments.move(index, index - 1);
+                }
+                else if(index < $scope.Data.Apartments.length - 1)
+                {
+                    $scope.Data.Apartments.move(index, index + 1);
+                }
+
+                $scope.$apply();
+            };
+
+        }]);
+
+        app.run(function () {
+            var mdlUpgradeDom = false;
+            setInterval(function () {
+                if (mdlUpgradeDom) {
+                    componentHandler.upgradeDom();
+                    mdlUpgradeDom = false;
+                }
+            }, 200);
+
+            var observer = new MutationObserver(function () {
+                mdlUpgradeDom = true;
+            });
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            /* support <= IE 10
+            angular.element(document).bind('DOMNodeInserted', function(e) {
+                mdlUpgradeDom = true;
+            });
+            */
+        });
+
+
+    </script>    
+}

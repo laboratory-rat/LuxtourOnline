@@ -1,0 +1,83 @@
+﻿@model LuxtourOnline.Models.TourDisplayList
+
+@{
+    ViewBag.Title = "Tours list";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col paging-container">
+        @Html.Partial("_paging", Model.Paging)
+    </div>
+    <div class="mdl-cell mdl-cell--12-col">
+        <div class="mdl-grid">
+            @foreach (var t in Model.Tours)
+            {
+                <div class="hotel-card mdl-shadow--6dp mdl-cell mdl-cell--3-col">
+                    <div class="picture" style="background-image: url('@t.Image.Url')">
+                        <div class="controll">
+
+                        </div>
+                    </div>
+                    <div class="data">
+                        <div>
+                            <span>
+                                Title:
+                            </span>
+                            <span>
+                                @t.Description.Title
+                            </span>
+                        </div>
+
+
+                        <div>
+                            <span>
+                                Is avaliable:
+                            </span>
+                            <span>
+                                @t.Enable
+                            </span>
+                        </div>
+
+                        <div>
+                            <span>
+                                Created:
+                            </span>
+                            <span>
+                                @t.CreatedTime
+                            </span>
+                        </div>
+                        @if (t.ModifyBy != null)
+                        {
+                            <div>
+                                <span>
+                                    Modify by:
+                                </span>
+                                <span>
+                                    @t.ModifyBy.FullName
+                                </span>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="controll">
+                        <a href="@Url.Action("Modify", new { id = t.Id})" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons">edit</i>
+                        </a>
+                        <a href="@Url.Action("Display", new { id = t.Id})" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons">visibility</i>
+                        </a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<a class="mdl-batton mdl-js-button mdl-button--fab mdl-shadow--16dp mdl-color--primary main-fab" href="@Url.Action("Modify")">
+    <i class="material-icons mdl-color-text--white">add</i>
+</a>
+@section Style
+{
+    <link href="~/Content/Hotel/Index.css" rel="stylesheet" />
+}

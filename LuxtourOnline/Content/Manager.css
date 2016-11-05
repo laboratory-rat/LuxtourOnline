@@ -1,4 +1,9 @@
-﻿
+﻿.page-content
+{
+    min-height: 700px;
+}
+
+
 .drop-box {
     width: 100%;
     height: 100%;
@@ -20,41 +25,19 @@
 }
 
 
-/*#region Card extensions */
-.mdl-card .app-card__title-text {
-    position: absolute;
-    width: 100%;
-    margin-top: 16px;
-    margin-left: -16px;
-    padding: 8px 0px 8px 16px;
-    background-color: rgba(0,0,0, 0.05);
+/*#region Header */
 
-    color: rgba(255, 255, 255, 0.87);
-
-    -moz-transition: all 500ms ease-out 10ms;
-    -o-transition: all 500ms ease-out 10ms;
-    -webkit-transition: all 500ms ease-out 10ms;
-    transition: all 500ms ease-out 10ms;
+.mdl-layout__header-row, header
+{
+    height: 48px !important;
+    min-height: 48px !important;
 }
 
-.mdl-card:hover .app-card__title-text
+.mdl-layout-title
 {
-    background-color: rgba(0, 0, 0, 0.87);
-}
-
-.mdl-card .app-card__hide-element
-{
-    opacity: 0;
-
-    -moz-transition: all 500ms ease-out 10ms;
-    -o-transition: all 500ms ease-out 10ms;
-    -webkit-transition: all 500ms ease-out 10ms;
-    transition: all 500ms ease-out 10ms;
-}
-
-.mdl-card:hover .app-card__hide-element
-{
-    opacity: 1;
+    display: block;
+    padding-top: 12px;
+    padding-left: 56px;
 }
 
 /*#endregion */
@@ -62,11 +45,28 @@
 
 /*#region Paging */
 
+.paging-container
+{
+    float: right;
+}
+
 .paging-container > a
 {
     float: right;
 
     min-width: 10px;
 }
+
+/*#endregion */
+
+/*#region Fab */
+
+.main-fab
+{
+    position: fixed;
+    bottom: 64px;
+    right: 64px;
+}
+
 
 /*#endregion */

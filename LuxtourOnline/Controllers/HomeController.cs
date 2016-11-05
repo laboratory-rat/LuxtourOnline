@@ -138,12 +138,12 @@ namespace LuxtourOnline.Controllers
             foreach (var h in hotels)
             {
                 string image = h.Images.Count == 0 ? Constants.DefaultTourImageUrl : h.Images[0].Url;
-                bool avaliableApartments = h.Apartmetns.Where(x => !x.Deleted && x.Enabled).FirstOrDefault() != null;
+                bool avaliableApartments = h.Apartments.Where(x => !x.Deleted && x.Enabled).FirstOrDefault() != null;
 
 
                 List<dynamic> apartments = new List<dynamic>();
 
-                foreach(var a in h.Apartmetns)
+                foreach(var a in h.Apartments)
                 {
                     apartments.Add(new {
                         id = a.Id,
@@ -221,9 +221,9 @@ namespace LuxtourOnline.Controllers
 
             List<dynamic> apartments = new List<dynamic>();
 
-            if (hotel.Apartmetns != null)
+            if (hotel.Apartments != null)
             {
-                foreach(var a in hotel.Apartmetns)
+                foreach(var a in hotel.Apartments)
                 {
                     if (!a.Deleted)
                         apartments.Add(new { id = a.Id, title = a.Title, adult = a.Adult, child = a.Child, avaliable = a.Enabled });

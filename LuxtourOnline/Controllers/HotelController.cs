@@ -1,4 +1,5 @@
 ﻿using LuxtourOnline.Models;
+using LuxtourOnline.Utilites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,10 @@ namespace LuxtourOnline.Controllers
         protected int _perPage = 20;
 
         [HttpGet]
+        [Route("Hotel/Index")]
+        [Route("Hotel/List")]
+        [Route("Hotel/Modify/All")]
+        [Route("Hotel/XyuSosi")]
         public ActionResult Index(int? page = 1)
         {
             if (page == null || page < 0)
@@ -95,19 +100,112 @@ namespace LuxtourOnline.Controllers
 
         } 
 
-        public ActionResult Display(int id)
+        [HttpGet]
+        public ActionResult Display(int id, string language = "")
         {
-            throw new Exception();
+            try
+            {
+                var hotel = _context.Hotels.Where(x => x.Id == id && !x.Deleted).FirstOrDefault();
+
+                if(hotel == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
+
+                HotelRemoveModel model = new HotelRemoveModel(hotel, language);
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
         }
 
-        public ActionResult Remove(int id)
+        [HttpGet]
+        public async Task<ActionResult> Remove(int id)
         {
-            throw new Exception();
+            try
+            {
+                Hotel hotel;
+
+                if((hotel = _context.Hotels.Where(x => x.Id == id && !x.Deleted).FirstOrDefault()) == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
+
+                while(hotel.Images.Count > 0)
+                {
+                    ImageMaster.RemoveImage(hotel.Images[0]);
+                    _context.SiteImages.Remove(hotel.Images[0]);
+                }
+
+                if(hotel.Orders != null && hotel.Orders.Count > 0)
+                {
+                    hotel.Deleted = true;
+                }
+                else
+                {
+                    _context.Hotels.Remove(hotel);
+                }
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
         }
 
-        public ActionResult RemoveConfirm(int id)
+        [HttpGet]
+        public ActionResult Apartments(int id)
         {
-            throw new Exception();
+            try
+            {
+                Hotel hotel;
+
+                if((hotel = _context.Hotels.Where(x => x.Id == id && !x.Deleted).FirstOrDefault()) == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
+
+                ApartmentEditModel model = new ApartmentEditModel(hotel);
+                return View(model);
+
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveApartmentsChanges (ApartmentEditModel model)
+        {
+            try
+            {
+                Hotel hotel = null;
+
+                if ((hotel = _context.Hotels.Where(x => x.Id == model.Hotel.Id && !x.Deleted).FirstOrDefault()) == null)
+                {
+                    throw new KeyNotFoundException();
+                }
+
+                hotel.UpdateApartments(model.Apartments);
+                await _context.SaveChangesAsync();
+
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex);
+                throw new Exception("Internal error");
+            }
         }
     }
 }

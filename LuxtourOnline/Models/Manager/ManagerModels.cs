@@ -243,7 +243,7 @@ namespace LuxtourOnline.Models.Manager
         public ManagerEditApartmentsModel(Hotel hotel)
         {
             Hotel = hotel.Id;
-            Apartments = EditApartment.List(hotel.Apartmetns.ToList());
+            Apartments = EditApartment.List(hotel.Apartments.ToList());
         }
 
     }

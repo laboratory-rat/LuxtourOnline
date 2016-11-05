@@ -629,7 +629,7 @@ namespace LuxtourOnline.Controllers
                                 Title = model.Title,
                                 Rate = model.Rate,
                                 Deleted = false,
-                                Apartmetns = new List<Apartment>(),
+                                Apartments = new List<Apartment>(),
                                 Descriptions = new List<HotelDescription>(),
                                 Images = new List<SiteImage>(),
                                 ModifyDate = null,

@@ -23,7 +23,7 @@ namespace LuxtourOnline.Models
 
         public virtual List<Tag> Tags { get; set; } = new List<Tag>();
 
-        public virtual List<Apartment> Apartmetns { get; set; } = new List<Apartment>();
+        public virtual List<Apartment> Apartments { get; set; } = new List<Apartment>();
 
         public virtual List<Review> Rewiews { get; set; } = new List<Review>();
 
@@ -133,6 +133,36 @@ namespace LuxtourOnline.Models
                 imagesToRemove.RemoveAt(0);
             }
 
+        }
+
+        internal void UpdateApartments(List<ApartmentDisplayModel> apartments)
+        {
+            if (Apartments == null)
+                Apartments = new List<Apartment>();
+
+            List<Apartment> toRemove = new List<Apartment>(Apartments);
+
+            foreach(var ap in apartments)
+            {
+                var self = Apartments.Where(x => x.Id == ap.Id).FirstOrDefault();
+                {
+                    if(self == null)
+                    {
+                        Apartments.Add(new Apartment(ap, this));
+                    }
+                    else
+                    {
+                        self.Modify(ap);
+                        toRemove.Remove(self);
+                    }
+                }
+            }
+
+            while(toRemove.Count > 0)
+            {
+                Apartments.Remove(toRemove[0]);
+                toRemove.RemoveAt(0);
+            }
         }
     }
 
@@ -357,6 +387,85 @@ namespace LuxtourOnline.Models
         }
     }
 
+    public class Apartment
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string Title { get; set; }
+
+        [Required]
+        public Hotel Hotel { get; set; }
+
+        public int? Adult { get; set; } = null;
+        public int? Child { get; set; } = null;
+
+        public bool Enabled { get; set; } = true;
+
+        [Required]
+        public bool Deleted { get; set; } = false;
+        public int Order { get; set; } = 0;
+
+        [Required]
+        public virtual List<Order> Orders { get; set; } = new List<Order>();
+
+        public Apartment()
+        {
+            Deleted = false;
+            Orders = new List<Products.Order>();
+        }
+
+        public Apartment(ApartmentDisplayModel model, Hotel hotel) : this()
+        {
+            Title = model.Title;
+            Hotel = hotel;
+            Adult = model.Adult;
+            Child = model.Child;
+            Enabled = model.Enabled;
+            
+            Order = model.Order;
+        }
+
+        public void Modify(ApartmentDisplayModel model)
+        {
+            Title = model.Title;
+            Adult = model.Adult;
+            Child = model.Child;
+            Enabled = model.Enabled;
+            Deleted = model.Deleted;
+            Order = model.Order;
+        }
+    }
+
+    public class ApartmentDisplayModel
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public int Order { get; set; }
+        public int Adult { get; set; }
+        public int Child { get; set; }
+        public bool Enabled { get; set; }
+        public bool Deleted { get; set; }
+
+        public ApartmentDisplayModel()
+        {
+
+        }
+
+        public ApartmentDisplayModel(Apartment data) : this()
+        {
+            Id = data.Id;
+            Title = data.Title;
+            Order = data.Order;
+            Adult = data.Adult == null ? 0 : (int)data.Adult;
+            Child = data.Child == null ? 0 : (int)data.Child;
+
+            Deleted = data.Deleted;
+
+            Enabled = data.Enabled;
+        }
+    }
+
     public class HotelDisplayModel
     {
         public int Id { get; set; } = -1;
@@ -415,6 +524,27 @@ namespace LuxtourOnline.Models
             }
 
             return model;
+        }
+    }
+
+    public class HotelRemoveModel : HotelDisplayModel
+    {
+        public HotelDescriptionModel CurrentDescription { get; set; }
+        public string Language { get; set; }
+
+        public HotelRemoveModel() : base()
+        {
+
+        }
+
+        public HotelRemoveModel(Hotel hotel, string language) : base(hotel)
+        {
+            language = language.ToLower();
+            if (!Constants.AvaliableLangs.Contains(language))
+                language = Constants.DefaultLanguage;
+
+            CurrentDescription = Descriptions.Where(x => x.Language == language).FirstOrDefault();
+            Language = language;
         }
     }
 
@@ -589,6 +719,29 @@ namespace LuxtourOnline.Models
             else
             {
                 Image = new ImageEditModel() { Url = "http://placehold.it/500x500" };
+            }
+        }
+    }
+
+    public class ApartmentEditModel
+    {
+        public HotelDisplayShort Hotel { get; set; }
+        public List<ApartmentDisplayModel> Apartments { get; set; } = new List<ApartmentDisplayModel>();
+
+        public ApartmentEditModel()
+        {
+
+        }
+
+        public ApartmentEditModel(Hotel hotel) : this()
+        {
+            Hotel = new HotelDisplayShort(hotel);
+
+            Apartments = new List<ApartmentDisplayModel>();
+
+            foreach(var ap in hotel.Apartments)
+            {
+                Apartments.Add(new ApartmentDisplayModel(ap));
             }
         }
     }

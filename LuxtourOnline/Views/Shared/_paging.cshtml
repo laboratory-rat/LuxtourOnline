@@ -1,0 +1,15 @@
+﻿@model LuxtourOnline.Models.PagingInfo
+@{ string cl = ""; }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        cl = "mdl-button mdl-js-button ";
+
+        if (Model.CurrentPange == i)
+        {
+            cl += " mdl-button--primary mdl-button--raised";
+        }
+
+        <a href="@Url.Action("", new { page = i})" class="@cl">@i</a>
+    }
+

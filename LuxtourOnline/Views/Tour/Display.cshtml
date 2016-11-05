@@ -1,0 +1,123 @@
+﻿@model LuxtourOnline.Models.TourDisplayModel
+
+@{
+    ViewBag.Title = "Display tour";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+
+    string url;
+    string title;
+    string description;
+
+
+    if (Model.Image == null)
+    {
+        url = "http://placehold.it/600x600";
+    }
+    else
+    {
+        url = Model.Image.Url;
+    }
+
+    if (Model.Description == null)
+    {
+        title = "No title at this language";
+        description = "No description at this language";
+    }
+    else
+    {
+        title = Model.Description.Title;
+        description = Model.Description.Description;
+    }
+}
+
+<div class="mdl-shadow--2dp mdl-grid mdl-grid--no-spacing container">
+    <div class="mdl-cell mdl-cell--8-col padding--16">
+        <div class="mdl-typography--headline mdl-color-text--primary">
+            Опис @title (@Model.Lang language)
+        </div>
+        <br />
+        <div>
+            <span>Enabled: </span>
+            <span>@Model.Enable</span>
+        </div>
+
+        <div>
+            <span>Food & Travel: </span>
+            <span>@Model.TravelAndFood</span>
+        </div>
+
+        <div>
+            <span>Price: </span>
+            <span>@Model.Price</span>
+        </div>
+
+        <div>
+            <span>Days count: </span>
+            <span>@Model.Days</span>
+        </div>
+
+        <div>
+            <span>Adult count: </span>
+            <span>@Model.Adult</span>
+        </div>
+
+        <div>
+            <span>Child count: </span>
+            <span>@Model.Child</span>
+        </div>
+
+        <div>
+            <span>Tour created: </span>
+            <span>@Model.CreatedTime</span>
+        </div>
+
+        <div>
+            <span>Last modify user: </span>
+            <span>@Model.ModifyBy.FullName</span>
+        </div>
+        <div class="button-container-lang">
+            <a href="@Url.Action("Display", new { id = Model.Id, language = "en"})" class="mdl-button mdl-js-button">English</a>
+            <a href="@Url.Action("Display", new { id = Model.Id, language = "ru"})" class="mdl-button mdl-js-button">Русский</a>
+            <a href="@Url.Action("Display", new { id = Model.Id, language = "uk"})" class="mdl-button mdl-js-button">Украінська</a>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col image" style="background-image:url('@url'); background-position: center center; background-size: cover;">
+
+    </div>
+
+    <div class="mdl-cell mdl-cell--12-col padding--16">
+        <div class="mdl-typography--text-center mdl-typography--title">Опис</div>
+        <div>@description</div>
+    </div>
+
+    <div class="mdl-cell mdl-cell--12-col padding--16 button-container ">
+        <a  class="mdl-button mdl-js-button mdl-button--icon" onclick="Remove()">
+            <i class="material-icons mdl-color-text--red">delete</i>
+        </a>
+        <a href="@Url.Action("Index")" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">
+            Return to list
+        </a>
+    </div>
+</div>
+
+@section Style
+{
+    <link href="~/Content/Tour/Display.css" rel="stylesheet" />
+}
+
+@section Scripts
+{
+    <script>
+        function Remove()
+        {
+            var r = confirm("Are You realy want to delete this tour?");
+
+            if(r == true)
+            {
+                window.location = "/Tour/Remove/" + @Model.Id;
+            } else{}
+        };
+
+    </script>    
+}
+

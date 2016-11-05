@@ -56,7 +56,7 @@ namespace LuxtourOnline.Models
 
         public Tour()
         {
-            
+
         }
 
         public Tour(SiteImage image) : this()
@@ -93,7 +93,7 @@ namespace LuxtourOnline.Models
             return t;
         }
 
-        public void ModifyData (TourModifyModel model, AppUser user)
+        public void ModifyData(TourModifyModel model, AppUser user)
         {
             ModifyDate = DateTime.Now;
             ModifiedBy = user;
@@ -110,7 +110,7 @@ namespace LuxtourOnline.Models
             if (Descritions == null)
                 Descritions = new List<TourDescription>();
 
-            
+
             foreach (var d in model.Descriptions)
             {
                 var dd = (from descriptions in Descritions where descriptions.Lang == d.Lang select descriptions).FirstOrDefault();
@@ -136,11 +136,11 @@ namespace LuxtourOnline.Models
         [StringLength(2, MinimumLength = 2)]
         public string Lang { get; set; }
 
-        
+
         [Display(Name = "Title")]
         public string Title { get; set; }
 
-        
+
         [Display(Name = "Description")]
         [DataType(DataType.Html)]
         [AllowHtml]
@@ -238,12 +238,12 @@ namespace LuxtourOnline.Models
         {
         }
 
-        public TourModifyDescriptionModel(string lang): this()
+        public TourModifyDescriptionModel(string lang) : this()
         {
             Lang = lang;
         }
 
-        public TourModifyDescriptionModel( TourDescription model)
+        public TourModifyDescriptionModel(TourDescription model)
         {
             Id = model.Id;
             Lang = model.Lang;
@@ -344,12 +344,37 @@ namespace LuxtourOnline.Models
             var desc = tour.Descritions.Where(x => x.Lang == language).FirstOrDefault();
 
             if (desc != null)
-                Description = new TourModifyDescriptionModel (desc);
+                Description = new TourModifyDescriptionModel(desc);
 
-            if(tour.Image != null)
+            if (tour.Image != null)
             {
                 Image = new ImageEditModel(tour.Image);
             }
         }
     }
+
+    public class TourDisplayList
+    {
+        public List<TourDisplayModel> Tours { get; set; } = new List<TourDisplayModel>();
+        public PagingInfo Paging { get; set; }
+
+        public TourDisplayList()
+        {
+            Tours = new List<TourDisplayModel>();
+        }
+
+        public TourDisplayList(List<Tour> tours, int page, int perPage, string language) : this()
+        {
+            if (!Constants.AvaliableLangs.Contains(language))
+                language = Constants.DefaultLanguage;
+
+            foreach(var t in tours)
+            {
+                Tours.Add(new TourDisplayModel(t, language));
+            }
+
+            Paging = new PagingInfo() { CurrentPange = page, ItemsPerPage = perPage, TotalItems = Tours.Count };
+        }
+    }
+
 }

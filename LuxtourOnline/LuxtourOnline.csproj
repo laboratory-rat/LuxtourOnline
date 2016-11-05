@@ -220,8 +220,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Hotel\Apartments.css" />
+    <Content Include="Content\Hotel\Display.css" />
     <Content Include="Content\Hotel\Index.css" />
-    <Content Include="Content\Manager\TourRemove.css" />
+    <Content Include="Content\Tour\Display.css" />
     <Content Include="Content\Resources\logo-email-small.png" />
     <Content Include="bower_components\angular-carousel\dist\angular-carousel.css" />
     <Content Include="bower_components\angular-carousel\dist\angular-carousel.js" />
@@ -469,7 +471,7 @@
     <Content Include="Content\jquery.mobile.theme-1.4.5.min.css" />
     <Content Include="Content\Landing.css" />
     <Content Include="Content\List.css" />
-    <Content Include="Content\Manager\TourModify.css" />
+    <Content Include="Content\Tour\TourModify.css" />
     <Content Include="Content\mdl-v1.1.2\icon.css" />
     <Content Include="Content\mdl-v1.1.2\material.amber-light_blue.min.css" />
     <Content Include="Content\Mobile\Contacts.css" />
@@ -675,7 +677,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\Manager\ModifyTour.js" />
+    <Content Include="Scripts\Tour\ModifyTour.js" />
     <Content Include="Scripts\Mobile\Home\ContactsApp.js" />
     <Content Include="Scripts\Mobile\Home\NewsApp.js" />
     <Content Include="Scripts\Mobile\Home\OrderApp.js" />
@@ -716,6 +718,7 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\SubscribeController.cs" />
     <Compile Include="Controllers\TelGrubController.cs" />
+    <Compile Include="Controllers\TourController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ViewSwitcherController.cs" />
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
@@ -798,6 +801,10 @@
     <Compile Include="Migrations\201611041242492_image_problem4.cs" />
     <Compile Include="Migrations\201611041242492_image_problem4.Designer.cs">
       <DependentUpon>201611041242492_image_problem4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611050951281_aprtmetnsOrder.cs" />
+    <Compile Include="Migrations\201611050951281_aprtmetnsOrder.Designer.cs">
+      <DependentUpon>201611050951281_aprtmetnsOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
@@ -912,6 +919,12 @@
     <Content Include="Views\Manager\DisplayTour.cshtml" />
     <Content Include="Views\Hotel\Modify.cshtml" />
     <Content Include="Views\Hotel\Index.cshtml" />
+    <Content Include="Views\Shared\_paging.cshtml" />
+    <Content Include="Views\Hotel\Apartments.cshtml" />
+    <Content Include="Views\Hotel\Display.cshtml" />
+    <Content Include="Views\Tour\Index.cshtml" />
+    <Content Include="Views\Tour\Modify.cshtml" />
+    <Content Include="Views\Tour\Display.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -922,9 +935,11 @@
   <ItemGroup>
     <Folder Include="App_Data\Images\" />
     <Folder Include="bin\" />
+    <Folder Include="Content\Manager\" />
     <Folder Include="Content\TmpImages\" />
     <Folder Include="Logs\" />
     <Folder Include="Models\User\" />
+    <Folder Include="Scripts\Manager\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Image\" />
   </ItemGroup>
@@ -991,6 +1006,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611041242492_image_problem4.resx">
       <DependentUpon>201611041242492_image_problem4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611050951281_aprtmetnsOrder.resx">
+      <DependentUpon>201611050951281_aprtmetnsOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

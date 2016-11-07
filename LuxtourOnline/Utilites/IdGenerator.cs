@@ -79,6 +79,8 @@ namespace LuxtourOnline.Utilites
             "R3nqeygqH5XOr10kmiZK",
         };
 
+        const string chars = "0123456789";
+
         public static string GenerateIdMd5()
         {
             var rand = new Random();
@@ -106,15 +108,39 @@ namespace LuxtourOnline.Utilites
             string now = DateTime.Now.Ticks.ToString();
             string text = $"{now}{salt}{now}";
 
+            return Hash(text);
+        }
+
+        public static string GeneratePin(int length = 8)
+        {
+            Random random = new Random();
+            
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        public static bool Compare(string hash, string text)
+        {
+
+            return Hash(text) == hash;
+        }
+
+        public static string Hash(string text)
+        {
             byte[] bytes = Encoding.Unicode.GetBytes(text);
-            SHA256Managed hashstring = new SHA256Managed();
-            byte[] hash = hashstring.ComputeHash(bytes);
-            string hashString = string.Empty;
-            foreach (byte x in hash)
+            SHA256Managed hashsring = new SHA256Managed();
+            byte[] result = hashsring.ComputeHash(bytes);
+
+            string textResult = string.Empty;
+
+            foreach (byte x in result)
             {
-                hashString += String.Format("{0:x2}", x);
+                textResult += String.Format("{0:x2}", x);
             }
-            return hashString.ToLower();
+
+            textResult = textResult.ToLower();
+
+            return textResult;
         }
     }
 }

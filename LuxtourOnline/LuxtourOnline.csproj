@@ -651,6 +651,8 @@
     </None>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\EditHotel.js" />
+    <Content Include="Scripts\Extensions\domUpdater.js" />
+    <Content Include="Scripts\Extensions\Paging.js" />
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
     <Content Include="Scripts\FileAPI.min.js" />
@@ -712,10 +714,12 @@
     <Compile Include="Controllers\Api\TourController.cs" />
     <Compile Include="Controllers\Api\TourShortController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotelController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\SubscribeController.cs" />
     <Compile Include="Controllers\TelGrubController.cs" />
     <Compile Include="Controllers\TourController.cs" />
@@ -806,6 +810,14 @@
     <Compile Include="Migrations\201611050951281_aprtmetnsOrder.Designer.cs">
       <DependentUpon>201611050951281_aprtmetnsOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611062201075_orders2.cs" />
+    <Compile Include="Migrations\201611062201075_orders2.Designer.cs">
+      <DependentUpon>201611062201075_orders2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611071401087_order-3.cs" />
+    <Compile Include="Migrations\201611071401087_order-3.Designer.cs">
+      <DependentUpon>201611071401087_order-3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
     <Compile Include="Models\Api\Tours.cs" />
@@ -821,6 +833,7 @@
     <Compile Include="Models\Products\Image.cs" />
     <Compile Include="Models\Products\Orders.cs" />
     <Compile Include="Models\Products\Review.cs" />
+    <Compile Include="Models\Products\SiteDocument.cs" />
     <Compile Include="Models\Products\Subscribe.cs" />
     <Compile Include="Models\Products\tag.cs" />
     <Compile Include="Models\Products\Top.cs" />
@@ -841,6 +854,7 @@
     <Compile Include="Tasks\TestMailTask.cs" />
     <Compile Include="Utilites\AppRandom.cs" />
     <Compile Include="Utilites\Constants.cs" />
+    <Compile Include="Utilites\DocumentsMaster.cs" />
     <Compile Include="Utilites\HandleErrorExtension.cs" />
     <Compile Include="Utilites\IdGenerator.cs" />
     <Compile Include="Utilites\ImageMaster.cs" />
@@ -925,6 +939,7 @@
     <Content Include="Views\Tour\Index.cshtml" />
     <Content Include="Views\Tour\Modify.cshtml" />
     <Content Include="Views\Tour\Display.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -941,6 +956,7 @@
     <Folder Include="Models\User\" />
     <Folder Include="Scripts\Manager\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\Document\" />
     <Folder Include="Views\Image\" />
   </ItemGroup>
   <ItemGroup>
@@ -1009,6 +1025,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611050951281_aprtmetnsOrder.resx">
       <DependentUpon>201611050951281_aprtmetnsOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611062201075_orders2.resx">
+      <DependentUpon>201611062201075_orders2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611071401087_order-3.resx">
+      <DependentUpon>201611071401087_order-3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

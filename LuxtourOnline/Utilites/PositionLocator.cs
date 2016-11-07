@@ -12,6 +12,12 @@ namespace LuxtourOnline.Utilites
     {
         public static readonly string Site = "http://www.freegeoip.net/xml/";
 
+        public static string GetIp()
+        {
+            string ip = HttpContext.Current.Request.UserHostAddress;
+            return ip;
+        }
+
         public static LocationModel GetLocation(string ip)
         {
             try

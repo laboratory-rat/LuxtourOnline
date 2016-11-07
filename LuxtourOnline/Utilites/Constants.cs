@@ -11,7 +11,12 @@ namespace LuxtourOnline
         public static readonly string[] AvaliableLangs = new string[] { "en", "ru", "uk" };
         public static string DefaultLanguage { get { return AvaliableLangs[2]; } }
 
-
+        public static readonly string[] PdfExtensions = new string[] { "pdf", "doc", "docx"};
+        public static bool IsPdf(string ex)
+        {
+            ex = ex.ToLower();
+            return PdfExtensions.Contains(ex);
+        }
 
         #region Images
 

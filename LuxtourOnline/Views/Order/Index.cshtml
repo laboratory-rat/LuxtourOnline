@@ -1,0 +1,137 @@
+﻿@model LuxtourOnline.Models.Products.OrderDisplayListModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
+}
+
+<div class="mdl-grid" ng-app="OrderApp" ng-controller="OrderCtrl" ng-init="Init(@Newtonsoft.Json.JsonConvert.SerializeObject(Model))">
+
+    <div class="mdl-cell mdl-cell--6-col mdl-typography--headline mdl-typography--font-medium">
+        Таблиця замовлень
+    </div>
+    <div class="mdl-cell mdl-cell--6-col paging-container">
+        <paging current="{{Data.Paging.CurrentPange}}" total="{{Data.Paging.TotalPages}}" ng-click="LoadPage(i)"></paging>
+    </div>
+
+    <div class="mdl-cell mdl-cell--12-col">
+        <table class="mdl-data-table mdl-shadow--2dp" style="width:100%;">
+            <thead class="mdl-color--blue-500 mdl-color-text--white mdl-typography--subhead mdl-typography--font-medium mdl-typography--text-center">
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">Id</td>
+                    <td class="mdl-data-table__cell--non-numeric">Дата замовлення</td>
+                    <td class="mdl-data-table__cell--non-numeric">Агент</td>
+                    <td class="mdl-data-table__cell--non-numeric">Тур / Готель </td>
+                    <td class="mdl-data-table__cell--non-numeric">Виліт</td>
+                    <td class="mdl-data-table__cell--non-numeric">дорослі + діти</td>
+                    <td class="mdl-data-table__cell--non-numeric">Заїзд</td>
+
+                    <td class="mdl-data-table__cell--non-numeric">Статус</td>
+
+
+                    <td class="mdl-data-table__cell--non-numeric">ціна</td>
+                    <td class="mdl-data-table__cell--non-numeric">документи</td>
+                </tr>
+            </thead>
+            <tbody class="mdl-typography--text-center">
+                <tr ng-repeat="o in Data.Orders">
+                    <td class="mdl-data-table__cell--non-numeric"><a href="/Order/Display/{{o.Id}}" style="text-decoration: none;" class="mdl-color-text--blue-500">{{o.Id}}</a></td>
+                    <td class="mdl-data-table__cell--non-numeric">{{o.OrderDate | date:'MM/dd/yyyy  HH:mm'}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">Null</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{o.Tour.Description.Title}}/{{o.Hotel.Title}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{o.FlyOutCity}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{GetCustomers(o.Customers)}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{o.Date | date:'MM/dd/yy'}} | {{o.Tour.Days}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{o.Status}}</td>
+
+                    <td>{{o.Price | currency : "$" : 2}}</td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <a href="/Order/Docs/{{o.Id}}" class="mdl-button mdl-js-button mdl-button--icon">
+                            <i class="material-icons mdl-color-text--orange-500">content_paste</i>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Style
+{
+
+    <style>
+        table thead td {
+            vertical-align: middle;
+            border: 1px solid white;
+            border-top: 0px;
+        }
+
+        table td {
+            text-align: center !important;
+            float: none;
+        }
+
+        .mdl-data-table tbody tr:nth-child(2n) {
+            background-color: #eff8fe;
+        }
+    </style>
+
+}
+
+@section Scripts
+{
+    <script src="~/Scripts/Extensions/Paging.js"></script>
+    <script src="~/Scripts/Extensions/domUpdater.js"></script>
+
+    <script>
+        var app = angular.module('OrderApp', ['paging', 'domUpdater']);
+
+        app.filter('ctime', function () {
+
+            return function (jsonDate) {
+
+                var date = new Date(parseInt(jsonDate.substr(6)));
+                return date;
+            };
+
+        });
+
+        app.controller('OrderCtrl', ['$scope', '$http', function ($scope, $http) {
+            $scope.Data;
+
+            $scope.LoadPage = function (i) {
+                $http.get('/Order/Index/' + i)
+                .success(function (r) {
+
+                    $scope.Data = r;
+                });
+            };
+
+            $scope.GetData = function (data) {
+
+            };
+
+            $scope.Init = function (data) {
+                $scope.Data = data;
+
+                console.log(data);
+            };
+
+            $scope.GetCustomers = function (data) {
+                if (data == undefined)
+                    return "Failed";
+
+                var adult = 0;
+                if (data.Adult != undefined)
+                    adult = data.Adult;
+
+                var child = 0;
+                if (data.Child != undefined)
+                    child = data.Child;
+
+                return adult + " + " + child;
+            }
+
+        }]);
+    </script>
+}

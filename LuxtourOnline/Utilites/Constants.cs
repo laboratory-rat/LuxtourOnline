@@ -70,6 +70,45 @@ namespace LuxtourOnline
         }
         #endregion Images
 
+        #region Passport
+
+        public static readonly string PassportFolder = "Content\\UserDocuments";
+
+        public static readonly string PassportBasePath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, PassportFolder);
+
+        public static readonly string PassportUlr = "Content/UserDocuments";
+
+        public static readonly string FullBasePassportUrl =  $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{PassportUlr}";
+
+
+        public static readonly string TmpPassportUlr = "Content/TmpDocs";
+
+        public static readonly string TmpPassportFolder = "Content\\TmpDocs";
+
+        public static readonly string TmpPassportBasePath = Path.Combine(HttpContext.Current.Request.PhysicalApplicationPath, TmpPassportFolder);
+
+        public static readonly string TmpBasePassportUrl = $"{HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)}/{TmpPassportUlr}";
+
+        public static string GeneratePassportPath(string id, string name, string extension) { return GeneratePassportPath(id, name = extension); }
+        public static string GeneratePassportPath(string id, string fullName)
+        {
+
+            string directory = Path.Combine(PassportBasePath, id);
+
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            return Path.Combine(directory, fullName);
+        }
+
+        public static string GeneratePassportUrl (string id, string fullName)
+        {
+            return $"{FullBasePassportUrl}/{id}/{fullName}";
+        }
+
+
+        #endregion
+
         #region Tours
 
         public static string TourOutUrl(int id, string language)
@@ -86,6 +125,10 @@ namespace LuxtourOnline
 
         #endregion
 
+        public static string PayLink(string id)
+        {
+            return "http://google.com/" + id;
+        }
 
     }
 }

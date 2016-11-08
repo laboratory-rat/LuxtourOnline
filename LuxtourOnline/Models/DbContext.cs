@@ -30,7 +30,7 @@ namespace LuxtourOnline.Models
         public DbSet<Log> Logs { get; set; }
 
 
-        public DbSet<Order> Orders { get; set; }
+        public DbSet<LuxtourOnline.Models.Products.Order> Orders { get; set; }
         public DbSet<CustomerData> CustomerData { get; set; }
         public DbSet<PassportImage>  PassportImages { get; set; }
 

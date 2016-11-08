@@ -1,0 +1,152 @@
+﻿@model LuxtourOnline.Models.AccountDisplayModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+<div class="mdl-grid">
+    <!-- Main Col -->
+    <div class="mdl-cell mdl-cell--7-col-desktop mdl-cell--8-col-tablet mdl-cell--1-offset-desktop">
+        <div class="mdl-typography--display-2 mdl-typography--font-bold">Особистий кабінет</div>
+        <a href="@Url.Action("Tours")" class="mdl-shadow--2dp my-tour">
+            <i class="material-icons mdl-color-text--blue-500">assignment_turned_in_blank</i>
+            <div style="margin-top: 8px;" class="mdl-typography--display-1 mdl-typography--font-light">Мої тури</div>
+            <span class="mdl-badge " data-badge="@Model.Orders.Count"></span>
+        </a>
+        <div class="person-info">
+            <div class="text-main mdl-typography--display-1 mdl-typography--font-bold">Персональні дані</div>
+            <div class="container">
+                <div class="row">
+                    <div class="row-1"><i class="material-icons mdl-color-text--blue-500">lock</i></div>
+                    <div class="row-2 main-text mdl-typography--display-1">*******</div>
+                    <div class="row-3"><a href="@Url.Action("ChangePassword")" class="mdl-button mdl-js-button">Змінити</a></div>
+                </div>
+
+                <div class="row">
+                    <div class="row-1"><i class="material-icons mdl-color-text--blue-500">mail</i></div>
+                    <div class="row-2 main-text mdl-typography--display-1">*******</div>
+                    <div class="row-3"><a href="@Url.Action("ChangePassword")" class="mdl-button mdl-js-button">Змінити</a></div>
+                </div>
+
+                <div class="row">
+                    <div class="row-1"><i class="material-icons mdl-color-text--blue-500">phone</i></div>
+                    <div class="row-2 main-text mdl-typography--display-1">*******</div>
+                    <div class="row-3"><a href="@Url.Action("ChangePassword")" class="mdl-button mdl-js-button">Змінити</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--4-col-tablet">
+    </div>
+    <!-- Second col -->
+</div>
+
+@section Style
+{
+
+    <style>
+        .mdl-grid
+        {
+            margin-top: 48px;
+        }
+        .my-tour {
+            display: block;
+            background-color: white;
+            padding: 24px 0px 24px 29px;
+            height: 48px;
+
+            text-decoration: none;
+            color: rgba(0,0,0,0.87);
+
+            margin-top: 48px;
+        }
+
+            .my-tour i {
+                font-size: 48px !important;
+                width: 64px;
+                display: block;
+                float: left;
+            }
+
+            .person-info
+            {
+                margin-top: 48px;
+            }
+
+            .container
+            {
+                width: 100%;
+                margin-top: 24px;
+
+            }
+
+            .container::after 
+            {
+                float: none;
+                clear: both;
+
+                content: "";
+            }
+
+            .container > .row
+            {
+                width: 100%;
+                height: 48px;
+
+                margin-bottom: 24px;
+            }
+            
+            .container > .row::after
+            {
+                float: none;
+                clear: both;
+                content: "";
+            }
+
+            .container > .row  i
+            {
+                font-size: 48px !important;
+            }
+
+            .container > .row > div
+            {
+                float: left;
+                height: 48px;
+            }
+
+
+
+            .container > .row > .row-1
+            {
+                width: 10%;
+            }
+
+            .container > .row > .row-2
+            {
+                width: 55%;
+                padding-top: 12px;
+            }
+
+            .container > .row > .row-3
+            {
+                width: 35%;
+            }
+
+        .mdl-badge {
+            display: block;
+            float: right;
+        }
+
+        .mdl-badge:after
+        {
+            width: 36px !important;
+            font-size: 24px !important;
+            font-weight: bold !important;
+            color: white !important;
+            height: 36px !important;
+            margin-right: 24px;
+            margin-top: -31px;
+        }
+    </style>
+
+}

@@ -12,6 +12,9 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.Owin.Security;
 using LuxtourOnline.WebUI;
 using LuxtourOnline.Models.TelGrub;
+using LuxtourOnline.Models.Products;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace LuxtourOnline.Models
 {
@@ -35,15 +38,24 @@ namespace LuxtourOnline.Models
             RegDate = DateTime.Now.Date.ToShortDateString();
         }
 
+        public AppUser (string email, string fullName, string ip, string phone, string city) : this(email, fullName, ip, phone)
+        {
+            City = city;
+        }
+
         public string FullName { get; set; }
         public string RegIp { get; set; }
         public bool Active { get; set; } = true;
+        public string City { get; set; } = "";
         public string RegDate { get; set; } = DateTime.Now.Date.ToShortDateString();
 
         public bool AllowTelGrub { get; set; } = false;
 
         [Required]
         public virtual List<TelGrubModel> TelGrubs { get; set; } = new List<TelGrubModel>();
+
+        [Required]
+        public virtual List<Order> Orders { get; set; } = new List<Order>();
     }
 
     public class AppUserRole : IdentityRole
@@ -358,5 +370,51 @@ namespace LuxtourOnline.Models
     }
 
     #endregion Manager
+
+    public class AccountDisplayModel
+    {
+        public List<OrderStatusModel> Orders { get; set; } = new List<OrderStatusModel>();
+        public AppUser User { get; set; } = null;
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public OrderStatus LastStatus
+        {
+            get { return Orders.Count > 0 ? Orders[0].Status : OrderStatus.Null; }
+        }
+
+
+        public AccountDisplayModel()
+        {
+
+        }
+
+        public AccountDisplayModel(List<Order> orders, AppUser user) : this()
+        {
+            foreach(var o in orders.OrderByDescending(x => x.OrderDate))
+            {
+                Orders.Add(new OrderStatusModel(o));
+            }
+        }
+    }
+
+    public class OrderStatusModel
+    {
+        public string Id { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public OrderStatus Status { get; set; }
+
+        public OrderStatusModel()
+        {
+
+        }
+
+        public OrderStatusModel(Order data) : this()
+        {
+            Id = data.Id;
+            Status = data.Status;
+        }
+    }
+
 
 }

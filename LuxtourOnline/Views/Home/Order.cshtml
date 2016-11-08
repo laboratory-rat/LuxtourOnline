@@ -50,12 +50,12 @@
                         <div class="mdl-cell mdl-cell--6-col" id="dateArea">
                             <div class="mdl-textfield mdl-js-textfield">
                                 <label for="dateFrom" class="">Дата виїзду</label>
-                                <input type="date" class="mdl-textfield__input" id="dateFrom" name="DateFrom" min="{{TodayDate | date:'yyyy-MM-dd'}}" ng-model="UploadData.dateFrom" />
+                                <input type="date" class="mdl-textfield__input" id="dateFrom" name="DateFrom" min="{{TodayDate | date:'yyyy-MM-dd'}}" ng-model="UploadData.FlyOutDate" />
                                 <label for="dateFrom" class="mdl-textfield__label"></label>
                             </div>
                             <div class="mdl-textfield mdl-js-textfield">
                                 <label for="city" class="">Виїзд з</label>
-                                <select class="mdl-textfield__input" id="city" name="City" ng-model="UploadData.fromCity">
+                                <select class="mdl-textfield__input" id="city" name="City" ng-model="UploadData.FlyOutCity">
                                     <option value="lviv">Львів</option>
                                     <option value="ivano-fr">Івано-Франківськ</option>
                                     <option value="chervonograd">Червоноград</option>
@@ -232,7 +232,7 @@
                         Ціна за тур: <span>{{TourData.price | currency : '$' : 2}}</span>
                     </div>
                     <div>
-                        Виїзд з міста: <span>{{UploadData.fromCity}}</span>
+                        Виїзд з міста: <span>{{UploadData.FlyOutCity}}</span>
                     </div>
                     <div>
                         <button ng-disabled="!IsValidSecond()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-typography--headline mdl-typography--font-medium" ng-click="SendData()">
@@ -266,7 +266,7 @@
                             </label>
 
                             <div class="mdl-textfield mdl-js-textfield" style="padding-top: 16px;">
-                                <input name="fullname{{data.id}}" id="fullname{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.fullName" />
+                                <input name="fullname{{data.id}}" id="fullname{{data.id}}" class="mdl-textfield__input" type="text" ng-model="UploadData.fullName" />
                                 <label for="fullname{{data.id}}" class="mdl-textfield__label">
                                     ПІБ
                                 </label>
@@ -308,8 +308,8 @@
                                 <span class="mdl-checkbox__label text-main">Завантажити скани паспорта</span>
                             </label>
 
-                            <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles && !data.isChild">
-                                <input name="pfn{{data.id}}" id="pfn{{data.id}}" class="mdl-textfield__input" type="text" fileread="data.passportData" ng-disabled="data.isChild" />
+                            <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles">
+                                <input name="pfn{{data.id}}" id="pfn{{data.id}}" class="mdl-textfield__input" type="text" ng-model="data.passportData" />
                                 <label for="pfn{{data.id}}" class="mdl-textfield__label">
                                     <span>Повне ім'я у паспорті</span>
                                 </label>
@@ -317,7 +317,7 @@
 
                             <div class="mdl-textfield mdl-js-textfield" ng-if="!data.passportIsFiles">
                                 <label for="br{{data.id}}" class="">Дата народження:</label>
-                                <input type="date" class="mdl-textfield__input" id="br{{data.id}}" ng-model="data.bithday" max="{{TodayDate | date:'yyyy-MM-dd'}}" />
+                                <input type="date" class="mdl-textfield__input" id="br{{data.id}}" ng-model="data.birthday" max="{{TodayDate | date:'yyyy-MM-dd'}}" />
                                 <label for="br{{data.id}}" class="mdl-textfield__label"></label>
                             </div>
 

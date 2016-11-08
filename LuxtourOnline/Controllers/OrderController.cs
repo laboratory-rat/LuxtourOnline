@@ -1,5 +1,7 @@
 ﻿using LuxtourOnline.Models;
 using LuxtourOnline.Models.Products;
+using LuxtourOnline.Utilites;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,13 +18,6 @@ namespace LuxtourOnline.Controllers
 
         protected int _perPage = 50; // { get; set; }
 
-        protected List<Order> _testOrderList = new List<Order>()
-        {
-            new Order() {Id = "123", Apartment = new Apartment() {Id = 123 }, City = "Lviv", Comments = "asd", Ip="192.100.100.150", FlyOutCity = "Lviv", Status = OrderStatus.Сonsideration, CustomersData = new List<CustomerData>(), Date = DateTime.Now, Email = "asd@asd.com", Hotel = new Hotel() {Id = 123, Title="TestHotel"}, OrderDate = DateTime.Now, Phone = "000000", Price = 1000, Tour = new Tour() {Id = 123, Descritions = new List<TourDescription>() { new TourDescription() { Id = 123, Lang = "en", Title = "123" } } } },
-            new Order() {Id = "321", Apartment = new Apartment() {Id = 123 }, City = "Lviv", Comments = "asd", Ip="192.100.100.150", FlyOutCity = "Lviv", Status = OrderStatus.Сonsideration, CustomersData = new List<CustomerData>(), Date = DateTime.Now, Email = "asd@asd.com", Hotel = new Hotel() {Id = 123, Title="TestHotel"}, OrderDate = DateTime.Now, Phone = "000000", Price = 1000, Tour = new Tour() {Id = 123, Descritions = new List<TourDescription>() { new TourDescription() { Id = 123, Lang = "en", Title = "123" } } } },
-            new Order() {Id = "321", Apartment = new Apartment() {Id = 123 }, City = "Lviv", Comments = "asd", Ip="192.100.100.150", FlyOutCity = "Lviv", Status = OrderStatus.Сonsideration, CustomersData = new List<CustomerData>(), Date = DateTime.Now, Email = "asd@asd.com", Hotel = new Hotel() {Id = 123, Title="TestHotel"}, OrderDate = DateTime.Now, Phone = "000000", Price = 1000, Tour = new Tour() {Id = 123, Descritions = new List<TourDescription>() { new TourDescription() { Id = 123, Lang = "en", Title = "123" } } } },
-        };
-
         // GET: Order
         [HttpGet]
         public ActionResult Index(int? page)
@@ -33,103 +28,117 @@ namespace LuxtourOnline.Controllers
             try
             {
 
-                //var orders = _context.Orders.OrderByDescending(x => x.OrderDate).Skip(((int)page - 1) * _perPage).Take(_perPage).ToList();
-                //var total = _context.Orders.Count();
-
-                var orders = _testOrderList;
-                var total = _testOrderList.Count();
+                var orders = _context.Orders.OrderByDescending(x => x.OrderDate).Skip(((int)page - 1) * _perPage).Take(_perPage).ToList();
+                var total = _context.Orders.Count();
 
                 OrderDisplayListModel model = new OrderDisplayListModel(orders, (int)page, _perPage, total, _lang);
 
                 return View(model);
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
-
-        [HttpGet]
+        protected int _passwordLength = 8;
         [AllowAnonymous]
-        public ActionResult Show()
+        public async Task<ActionResult> Create(CreateOrderModel model)
         {
-            string number = "";
-            string code = "";
-
-            if(!string.IsNullOrEmpty((string)Session["number"]) && !string.IsNullOrEmpty((string)Session["code"]))
-            {
-                number = (string)Session["number"];
-                code = (string)Session["code"];
-            }
-            else
-            {
-                HttpCookieCollection collection = Request.Cookies;
-                HttpCookie ck = collection.Get("QuickEnter");
-
-                if(ck != null)
-                {
-                    number = ck["number"];
-                    code = ck["code"];
-                }
-            }
-
-            InputQuickCode model = new InputQuickCode() { Number = number, Code = code, RememberMe = true };
-
-            if (string.IsNullOrEmpty(number) || string.IsNullOrEmpty(code))
-            {
-                return View(model);
-            }
-
-            return Show(model);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Show(InputQuickCode model)
-        {
-            if (model.Code == "")
-            {
-                return View(model);
-            }
 
             try
             {
-                var order = _context.Orders.Where(x => x.QuickAccessNumber == model.Number && x.Status != OrderStatus.Finished).FirstOrDefault();
+                Tour tour = null;
+                Hotel hotel = null;
+                Apartment apartment = null;
 
-                if (order == null || !order.ComparePassword(model.Code))
+                tour = _context.Tours.Where(x => x.Id == model.TourId).FirstOrDefault();
+                hotel = _context.Hotels.Where(x => x.Id == model.HotelId).FirstOrDefault();
+                apartment = _context.Apartents.Where(x => x.Id == model.ApartmentId).FirstOrDefault();
+
+                if (tour == null || hotel == null || apartment == null)
                 {
-                    model.Code = "";
-
-                    ModelState.AddModelError("", "Нівірний номер замовлення");
-
-                    return View(model);
+                    throw new Exception("No tour hotel or apartment");
                 }
 
-                if(model.RememberMe)
+                AppUser user = null;
+                bool newUser = false;
+                string password = "";
+
+                if (User.Identity.IsAuthenticated)
                 {
-                    HttpCookie ck = new HttpCookie("QuickEnter");
-                    ck["number"] = model.Number;
-                    ck["code"] = model.Code;
-                    ck.Expires = DateTime.Now.AddDays(3d);
-                    Response.Cookies.Add(ck);
+                    user = GetCurrentUser(_context);
+                }
+                else
+                {
+                    string email = model.Email;
+                    if (email != "" && _context.Users.Where(x => x.Email == model.Email.ToLower()).Any())
+                    {
+                        user = _context.Users.Where(x => x.Email == model.Email).First();
+                    }
+                    else if (!string.IsNullOrEmpty(model.Email) && !string.IsNullOrEmpty(model.Phone) && !string.IsNullOrEmpty(model.City))
+                    {
+                        user = new AppUser(model.Email, model.FullName, LocationMaster.GetIp(), model.Phone, model.City);
+                        password = IdGenerator.RandomString(_passwordLength);
+
+                        var manager = new AppUserManager(new UserStore<AppUser>(_context));
+
+                        await manager.CreateAsync(user, password);
+                        await manager.AddToRoleAsync(user.Id, "user");
+                        newUser = true;
+                    }
+                    else
+                    {
+                        throw new Exception("Bad model");
+                    }
                 }
 
-                Session["number"] = model.Number;
-                Session["code"] = model.Code;
+                Order order = new Order(model, tour, hotel, apartment, user, _lang);
 
-                return View("ShowOrderData", new OrderDisplayModel(order, _lang));
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
 
+
+
+                string mail = "<center><h2>Вітаємо</h2><center>";
+                mail += $"Ваше замовлення: {tour.Descritions.Where(x => x.Lang == _lang).First().Title} : {hotel.Title} : {apartment.Title}<br>";
+                mail += $"До оплати: {order.Price}$ <br>";
+                mail += $"Платіжна система: <a href='{Constants.PayLink(order.Id)}'>тут</a> <br>";
+
+                if (newUser)
+                {
+                    string url = GetUrl() + "/Account";
+
+                    mail += "<br><br>";
+                    mail += $"Для вас створений особистй аккаунт, де ви маєте моливість побачити дані вашого замовелення<br>";
+                    mail += $"<br><br>Login: {user.Email} <br>Password: {password}";
+                    mail += $"<br><br> <a href='{url}'>Acount</a>";
+                }
+
+                await MailMaster.SendMailAsync(user.Email, "LuxtourOnline", "Order #" + order.Id.Substring(0, 10), mail);
+
+                string t = "";
+                t = $"{order.Id} / {order.Price}";
+
+                await MailMaster.SendMailAsync(MailMaster.OrderMail, "New order", "Luxtour new order", t);
+#if !DEBUG
+#endif
+
+                return Json(Constants.PayLink(order.Id), JsonRequestBehavior.AllowGet);
             }
             catch(Exception ex)
             {
                 _logger.Error(ex);
-                return RedirectToAction("Index", "Home", null);
+                throw new Exception();
             }
-                
+
+            
 
         }
     }
+
+
+
 }

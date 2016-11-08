@@ -58,28 +58,15 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
         email: '',
         phone: '',
         city: '',
+        fullName: '',
         comments: '',
 
-        fromCity: '',
-        dateFrom: '',
+        FlyOutCity: '',
+        FlyOutDate: '',
 
 
         customers: [
-            /*{
-            id: '',
-            isChild: false,
-            fullName: '',
-            countryFrom: '',
-            countryLive: '',
-            passportFiles: [],
-            passportIsFiles: false,
-            bithday: '',
-            passportUntil: '',
-            passportFrom: '',
-            passportNumber: '',
-            passportFullName: '',
-            }
-            */
+
         ]
     };
     $scope.GetLength = function (element)
@@ -100,14 +87,14 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
         if ($scope.ActiveHotel.aa === null)
             return false;
 
-        if ($scope.UploadData.dateFrom === '' || $scope.UploadData.fromCity === '' || $scope.UploadData.city === '' || $scope.UploadData.email === '' || $scope.UploadData.phone === '')
+        if ($scope.UploadData.FlyOutDate === '' || $scope.UploadData.FlyOutCity === '' || $scope.UploadData.city === '' || $scope.UploadData.email === '' || $scope.UploadData.phone === '')
             return false;
 
         if ($scope.UploadData.customers !== null && $scope.UploadData.customers.length > 0) {
             for (var i = 0; i < $scope.UploadData.customers.length; i++) {
                 var c = $scope.UploadData.customers[i];
 
-                if (c.fullName === '' || c.bithday === '')
+                if (c.bithday === '' || c.passportData === '')
                     return false;
 
                 if (!c.isChild) {
@@ -117,13 +104,12 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
                             return false;
                     }
                     else {
-                        if (c.passportData === '' ||
-                             c.passportNumber === '' ||
+                        if ( c.passportNumber === '' ||
                              c.passportUntil === '' ||
                              c.passportFrom === '' ||
-                            c.countryFrom === '' ||
+                             c.countryFrom === '' ||
                              c.countryLive === '')
-                            return false;
+                                return false;
                     }
                 }
             }
@@ -146,14 +132,14 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
         if ($scope.ActiveHotel.aa === null)
             return false;
 
-        if ($scope.UploadData.dateFrom === '' || $scope.UploadData.fromCity === '' || $scope.UploadData.city === '' || $scope.UploadData.email === '' || $scope.UploadData.phone === '')
+        if ($scope.UploadData.FlyOutDate === '' || $scope.UploadData.FlyOutCity === '' || $scope.UploadData.city === '' || $scope.UploadData.email === '' || $scope.UploadData.phone === '')
             return false;
 
         if ($scope.UploadData.customers !== null && $scope.UploadData.customers.length > 0) {
             for (var i = 0; i < $scope.UploadData.customers.length; i++) {
                 var c = $scope.UploadData.customers[i];
 
-                if ( c.fullName === '' || c.bithday === '')
+                if (c.fullName === '' || c.birthday === '')
                     return false;
 
                 if (!c.isChild) {
@@ -191,7 +177,7 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
         data.TourId = $scope.TourId;
         data.ApartmentID = $scope.ActiveHotel.aa.id;
 
-        $http.post('/'+$scope.Lang+'/Home/CreateOrder', data)
+        $http.post('/Order/Create', data)
         .success(function (response) {
             if (response.result == "error")
             {
@@ -220,7 +206,7 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
             countryLive: '',
             passportFiles: '',
             passportIsFiles: false,
-            bithday: '',
+            birthday: '',
             passportUntil: '',
             passportFrom: '',
             passportNumber: '',
@@ -395,10 +381,10 @@ app.controller("OrderCtrl", ['$scope', '$http', function ($scope, $http) {
     
     $scope.UntilDate = function(days)
     {
-        if ($scope.UploadData.dateFrom == null)
+        if ($scope.UploadData.FlyOutDate == null)
             return;
 
-        var until = new Date($scope.UploadData.dateFrom);
+        var until = new Date($scope.UploadData.FlyOutDate);
         until.setDate(until.getDate() + days);
         return until;
     }

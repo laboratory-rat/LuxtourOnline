@@ -7,13 +7,13 @@ namespace LuxtourOnline.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class operatorless : IMigrationMetadata
+    public sealed partial class mg_init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(operatorless));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(mg_init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611011640174_operator-less"; }
+            get { return "201611081434450_mg_init"; }
         }
         
         string IMigrationMetadata.Source

@@ -16,6 +16,7 @@ namespace LuxtourOnline.Utilites
         public static readonly string Pass = "os9090()";
         public static readonly string DefaultHeading = "Luxtour Online Info";
 
+        public static readonly string OrderMail = "info@luxtour.online";
 
         private static SmtpClient _client { get; set; } = null;
         public static SmtpClient Client

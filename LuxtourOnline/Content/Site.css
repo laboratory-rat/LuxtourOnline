@@ -18,7 +18,11 @@
     color: rgba(0,0,0,0.54);
 }
 
+.page-content
+{
+    min-height: 600px;
 
+}
 
 /*#region Layout */
 

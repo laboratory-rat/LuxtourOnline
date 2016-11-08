@@ -708,6 +708,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\Api\ApiController.cs" />
@@ -730,93 +731,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201610181303190_init.cs" />
-    <Compile Include="Migrations\201610181303190_init.Designer.cs">
-      <DependentUpon>201610181303190_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610210927468_Order.cs" />
-    <Compile Include="Migrations\201610210927468_Order.Designer.cs">
-      <DependentUpon>201610210927468_Order.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610311144434_turbo.cs" />
-    <Compile Include="Migrations\201610311144434_turbo.Designer.cs">
-      <DependentUpon>201610311144434_turbo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610311159321_turbo2.cs" />
-    <Compile Include="Migrations\201610311159321_turbo2.Designer.cs">
-      <DependentUpon>201610311159321_turbo2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611011430341_operators.cs" />
-    <Compile Include="Migrations\201611011430341_operators.Designer.cs">
-      <DependentUpon>201611011430341_operators.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611011518366_operators2.cs" />
-    <Compile Include="Migrations\201611011518366_operators2.Designer.cs">
-      <DependentUpon>201611011518366_operators2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611011541444_operators3.cs" />
-    <Compile Include="Migrations\201611011541444_operators3.Designer.cs">
-      <DependentUpon>201611011541444_operators3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611011640174_operator-less.cs" />
-    <Compile Include="Migrations\201611011640174_operator-less.Designer.cs">
-      <DependentUpon>201611011640174_operator-less.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611012052121_operator-100.cs" />
-    <Compile Include="Migrations\201611012052121_operator-100.Designer.cs">
-      <DependentUpon>201611012052121_operator-100.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611021229079_debug.cs" />
-    <Compile Include="Migrations\201611021229079_debug.Designer.cs">
-      <DependentUpon>201611021229079_debug.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611021448417_grub_status.cs" />
-    <Compile Include="Migrations\201611021448417_grub_status.Designer.cs">
-      <DependentUpon>201611021448417_grub_status.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611031212492_newTours.cs" />
-    <Compile Include="Migrations\201611031212492_newTours.Designer.cs">
-      <DependentUpon>201611031212492_newTours.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611031549459_test-11.cs" />
-    <Compile Include="Migrations\201611031549459_test-11.Designer.cs">
-      <DependentUpon>201611031549459_test-11.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611031558254_top_tour_2.cs" />
-    <Compile Include="Migrations\201611031558254_top_tour_2.Designer.cs">
-      <DependentUpon>201611031558254_top_tour_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611031625489_top_tour_3.cs" />
-    <Compile Include="Migrations\201611031625489_top_tour_3.Designer.cs">
-      <DependentUpon>201611031625489_top_tour_3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611041144019_image_problem.cs" />
-    <Compile Include="Migrations\201611041144019_image_problem.Designer.cs">
-      <DependentUpon>201611041144019_image_problem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611041215379_image_problem2.cs" />
-    <Compile Include="Migrations\201611041215379_image_problem2.Designer.cs">
-      <DependentUpon>201611041215379_image_problem2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611041222325_image_problem3.cs" />
-    <Compile Include="Migrations\201611041222325_image_problem3.Designer.cs">
-      <DependentUpon>201611041222325_image_problem3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611041242492_image_problem4.cs" />
-    <Compile Include="Migrations\201611041242492_image_problem4.Designer.cs">
-      <DependentUpon>201611041242492_image_problem4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611050951281_aprtmetnsOrder.cs" />
-    <Compile Include="Migrations\201611050951281_aprtmetnsOrder.Designer.cs">
-      <DependentUpon>201611050951281_aprtmetnsOrder.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611062201075_orders2.cs" />
-    <Compile Include="Migrations\201611062201075_orders2.Designer.cs">
-      <DependentUpon>201611062201075_orders2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611071401087_order-3.cs" />
-    <Compile Include="Migrations\201611071401087_order-3.Designer.cs">
-      <DependentUpon>201611071401087_order-3.cs</DependentUpon>
+    <Compile Include="Migrations\201611081434450_mg_init.cs" />
+    <Compile Include="Migrations\201611081434450_mg_init.Designer.cs">
+      <DependentUpon>201611081434450_mg_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\AccountModels.cs" />
@@ -940,6 +857,7 @@
     <Content Include="Views\Tour\Modify.cshtml" />
     <Content Include="Views\Tour\Display.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -958,6 +876,7 @@
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Document\" />
     <Folder Include="Views\Image\" />
+    <Folder Include="Views\MyOrder\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -966,71 +885,8 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610181303190_init.resx">
-      <DependentUpon>201610181303190_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610210927468_Order.resx">
-      <DependentUpon>201610210927468_Order.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610311144434_turbo.resx">
-      <DependentUpon>201610311144434_turbo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610311159321_turbo2.resx">
-      <DependentUpon>201610311159321_turbo2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611011430341_operators.resx">
-      <DependentUpon>201611011430341_operators.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611011518366_operators2.resx">
-      <DependentUpon>201611011518366_operators2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611011541444_operators3.resx">
-      <DependentUpon>201611011541444_operators3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611011640174_operator-less.resx">
-      <DependentUpon>201611011640174_operator-less.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611012052121_operator-100.resx">
-      <DependentUpon>201611012052121_operator-100.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611021229079_debug.resx">
-      <DependentUpon>201611021229079_debug.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611021448417_grub_status.resx">
-      <DependentUpon>201611021448417_grub_status.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611031212492_newTours.resx">
-      <DependentUpon>201611031212492_newTours.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611031549459_test-11.resx">
-      <DependentUpon>201611031549459_test-11.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611031558254_top_tour_2.resx">
-      <DependentUpon>201611031558254_top_tour_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611031625489_top_tour_3.resx">
-      <DependentUpon>201611031625489_top_tour_3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611041144019_image_problem.resx">
-      <DependentUpon>201611041144019_image_problem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611041215379_image_problem2.resx">
-      <DependentUpon>201611041215379_image_problem2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611041222325_image_problem3.resx">
-      <DependentUpon>201611041222325_image_problem3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611041242492_image_problem4.resx">
-      <DependentUpon>201611041242492_image_problem4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611050951281_aprtmetnsOrder.resx">
-      <DependentUpon>201611050951281_aprtmetnsOrder.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611062201075_orders2.resx">
-      <DependentUpon>201611062201075_orders2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611071401087_order-3.resx">
-      <DependentUpon>201611071401087_order-3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611081434450_mg_init.resx">
+      <DependentUpon>201611081434450_mg_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

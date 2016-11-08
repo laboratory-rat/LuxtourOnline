@@ -4,6 +4,8 @@ using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -20,13 +22,8 @@ namespace LuxtourOnline.Models.Products
         [Required]
         public DateTime Date { get; set; }
 
-        public DateTime? PasswordChangedDate { get; set; } = null;
-
         [Required]
         public OrderStatus Status { get; set; } = OrderStatus.Сonsideration;
-
-        public string QuickAccessNumber { get; set; } = "";
-        public string UserPasswordHash { get; set; } = "";
 
         [Required]
         public virtual Tour Tour { get; set; } = null;
@@ -35,34 +32,35 @@ namespace LuxtourOnline.Models.Products
         [Required]
         public virtual Apartment Apartment { get; set; } = null;
 
+        public bool IsActive { get; set; } = true;
+
         public string FlyOutCity { get; set; } = "";
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public decimal Price { get; set; } = 0;
-        public string Ip { get; set; }
 
-        [Required]
-        public string City { get; set; }
-        [Required]
-        public string Phone { get; set; }
-        [Required]
-        public string Email { get; set; }
         public string Comments { get; set; }
 
-        [Required]
+        public string Language { get; set; }
+
         public virtual List<CustomerData> CustomersData { get; set; } = new List<CustomerData>();
 
-        [Required]
         public virtual List<SiteDocument> Documents { get; set; } = new List<SiteDocument>();
 
-        protected int _quickAccessLength = 10;
+        [Required]
+        public virtual AppUser User { get; set; }
 
         public Order()
         {
             Id = IdGenerator.GenerateId();
             OrderDate = DateTime.Now;
-            Ip = LocationMaster.GetIp();
-            QuickAccessNumber = IdGenerator.GeneratePin(_quickAccessLength);
+
+            Documents = new List<SiteDocument>();
+        }
+
+        public Order(AppUser user) : this()
+        {
+            User = user;
         }
 
         public Order (string id) : this()
@@ -70,44 +68,43 @@ namespace LuxtourOnline.Models.Products
             Id = id;
         }
 
-
-
-        public bool GeneratePin(out string pin, int length = 8)
+        public Order(CreateOrderModel model, Tour tour, Hotel hotel, Apartment apartment, AppUser user, string language) : this(user)
         {
-            pin = "";
+            Date = model.FlyOutDate;
+            FlyOutCity = model.FlyOutCity;
+            Status = OrderStatus.Сonsideration;
+            Comments = model.Comments;
 
-            if (!CanChangePassword())
-                return false;
+            Tour = tour;
+            Hotel = hotel;
+            Apartment = apartment;
+            Price = Tour.Price;
 
-            pin = IdGenerator.GeneratePin(length);
-            UserPasswordHash = IdGenerator.Hash(pin);
+            Language = language;
 
-            PasswordChangedDate = DateTime.Now;
-            return true;
-        }
+            User = user;
 
-        public bool CanChangePassword()
-        {
-            if (PasswordChangedDate == null || DateTime.Now.Subtract((DateTime)PasswordChangedDate).Hours > 2)
-                return true;
+            CustomersData = new List<CustomerData>();
+            if(model.Customers != null && model.Customers.Count > 0)
+            {
+                foreach(var c in model.Customers)
+                {
+                    CustomersData.Add(new CustomerData(c, this));
+                }
+            }
 
-            return false;
-        }
-
-        public bool ComparePassword(string pass)
-        {
-            return IdGenerator.Compare(UserPasswordHash, pass);
+            
         }
     }
 
     public class CustomerData
     {
         [Key]
-        public string Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; } = 0;
+
         [Required]
         public virtual Order Order { get; set; }
-        [Required]
-        public string FullName { get; set; } = "";
         [Required]
         public bool IsChild { get; set; } = false;
 
@@ -122,44 +119,135 @@ namespace LuxtourOnline.Models.Products
         [DataType(DataType.Date)]
         public DateTime? PassportUntil { get; set; } = null;
 
-        public string Email { get; set; } = "";
-        public string Phone { get; set; } = "";
-        public string City { get; set; } = "";
         public bool LoadPassportImages { get; set; } = false;
 
         public virtual List<PassportImage> PassportImages { get; set; } = new List<PassportImage>();
-        public CustomerData(string id)
+
+        public CustomerData(int id)
         {
             Id = id;
         }
 
         public CustomerData()
         {
-            Id = IdGenerator.GenerateId();
+
+        }
+
+        public CustomerData(CustomerDisplayDataModel model, Order order)
+        {
+            IsChild = model.IsChild;
+            Birthday = model.Birthday;
+            CountryFrom = model.CountryFrom;
+            CountryLive = model.CountryLive;
+            PassportData = model.PassportData;
+            PassportNumber = model.PassportNumber;
+            PassportFrom = model.PassportFrom;
+            PassportUntil = model.PassportUntil;
+
+            LoadPassportImages = model.LoadPassportImages;
+
+            Order = order;
+
+            if(model.PassportImages != null && model.PassportImages.Count > 0)
+            {
+                foreach (var i in model.PassportImages)
+                {
+                    PassportImages.Add(new PassportImage(i, this, order.User));
+                }
+            }
+
         }
     }
 
     public class PassportImage
     {
-        [Key]
-        public string Id { get; set; }
-        [Required]
-        public byte[] Data { get; set; }
 
-        [Required]
-        public virtual CustomerData CustomerData { get; set; }
+        public int  Id { get; set; }
+        public string Extension { get; set; }
+        public string Name { get; set; }
+        public string Path { get; set; }
+        public string Url { get; set; }
 
+        public virtual CustomerData Customer { get; set; } = null;
 
         public PassportImage()
         {
-            Id = IdGenerator.GenerateId();
+
         }
 
-        public PassportImage(string id)
+        public PassportImage(string name, string ex, string path, string url, CustomerData data) : this()
         {
-            Id = id;
+            Name = name;
+            Extension = ex;
+            Path = path;
+            Url = url;
+
+
+            Customer = data;
+        }
+
+        public PassportImage(PassportImageDisplayModel model, CustomerData data, AppUser user) : this()
+        {
+            if(model.IsNew)
+            {
+                string currentPath = model.Path;
+                string newPath = Constants.GeneratePassportPath(user.Id, model.Name + model.Extension);
+
+                File.Move(currentPath, newPath);
+
+                string url = Constants.GeneratePassportUrl(user.Id, model.Name + model.Extension);
+
+                model.Path = newPath;
+                model.Url = url;
+            }
+
+            Name = model.Name;
+            Extension = model.Extension;
+            Path = model.Path;
+            Url = model.Url;
+
+            Customer  = data;
+        }
+
+    }
+    public class PassportImageDisplayModel
+    {
+        public int Id { get; set; }
+        public string Url { get; set; }
+
+        public string Path { get; set; }
+
+        public string Name { get; set; }
+
+        public string Extension { get; set; }
+
+        public bool IsNew { get; set; } = false;
+
+        public PassportImageDisplayModel()
+        {
+
+        }
+
+        public PassportImageDisplayModel(string name, string ext, string url, string path) : this()
+        {
+            Name = name;
+            Extension = ext;
+            Url = url;
+            Path = path;
+            Id = -1;
+        }
+
+        public PassportImageDisplayModel(PassportImage data)
+        {
+            Name = data.Name;
+            Extension = data.Extension;
+            Url = data.Url;
+            Path = data.Path;
+            Id = data.Id;
         }
     }
+
+
     
     public class OrderDisplayModel
     {
@@ -173,9 +261,8 @@ namespace LuxtourOnline.Models.Products
         public decimal Price { get; set; }
         public DateTime Date { get; set; }
         public DateTime OrderDate { get; set; }
-        public string City { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
+
+        public AppUser User { get; set; }
 
         public string FlyOutCity { get; set; }
 
@@ -209,15 +296,11 @@ namespace LuxtourOnline.Models.Products
 
             Price = data.Price;
 
-            City = data.City;
-            Email = data.Email;
-            Phone = data.Phone;
-
             Comments = data.Comments;
 
             FlyOutCity = data.FlyOutCity;
 
-            Location = LocationMaster.GetLocation(data.Ip);
+            User = data.User;
 
             Customers = new List<CustomerDisplayDataModel>();
             foreach(var c in data.CustomersData)
@@ -230,7 +313,7 @@ namespace LuxtourOnline.Models.Products
 
     public class CustomerDisplayDataModel
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string FullName { get; set; }
         public bool IsChild { get; set; }
 
@@ -245,12 +328,9 @@ namespace LuxtourOnline.Models.Products
         [DataType(DataType.Date)]
         public DateTime? PassportUntil { get; set; }
 
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string City { get; set; }
         public bool LoadPassportImages { get; set; }
 
-        public List<PassportDisplayModel> PassportImages { get; set; } = new List<PassportDisplayModel>();
+        public List<PassportImageDisplayModel> PassportImages { get; set; } = new List<PassportImageDisplayModel>();
 
         public CustomerDisplayDataModel()
         {
@@ -262,7 +342,6 @@ namespace LuxtourOnline.Models.Products
             Id = data.Id;
             IsChild = data.IsChild;
             Birthday = data.Birthday;
-            FullName = data.FullName;
             CountryFrom = data.CountryFrom;
             CountryLive = data.CountryLive;
             PassportData = data.PassportData;
@@ -270,30 +349,9 @@ namespace LuxtourOnline.Models.Products
             PassportUntil = data.PassportUntil;
             PassportFrom = data.PassportFrom;
 
-            Email = data.Email;
-            Phone = data.Phone;
-            City = data.City;
-
-            PassportImages = new List<PassportDisplayModel>();
+            PassportImages = new List<PassportImageDisplayModel>();
             foreach (var i in data.PassportImages)
-                PassportImages.Add(new PassportDisplayModel(i));
-        }
-    }
-
-    public class PassportDisplayModel
-    {
-        public string Id { get; set; }
-        public byte[] Data { get; set; }
-
-        public PassportDisplayModel()
-        {
-
-        }
-
-        public PassportDisplayModel(PassportImage data)
-        {
-            Id = data.Id;
-            Data = data.Data;
+                PassportImages.Add(new PassportImageDisplayModel(i));
         }
     }
 
@@ -320,7 +378,9 @@ namespace LuxtourOnline.Models.Products
 
     public class InputQuickCode
     {
+        [Required]
         public string Number { get; set; } = "";
+        [Required]
         public string Code { get; set; } = "";
 
         public bool RememberMe { get; set; } = true;
@@ -331,6 +391,74 @@ namespace LuxtourOnline.Models.Products
         }
     }
 
+    public class OrderUserDisplayModel
+    {
+        public string Id { get; set; }
+        public string Number { get; set; }
+        public string PayLink
+        {
+            get { return "http://google.com/" + Id; }
+        }
 
+        public List<CustomerDisplayDataModel> Customers { get; set; } = new List<CustomerDisplayDataModel>();
+        public List<SiteDocumentDisplayModel> Documents { get; set; } = new List<SiteDocumentDisplayModel>();
+
+        public string Email { get; set; }
+        public string Phone { get; set; }
+
+        [JsonConverter(typeof(StringEnumConverter))]
+        public OrderStatus Status { get; set; } = OrderStatus.Null;
+        public string FlyOutCity { get; set; } = "";
+        public TourDisplayModel Tour { get; set; }
+        public HotelDisplayModel Hotel { get; set; }
+        public ApartmentDisplayModel Aparment { get; set; }
+
+        public decimal Price { get; set; } = 0M;
+
+        public OrderUserDisplayModel()
+        {
+
+        }
+
+        public OrderUserDisplayModel(Order data) : this()
+        {
+            Id = data.Id;
+
+            if(data.CustomersData != null && data.CustomersData.Count > 0)
+            {
+                foreach (var c in data.CustomersData)
+                    Customers.Add(new CustomerDisplayDataModel(c));
+            }
+
+            if(data.Documents != null && data.CustomersData.Count > 0)
+            {
+                foreach(var d in data.Documents)
+                {
+                    Documents.Add(new SiteDocumentDisplayModel(d));
+                }
+            }
+        }
+
+    }
+
+    public class CreateOrderModel
+    {
+        public string FullName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string City { get; set; }
+        public string Comments { get; set; }
+        public int TourId { get; set; }
+        public int HotelId { get; set; }
+        public int ApartmentId { get; set; }
+        public List<CustomerDisplayDataModel> Customers { get; set; }
+        public DateTime FlyOutDate { get; set; }
+        public string FlyOutCity { get; set; }
+
+        public CreateOrderModel()
+        {
+
+        }
+    }
 
 }

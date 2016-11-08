@@ -1,4 +1,5 @@
 ﻿using LuxtourOnline.Models;
+using LuxtourOnline.Models.Products;
 using LuxtourOnline.Utilites;
 using System;
 using System.Collections.Generic;
@@ -60,22 +61,6 @@ namespace LuxtourOnline.Controllers
                         Path = imagePath,
                         Url = imageUrl,
                     };
-
-
-                    //SiteImage siteImage = new SiteImage()
-                    //{
-                    //    Alt = "",
-                    //    IsTmp = true,
-                    //    Description = "",
-                    //    Path = imagePath,
-                    //    Title = "",
-                    //    Url = imageUrl,
-                    //    Name = imageName,
-                    //    Extension = ext.ToLower(),
-                    //};
-
-                    //_context.SiteImages.Add(siteImage);
-                    //await _context.SaveChangesAsync();
 
                     output = new
                     {
@@ -141,6 +126,91 @@ namespace LuxtourOnline.Controllers
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult AddPassportJson()
+        {
+            if (Request.Files == null || Request.Files.Count == 0 || Request.Files[0] == null || Request.Files[0].ContentLength < 1)
+                return null;
+
+            var image = Request.Files[0];
+            string path = "";
+
+            if (!Directory.Exists(Constants.TmpPassportBasePath))
+            {
+                Directory.CreateDirectory(Constants.TmpPassportBasePath);
+            }
+
+
+            string ext = image.FileName.Split('.').LastOrDefault();
+
+            if (!string.IsNullOrEmpty(ext) && Constants.AvliableImageExt.Contains(ext.ToLower()))
+            {
+                try
+                {
+
+                    string name = IdGenerator.GenerateId();
+                    string imageName = $"{name}{ext}";
+                    path = Constants.TmpPassportBasePath + imageName;
+                    string url = Constants.TmpBasePassportUrl + imageName;
+
+
+
+                    if (System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+
+                    image.SaveAs(path);
+
+                    var result = new PassportImageDisplayModel(name, ext, url, path);
+                    result.IsNew = true;
+
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex);
+
+                    if (path != "" && System.IO.File.Exists(path))
+                        System.IO.File.Delete(path);
+                }
+            }
+
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<ActionResult> RemovePassportJson(PassportImageDisplayModel model)
+        {
+            if(model.IsNew == true)
+            {
+                if (!string.IsNullOrEmpty(model.Path) && model.Path.Contains(Constants.TmpPassportFolder))
+                {
+                    if (System.IO.File.Exists(model.Path))
+                        System.IO.File.Delete(model.Path);
+                }
+            }
+            else if(User.Identity.IsAuthenticated && model.Id > -1)
+            {
+                var pass = _context.PassportImages.Where(x => x.Id == model.Id).FirstOrDefault();
+
+                if(pass != null && pass.Customer.Order.User.Id == GetCurrentUser(_context).Id)
+                {
+                    _context.PassportImages.Remove(pass);
+
+                    await _context.SaveChangesAsync();
+
+                    if (System.IO.File.Exists(model.Path))
+                        System.IO.File.Delete(model.Path);
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
